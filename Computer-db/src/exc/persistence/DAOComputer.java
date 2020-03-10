@@ -10,7 +10,7 @@ import exc.model.Computer;
 public interface DAOComputer {
 	public List<Computer> getAllComputer() throws SQLException;
 	public <Optionnal>Computer getSpecificComputer(int id) throws SQLException;
-	public int AddComputer(int id,Date introduced,Date discontinued,int company_id) throws SQLException;
+	public int AddComputer(String introduced,String discontinued,String name,int company_id) throws SQLException;
 	
 
 }

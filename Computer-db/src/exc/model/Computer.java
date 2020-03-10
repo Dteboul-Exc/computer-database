@@ -1,19 +1,15 @@
 package exc.model;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class Computer {
 	private int id;
 	private String name;
+	private Company Computer_company;
 	private String Company_name;
-	public String getCompany_name() {
-		return Company_name;
-	}
-	public void setCompany_name(String company_name) {
-		Company_name = company_name;
-	}
-	private Date introduced;
-	private Date discontinued;
+
+	private String introduced;
+	private String discontinued;
 	private int company_id;
 	public int getId() {
 		return id;
@@ -27,16 +23,16 @@ public class Computer {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Date getIntroduced() {
+	public String getIntroduced() {
 		return introduced;
 	}
-	public void setIntroduced(Date introduced) {
+	public void setIntroduced(String introduced) {
 		this.introduced = introduced;
 	}
-	public Date getDiscontinued() {
+	public String getDiscontinued() {
 		return discontinued;
 	}
-	public void setDiscontinued(Date discontinued) {
+	public void setDiscontinued(String discontinued) {
 		this.discontinued = discontinued;
 	}
 	public int getCompany_id() {
@@ -44,6 +40,18 @@ public class Computer {
 	}
 	public void setCompany_id(int company_id) {
 		this.company_id = company_id;
+	}
+	public Company getComputer_company() {
+		return Computer_company;
+	}
+	public void setComputer_company(Company computer_company) {
+		Computer_company = computer_company;
+	}
+	public String getCompany_name() {
+		return Company_name;
+	}
+	public void setCompany_name(String company_name) {
+		Company_name = company_name;
 	}
 
 	

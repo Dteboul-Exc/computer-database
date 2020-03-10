@@ -2,10 +2,11 @@ package exc.mapper;
 
 public enum Computermapper {
 	Name,
-	introduced,
-	discontinued,
+	Introduced,
+	Discontinued,
 	Company_id,
 	Main,
-	Validate
+	Validate,
+	End
 	
 }

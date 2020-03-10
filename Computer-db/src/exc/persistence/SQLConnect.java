@@ -66,8 +66,8 @@ public  final class SQLConnect implements DAOCompany {
             String name = rs.getString("name");
             String company = rs.getString("company");
             int id = rs.getInt("id");
-            Date introduced = rs.getDate("introduced");
-            Date discontinued = rs.getDate("discontinued");
+            String introduced = rs.getString("introduced");
+            String discontinued = rs.getString("discontinued");
             int company_id = rs.getInt("company_id");
             tcomputer.setId(id);
             tcomputer.setName(name);
@@ -89,8 +89,8 @@ public  final class SQLConnect implements DAOCompany {
 
 				String name = rs.getString("name");
 				int id1 = rs.getInt("id");
-				Date introduced = rs.getDate("introduced");
-				Date discontinued = rs.getDate("discontinued");
+				String introduced = rs.getString("introduced");
+				String discontinued = rs.getString("discontinued");
 				int company_id = rs.getInt("company_id");
 				computer.setId(id);
 				computer.setName(name);
@@ -105,6 +105,27 @@ public  final class SQLConnect implements DAOCompany {
 		}
 		System.out.println("id = " + computer.getId());
 		return Optional.ofNullable(computer);
+	}
+	public int addComputer(String name,String introduced,String discontinued, int company_id) 
+	{
+		int computer_id = 2;
+		boolean rs;
+		Statement statement;
+		try {
+			statement = conn.createStatement();
+			 //rs = statement.execute("insert into computer (name,introduced, discontinued, company_id) values(" + name +",NULL ,NULL,(select company.id from company where company.id ="+ company_id+"))");
+				// rs = statement.executeUpdate("insert into computer (name,introduced, discontinued, company_id) values(" + name +",DATE "+introduced+" ,DATE "+discontinued+",(select company.id from company where company.id ="+ company_id+"))");
+				
+				rs = statement.execute("insert into computer (name,introduced, discontinued, company_id) values('"+name+"',NULL ,NULL,(select company.id from company where company.id = "+company_id+"))");
+			//rs = statement.execute("insert into computer (name,introduced, discontinued, company_id) values('"+name+"',NULL ,NULL,"+company_id+")");
+				System.out.println(rs);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return 1;
+		
 	}
 
 	
