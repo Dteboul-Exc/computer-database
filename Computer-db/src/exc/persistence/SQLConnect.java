@@ -1,19 +1,29 @@
 package exc.persistence;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import exc.model.Company;
+import exc.model.Computer;
 
-public class SQLConnect implements DAOCompany {
-	private Connection conn;
-	private Connection connection;
-	public void connect( ) throws SQLException
+public  final class SQLConnect implements DAOCompany {
+	private static SQLConnect instance = new SQLConnect();
+	private   Connection conn;
+	private   Connection connection;
+
+	public static SQLConnect getInstance() {
+		return instance;
+	}
+
+	private SQLConnect() {}
+	public  void  connect() throws SQLException
 	{
 		String url = "jdbc:mysql://localhost:3306/";
 		String username = "admincdb";
@@ -35,7 +45,7 @@ public class SQLConnect implements DAOCompany {
 		// TODO Auto-generated method stub
 		List<Company> company = new ArrayList();
 		Statement statement = conn.createStatement();
-		ResultSet rs = statement.executeQuery("select * from company");
+		ResultSet rs = statement.executeQuery("select name,id from company");
         while ( rs.next() ) {
         	Company tcompany = new Company();
             String name = rs.getString("name");
@@ -47,4 +57,55 @@ public class SQLConnect implements DAOCompany {
         }
 		return company;
 	}
+	public List<Computer> getAllComputer() throws SQLException{
+		List<Computer> computer = new ArrayList();
+		Statement statement = conn.createStatement();
+		ResultSet rs = statement.executeQuery("select computer.name,company.name as company ,computer.id,introduced,discontinued,company_id from computer LEFT JOIN company ON computer.company_id = company.id");
+        while ( rs.next() ) {
+        	Computer tcomputer = new Computer();
+            String name = rs.getString("name");
+            String company = rs.getString("company");
+            int id = rs.getInt("id");
+            Date introduced = rs.getDate("introduced");
+            Date discontinued = rs.getDate("discontinued");
+            int company_id = rs.getInt("company_id");
+            tcomputer.setId(id);
+            tcomputer.setName(name);
+            tcomputer.setIntroduced(introduced);
+            tcomputer.setDiscontinued(discontinued);
+            tcomputer.setCompany_id(company_id);
+            tcomputer.setCompany_name(company);
+            computer.add(tcomputer);
+            
+        }
+		return computer;
+	}
+	public Optional<Computer> getSpecificComputer(int id) throws SQLException {
+		Computer computer = new Computer();
+		Statement statement = conn.createStatement();
+		ResultSet rs = statement.executeQuery("select * from computer where id =" + id);
+		if (rs.next())
+		{
+
+				String name = rs.getString("name");
+				int id1 = rs.getInt("id");
+				Date introduced = rs.getDate("introduced");
+				Date discontinued = rs.getDate("discontinued");
+				int company_id = rs.getInt("company_id");
+				computer.setId(id);
+				computer.setName(name);
+				computer.setIntroduced(introduced);
+				computer.setDiscontinued(discontinued);
+				computer.setCompany_id(company_id);
+
+		}
+		else
+		{
+			computer = null;
+		}
+		System.out.println("id = " + computer.getId());
+		return Optional.ofNullable(computer);
+	}
+
+	
 }

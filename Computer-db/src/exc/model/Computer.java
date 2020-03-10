@@ -5,6 +5,13 @@ import java.sql.Date;
 public class Computer {
 	private int id;
 	private String name;
+	private String Company_name;
+	public String getCompany_name() {
+		return Company_name;
+	}
+	public void setCompany_name(String company_name) {
+		Company_name = company_name;
+	}
 	private Date introduced;
 	private Date discontinued;
 	private int company_id;
