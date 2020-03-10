@@ -109,14 +109,91 @@ public  final class SQLConnect implements DAOCompany {
 	public int addComputer(String name,String introduced,String discontinued, int company_id) 
 	{
 		int computer_id = 2;
-		boolean rs;
+		int rs=0;
+		String tname = "NULL";
+		String tintroduced = "NULL";
+		String tdiscontinued = "NULL";
+
 		Statement statement;
 		try {
 			statement = conn.createStatement();
+			
 			 //rs = statement.execute("insert into computer (name,introduced, discontinued, company_id) values(" + name +",NULL ,NULL,(select company.id from company where company.id ="+ company_id+"))");
 				// rs = statement.executeUpdate("insert into computer (name,introduced, discontinued, company_id) values(" + name +",DATE "+introduced+" ,DATE "+discontinued+",(select company.id from company where company.id ="+ company_id+"))");
-				
-				rs = statement.execute("insert into computer (name,introduced, discontinued, company_id) values('"+name+"',NULL ,NULL,(select company.id from company where company.id = "+company_id+"))");
+			if (name == null)
+			{
+				tname = "NULL";
+			}
+			else
+			{
+				tname = name;
+			}
+			if (introduced == null)
+			{
+				tintroduced = "NULL";
+			}
+			else
+			{
+				tintroduced = "DATE " + "'"+introduced+"'";
+			}
+			if (discontinued == null)
+			{
+				tdiscontinued = "NULL";
+			}
+			else
+			{
+				tdiscontinued = "DATE " + "'"+discontinued+"'";;
+			}
+		    rs = statement.executeUpdate("insert into computer (name,introduced, discontinued, company_id) values('"+tname+"',"+tintroduced+" ,"+tdiscontinued+",(select company.id from company where company.id = "+company_id+"))");
+			//rs = statement.execute("insert into computer (name,introduced, discontinued, company_id) values('"+name+"',NULL ,NULL,"+company_id+")");
+				System.out.println(rs);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return 1;
+		
+	}
+	public int updateComputer(String name,String introduced,String discontinued, int company_id,int id) 
+	{
+		int computer_id = 2;
+		int rs=0;
+		String tname = "NULL";
+		String tintroduced = "NULL";
+		String tdiscontinued = "NULL";
+
+		Statement statement;
+		try {
+			statement = conn.createStatement();
+			
+			 //rs = statement.execute("insert into computer (name,introduced, discontinued, company_id) values(" + name +",NULL ,NULL,(select company.id from company where company.id ="+ company_id+"))");
+				// rs = statement.executeUpdate("insert into computer (name,introduced, discontinued, company_id) values(" + name +",DATE "+introduced+" ,DATE "+discontinued+",(select company.id from company where company.id ="+ company_id+"))");
+			if (name == null)
+			{
+				tname = "NULL";
+			}
+			else
+			{
+				tname = name;
+			}
+			if (introduced == null)
+			{
+				tintroduced = "NULL";
+			}
+			else
+			{
+				tintroduced = "DATE " + "'"+introduced+"'";
+			}
+			if (discontinued == null)
+			{
+				tdiscontinued = "NULL";
+			}
+			else
+			{
+				tdiscontinued = "DATE " + "'"+discontinued+"'";;
+			}
+		    rs = statement.executeUpdate("UPDATE computer SET name = '"+tname+"', introduced = "+tintroduced+", discontinued = "+tdiscontinued+", company_id = "+company_id+" WHERE id = " +id);
 			//rs = statement.execute("insert into computer (name,introduced, discontinued, company_id) values('"+name+"',NULL ,NULL,"+company_id+")");
 				System.out.println(rs);
 		} catch (SQLException e) {
