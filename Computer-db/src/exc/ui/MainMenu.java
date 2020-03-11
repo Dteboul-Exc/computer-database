@@ -8,16 +8,16 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
+import exc.mapper.DateMapper;
 import exc.model.Company;
 import exc.model.Computer;
 import exc.persistence.SQLConnect;
 import exc.service.state;
 import exc.ui.SecondaryMenus;
-import exc.persistence.DAOCompany;
-import exc.persistence.DAOComputer;
+
 
 public class MainMenu {
-	public static void menu() throws SQLException
+	public static void menu() throws SQLException, ParseException
 	{
 		state sta;
 		sta = state.Main;
@@ -74,7 +74,14 @@ public class MainMenu {
 			case LComputer :
 				sta = state.Main;
 				List<Computer> lcomp = a.getAllComputer();
-				lcomp.forEach((i)->System.out.println("id : "+i.getId()+" name : " +i.getName() +" start :" + i.getIntroduced() + " end :" + i.getDiscontinued() + " C_id " + i.getCompany_id() ));
+				lcomp.forEach((i)->{
+					try {
+						System.out.println("id : "+i.getId()+" name : " +i.getName() +" |start : " + DateMapper.DateConverter(i.getIntroduced()) + " end : " + DateMapper.DateConverter(i.getDiscontinued()) + " | Company :  " + i.getCompany().getName() );
+					} catch (ParseException e2) {
+						// TODO Auto-generated catch block
+						e2.printStackTrace();
+					}
+				});
 				break;
 			case LCompany :
 				sta = state.Main;

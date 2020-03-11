@@ -80,11 +80,12 @@ public  final class SQLConnect implements DAOCompanyInterface {
 	 * 
 	 *@return The list of all the computers
 	 *@throws SQLException
+	 * @throws ParseException 
 	 */
-	public List<Computer> getAllComputer() throws SQLException{
+	public List<Computer> getAllComputer() throws SQLException, ParseException{
 		List<Computer> computer = new ArrayList();
 		Statement statement = conn.createStatement();
-		ResultSet rs = statement.executeQuery("select computer.name,company.name as company ,computer.id,introduced,discontinued,company_id from computer LEFT JOIN company ON computer.company_id = company.id");
+		ResultSet rs = statement.executeQuery("select computer.name ,computer.id,introduced,discontinued,company_id ,company.name as company from computer LEFT JOIN company ON computer.company_id = company.id");
         while ( rs.next() ) {
         	Computer tcomputer = new Computer();
             String name = rs.getString("name");
@@ -95,8 +96,13 @@ public  final class SQLConnect implements DAOCompanyInterface {
             int company_id = rs.getInt("company_id");
             tcomputer.setId(id);
             tcomputer.setName(name);
-            tcomputer.setIntroduced(introduced);
-            tcomputer.setDiscontinued(discontinued);
+			if(introduced != null) tcomputer.setIntroduced(DateMapper.StringConverter(introduced));
+			if(discontinued != null) tcomputer.setDiscontinued(DateMapper.StringConverter(discontinued));
+			if(company_id!=0)
+				{
+				Company comp = new Company().setId(rs.getInt("company_id")).setName(rs.getString("company"));
+				tcomputer.setCompany(comp);
+				}
             tcomputer.setCompany_id(company_id);
             tcomputer.setCompany_name(company);
             computer.add(tcomputer);
@@ -111,8 +117,9 @@ public  final class SQLConnect implements DAOCompanyInterface {
 	 * @param id the ID of the computer to search in the database
 	 * @return the computer if it exist
 	 * @throws SQLException
+	 * @throws ParseException 
 	 */
-	public Optional<Computer> getSpecificComputer(int id) throws SQLException {
+	public Optional<Computer> getSpecificComputer(int id) throws SQLException, ParseException {
 		Computer computer = new Computer();
 		Statement statement = conn.createStatement();
 		ResultSet rs = statement.executeQuery("select * from computer where id =" + id);
@@ -126,17 +133,9 @@ public  final class SQLConnect implements DAOCompanyInterface {
 				int company_id = rs.getInt("company_id");
 				computer.setId(id);
 				computer.setName(name);
-				computer.setIntroduced(introduced);
-				computer.setDiscontinued(discontinued);
+				if(introduced != null) computer.setIntroduced(DateMapper.StringConverter(introduced));
+				if(discontinued != null) computer.setDiscontinued(DateMapper.StringConverter(discontinued));
 				computer.setCompany_id(company_id);
-				try {
-					LocalDateTime d = DateMapper.StringConverter(introduced);
-					System.out.println(DateMapper.DateConverter(d));
-					
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
 				
 		}
 		else
@@ -181,9 +180,6 @@ public  final class SQLConnect implements DAOCompanyInterface {
 		Statement statement;
 		try {
 			statement = conn.createStatement();
-			
-			 //rs = statement.execute("insert into computer (name,introduced, discontinued, company_id) values(" + name +",NULL ,NULL,(select company.id from company where company.id ="+ company_id+"))");
-				// rs = statement.executeUpdate("insert into computer (name,introduced, discontinued, company_id) values(" + name +",DATE "+introduced+" ,DATE "+discontinued+",(select company.id from company where company.id ="+ company_id+"))");
 			if (name == null)
 			{
 				tname = "NULL";
@@ -192,7 +188,7 @@ public  final class SQLConnect implements DAOCompanyInterface {
 			{
 				tname = name;
 			}
-			if (introduced == null)
+			if (introduced.equals("NULL"))
 			{
 				tintroduced = "NULL";
 			}
@@ -200,7 +196,7 @@ public  final class SQLConnect implements DAOCompanyInterface {
 			{
 				tintroduced = "DATE " + "'"+introduced+"'";
 			}
-			if (discontinued == null)
+			if (discontinued.equals("NULL"))
 			{
 				tdiscontinued = "NULL";
 			}
@@ -230,9 +226,6 @@ public  final class SQLConnect implements DAOCompanyInterface {
 		Statement statement;
 		try {
 			statement = conn.createStatement();
-			
-			 //rs = statement.execute("insert into computer (name,introduced, discontinued, company_id) values(" + name +",NULL ,NULL,(select company.id from company where company.id ="+ company_id+"))");
-				// rs = statement.executeUpdate("insert into computer (name,introduced, discontinued, company_id) values(" + name +",DATE "+introduced+" ,DATE "+discontinued+",(select company.id from company where company.id ="+ company_id+"))");
 			if (name == null)
 			{
 				tname = "NULL";
@@ -241,7 +234,7 @@ public  final class SQLConnect implements DAOCompanyInterface {
 			{
 				tname = name;
 			}
-			if (introduced == null)
+			if (introduced.equals("NULL"))
 			{
 				tintroduced = "NULL";
 			}
@@ -249,7 +242,7 @@ public  final class SQLConnect implements DAOCompanyInterface {
 			{
 				tintroduced = "DATE " + "'"+introduced+"'";
 			}
-			if (discontinued == null)
+			if (discontinued.equals("NULL"))
 			{
 				tdiscontinued = "NULL";
 			}

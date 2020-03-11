@@ -1,5 +1,7 @@
 package exc.model;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class Computer {
@@ -7,9 +9,9 @@ public class Computer {
 	private String name;
 	private Company Computer_company;
 	private String Company_name;
-
-	private String introduced;
-	private String discontinued;
+	private Company company = new Company();
+	private LocalDate introduced;
+	private LocalDate discontinued;
 	private int company_id;
 	public int getId() {
 		return id;
@@ -23,16 +25,16 @@ public class Computer {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getIntroduced() {
+	public LocalDate getIntroduced() {
 		return introduced;
 	}
-	public void setIntroduced(String introduced) {
+	public void setIntroduced(LocalDate introduced) {
 		this.introduced = introduced;
 	}
-	public String getDiscontinued() {
+	public LocalDate getDiscontinued() {
 		return discontinued;
 	}
-	public void setDiscontinued(String discontinued) {
+	public void setDiscontinued(LocalDate discontinued) {
 		this.discontinued = discontinued;
 	}
 	public int getCompany_id() {
@@ -52,6 +54,12 @@ public class Computer {
 	}
 	public void setCompany_name(String company_name) {
 		Company_name = company_name;
+	}
+	public Company getCompany() {
+		return company;
+	}
+	public void setCompany(Company company) {
+		this.company = company;
 	}
 
 	

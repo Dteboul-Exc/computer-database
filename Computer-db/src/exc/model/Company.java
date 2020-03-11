@@ -1,19 +1,22 @@
 package exc.model;
 
 public class Company {
-	private int id;
-	private String name;
+	private int id=0;
+	private String name="none";
+
 	public int getId() {
 		return id;//
 	}
-	public void setId(int id) {
+	public Company setId(int id) {
 		this.id = id;
+		return this;
 	}
 	public String getName() {
 		return name;
 	}
-	public void setName(String name) {
+	public Company setName(String name) {
 		this.name = name;
+		return this;
 	}
 	
 
