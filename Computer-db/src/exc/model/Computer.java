@@ -8,7 +8,6 @@ public class Computer {
 	private int id;
 	private String name;
 	private Company Computer_company;
-	private String Company_name;
 	private Company company = new Company();
 	private LocalDate introduced;
 	private LocalDate discontinued;
@@ -41,12 +40,6 @@ public class Computer {
 	}
 	public void setComputer_company(Company computer_company) {
 		Computer_company = computer_company;
-	}
-	public String getCompany_name() {
-		return Company_name;
-	}
-	public void setCompany_name(String company_name) {
-		Company_name = company_name;
 	}
 	public Company getCompany() {
 		return company;

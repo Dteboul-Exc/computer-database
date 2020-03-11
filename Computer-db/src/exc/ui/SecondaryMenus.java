@@ -17,7 +17,7 @@ public class SecondaryMenus {
 		Computermapper sta;
 		boolean check = true;
 		System.out.println("Default Parameters");
-		System.out.println(" name : " +computer.getName() +" start :" + computer.getIntroduced() + " end :" + computer.getDiscontinued() + " C_id " + computer.getCompany_id());
+		System.out.println(" name : " +computer.getName() +" start :" + computer.getIntroduced() + " end :" + computer.getDiscontinued() + " C_id " + computer.getCompany().getId());
 		sta = Computermapper.Main;
 		while (check) {
 			switch (sta) {

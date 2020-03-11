@@ -12,6 +12,7 @@ import exc.mapper.DateMapper;
 import exc.model.Company;
 import exc.model.Computer;
 import exc.persistence.SQLConnect;
+import exc.service.Page;
 import exc.service.state;
 import exc.ui.SecondaryMenus;
 
@@ -74,14 +75,16 @@ public class MainMenu {
 			case LComputer :
 				sta = state.Main;
 				List<Computer> lcomp = a.getAllComputer();
-				lcomp.forEach((i)->{
+				/*lcomp.forEach((i)->{
 					try {
 						System.out.println("id : "+i.getId()+" name : " +i.getName() +" |start : " + DateMapper.DateConverter(i.getIntroduced()) + " end : " + DateMapper.DateConverter(i.getDiscontinued()) + " | Company :  " + i.getCompany().getName() );
 					} catch (ParseException e2) {
 						// TODO Auto-generated catch block
 						e2.printStackTrace();
 					}
-				});
+				});*/
+				Page h = new Page();
+				h.Following(lcomp);
 				break;
 			case LCompany :
 				sta = state.Main;
@@ -96,7 +99,7 @@ public class MainMenu {
 				if (compute.isPresent())
 				{	 
 					Computer c = compute.get();
-					System.out.println(" id : "+c.getId()+" name : " +c.getName() +" start : " + c.getIntroduced() + " end :" + c.getDiscontinued() + " | Company :  " + c.getCompany().getName());
+					System.out.println(" id : "+c.getId()+" name : " +c.getName() +" start : " + c.getIntroduced() + " end :" + c.getDiscontinued() +  " | Company :  " + c.getCompany().getName());
 				}
 				else
 				{

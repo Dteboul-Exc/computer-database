@@ -102,9 +102,7 @@ public  final class SQLConnect implements DAOCompanyInterface {
 				{
 				Company comp = new Company().setId(rs.getInt("company_id")).setName(rs.getString("company"));
 				tcomputer.setCompany(comp);
-				}
-            tcomputer.setCompany_id(company_id);
-            tcomputer.setCompany_name(company);
+				};
             computer.add(tcomputer);
             
         }
