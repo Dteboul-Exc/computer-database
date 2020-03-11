@@ -19,7 +19,7 @@ public class Main {
 		state sta;
 		sta = state.Main;
 		Scanner reader = new Scanner(System.in);
-		
+		Optional<Computer> compute;
 		SQLConnect a =  SQLConnect.getInstance();
 		a.connect();
 
@@ -55,6 +55,18 @@ public class Main {
 				{
 					sta =state.CreateComputer;
 				}
+				else if (s==5)
+				{
+					sta = state.UpdateComputer;
+				}
+				else if (s==6)
+				{
+					sta = state.DeleteComputer;
+				}
+				else if (s==7)
+				{
+					sta = state.Exit;
+				}
 				break;
 			case LComputer :
 				sta = state.Main;
@@ -70,7 +82,7 @@ public class Main {
 				sta = state.Main;
 				System.out.println("Enter the id of the computer you want to select");
 				s = reader.nextInt();
-				Optional<Computer> compute = a.getSpecificComputer(s);
+				compute = a.getSpecificComputer(s);
 				if (compute.isPresent())
 				{	 
 					Computer c = compute.get();
@@ -90,7 +102,34 @@ public class Main {
 				}
 
 				break;
+			case UpdateComputer:
+				sta = state.Main;
+				System.out.println("Enter the id of the computer you want to select");
+				s = reader.nextInt();
+				compute = a.getSpecificComputer(s);
+				if (compute.isPresent())
+				{	 
+					Computer c = compute.get();
+					try {
+						System.out.println(Computer_Modify(c));
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				else
+				{
+					System.out.println("pc not found");
+				}
+				break;
+			case DeleteComputer:
+				sta = state.Main;
+				System.out.println("Enter the id of the computer you want to delete");
+				s = reader.nextInt();
+				a.deleteSpecificComputer(s);
+				break;
 			case Exit:
+				System.exit(0); 
 				break;
 			default:
 				break;
@@ -99,21 +138,19 @@ public class Main {
 	}
 
 	
-	private static int Computer_Modify(int id) throws ParseException
+	private static int Computer_Modify(Computer computer) throws ParseException
 	{
-		Computer computer = new Computer();
-		computer.setName(null);
-		computer.setCompany_id(0);
-		computer.setDiscontinued(null);
-		computer.setIntroduced(null);
+
 		Scanner reader = new Scanner(System.in);
 		Computermapper sta;
 		boolean check = true;
+		System.out.println("Default Parameters");
+		System.out.println(" name : " +computer.getName() +" start :" + computer.getIntroduced() + " end :" + computer.getDiscontinued() + " C_id " + computer.getCompany_id());
 		sta = Computermapper.Main;
 		while (check) {
 			switch (sta) {
 			case Main:
-				System.out.println("Setup the Creation of the PC");
+				System.out.println("Setup the Modification of the PC");
 				System.out.println("1 - name ");
 				System.out.println("2 - introduced ");
 				System.out.println("3 - discontinued ");
@@ -167,8 +204,8 @@ public class Main {
 			case Company_id:
 				sta = Computermapper.Main;
 				System.out.println("Enter the company id ");
-				int id = reader.nextInt();
-				computer.setCompany_id(id);
+				int id1 = reader.nextInt();
+				computer.setCompany_id(id1);
 				break;
 			case Validate:
 				sta = Computermapper.Main;
@@ -176,9 +213,8 @@ public class Main {
 				break;
 			case End:
 				SQLConnect a =  SQLConnect.getInstance();
-				System.out.println("babarhum");
 				System.out.println(" name : " +computer.getName() +" start :" + computer.getIntroduced() + " end :" + computer.getDiscontinued() + " C_id " + computer.getCompany_id());
-				a.addComputer(computer.getName(),computer.getIntroduced(),computer.getDiscontinued(), computer.getCompany_id());
+				a.updateComputer(computer.getName(),computer.getIntroduced(),computer.getDiscontinued(), computer.getCompany_id(),computer.getId());
 				check= false;
 				return 0;
 			}

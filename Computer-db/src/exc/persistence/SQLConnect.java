@@ -106,6 +106,21 @@ public  final class SQLConnect implements DAOCompany {
 		System.out.println("id = " + computer.getId());
 		return Optional.ofNullable(computer);
 	}
+	public int deleteSpecificComputer(int id) throws SQLException {
+		Statement statement = conn.createStatement();
+		int rs = statement.executeUpdate("DELETE FROM computer WHERE id =" + id);
+		if (rs == 1)
+		{
+
+			System.out.println(" Computer successfully deleted");
+
+		}
+		else
+		{ //TODO Error System
+			System.out.println("Error while deleting");
+		}
+		return rs;
+	}
 	public int addComputer(String name,String introduced,String discontinued, int company_id) 
 	{
 		int computer_id = 2;
