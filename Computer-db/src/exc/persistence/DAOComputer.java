@@ -1,87 +1,19 @@
 package exc.persistence;
 
 import java.sql.Connection;
-import java.sql.Date;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.ParseException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import exc.mapper.DateMapper;
-import exc.model.Company;
 import exc.model.Computer;
 
-public  final class SQLConnect implements DAOCompanyInterface {
-	private static SQLConnect instance = new SQLConnect();
-	private static   Connection conn;
-	public  static Connection getConn() {
-		return conn;
-	}
-
-	private   Connection connection;
-
-	public static SQLConnect getInstance() {
-		return instance;
-	}
-
-	private SQLConnect() {}
-	/**
-	 * Method that allow a connection to the SQL Database
-	 * @throws SQLException
-	 */
-	public  void  connect() throws SQLException
-	{
-		String url = "jdbc:mysql://localhost:3306/";
-		String username = "admincdb";
-		String password = "qwerty1234";
-		String db = "computer-database-db";
-		conn = DriverManager.getConnection(url+db, username, password);
-        try {
-        	connection = DriverManager.getConnection(url, username, password);
-        	System.out.println("Connection established successfully!");
-        }
-        catch (SQLException e) {
-        	throw new IllegalStateException("Unable to connect to the database. " + e.getMessage());
-        }
-	}
-
+public final class DAOComputer implements DAOComputerInterface {
 	
-	/**
-	 * Return the list of all companies present in the SQL database. Will throw SQLException in case it cannot access the database
-	 * 
-	 * 
-	 *@return The list of all the company
-	 *@throws SQLException
-	 */
-	public List<Company> getAllCompany() throws SQLException {
-		List<Company> company = new ArrayList();
-		Statement statement = conn.createStatement();
-		ResultSet rs = statement.executeQuery("select name,id from company");
-        while ( rs.next() ) {
-        	Company tcompany = new Company();
-            String name = rs.getString("name");
-            int id = rs.getInt("id");
-            tcompany.setId(id);
-            tcompany.setName(name);
-            company.add(tcompany);
-            
-        }
-		return company;
-	}
-	
-	/**
-	 * Return the list of all computers present in the SQL database. Will throw SQLException in case it cannot access the database
-	 * 
-	 * 
-	 *@return The list of all the computers
-	 *@throws SQLException
-	 */
 	public List<Computer> getAllComputer() throws SQLException{
+		Connection conn = SQLConnect.getConn();
 		List<Computer> computer = new ArrayList();
 		Statement statement = conn.createStatement();
 		ResultSet rs = statement.executeQuery("select computer.name,company.name as company ,computer.id,introduced,discontinued,company_id from computer LEFT JOIN company ON computer.company_id = company.id");
@@ -104,15 +36,8 @@ public  final class SQLConnect implements DAOCompanyInterface {
         }
 		return computer;
 	}
-	
-	/**
-	 * Search a single computer in the database using its id.
-	 * 
-	 * @param id the ID of the computer to search in the database
-	 * @return the computer if it exist
-	 * @throws SQLException
-	 */
 	public Optional<Computer> getSpecificComputer(int id) throws SQLException {
+		Connection conn = SQLConnect.getConn();
 		Computer computer = new Computer();
 		Statement statement = conn.createStatement();
 		ResultSet rs = statement.executeQuery("select * from computer where id =" + id);
@@ -129,15 +54,7 @@ public  final class SQLConnect implements DAOCompanyInterface {
 				computer.setIntroduced(introduced);
 				computer.setDiscontinued(discontinued);
 				computer.setCompany_id(company_id);
-				try {
-					LocalDateTime d = DateMapper.StringConverter(introduced);
-					System.out.println(DateMapper.DateConverter(d));
-					
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
+
 		}
 		else
 		{
@@ -146,16 +63,8 @@ public  final class SQLConnect implements DAOCompanyInterface {
 		System.out.println("id = " + computer.getId());
 		return Optional.ofNullable(computer);
 	}
-	
-	
-	/**
-	 * Delete a single computer in the database using its id.
-	 * 
-	 * @param id
-	 * @return
-	 * @throws SQLException
-	 */
 	public int deleteSpecificComputer(int id) throws SQLException {
+		Connection conn = SQLConnect.getConn();
 		Statement statement = conn.createStatement();
 		int rs = statement.executeUpdate("DELETE FROM computer WHERE id =" + id);
 		if (rs == 1)
@@ -172,6 +81,7 @@ public  final class SQLConnect implements DAOCompanyInterface {
 	}
 	public int addComputer(String name,String introduced,String discontinued, int company_id) 
 	{
+		Connection conn = SQLConnect.getConn();
 		int computer_id = 2;
 		int rs=0;
 		String tname = "NULL";
@@ -221,6 +131,7 @@ public  final class SQLConnect implements DAOCompanyInterface {
 	}
 	public int updateComputer(String name,String introduced,String discontinued, int company_id,int id) 
 	{
+		Connection conn = SQLConnect.getConn();
 		int computer_id = 2;
 		int rs=0;
 		String tname = "NULL";
@@ -268,6 +179,4 @@ public  final class SQLConnect implements DAOCompanyInterface {
 		return 1;
 		
 	}
-
-	
 }

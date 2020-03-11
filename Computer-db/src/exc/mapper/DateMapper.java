@@ -1,17 +1,24 @@
 package exc.mapper;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class DateMapper {
-	public static Date StringConverter(String d) throws ParseException
+	public static LocalDateTime StringConverter(String d) throws ParseException
 	{
-		Date date;
-		SimpleDateFormat ft = 
-		new SimpleDateFormat ("yyyy-MM-dd hh:mm:ss");
-        date = ft.parse(d); 
-        System.out.println(date);
-		return date;
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+	    LocalDateTime myDateObj = LocalDateTime.parse(d,formatter);
+	    System.out.println(myDateObj);
+		return myDateObj;
+	}
+	public static String DateConverter(LocalDateTime myDateObj) throws ParseException
+	{
+	    System.out.println("Before formatting: " + myDateObj);
+	    DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+
+	    String formattedDate = myDateObj.format(myFormatObj);
+	    System.out.println("After formatting: " + formattedDate);
+		return formattedDate;
 	}
 }

@@ -3,9 +3,9 @@ package exc.ui;
 import java.text.ParseException;
 import java.util.Scanner;
 
-import exc.mapper.Computermapper;
 import exc.model.Computer;
 import exc.persistence.SQLConnect;
+import exc.service.Computermapper;
 
 public class SecondaryMenus {
 	public static int Computer_Modify(Computer computer) throws ParseException

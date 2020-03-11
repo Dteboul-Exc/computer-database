@@ -1,4 +1,4 @@
-package exc.mapper;
+package exc.service;
 
 public enum Computermapper {
 	Name,

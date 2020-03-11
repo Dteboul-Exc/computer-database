@@ -8,11 +8,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
-import exc.mapper.state;
 import exc.model.Company;
 import exc.model.Computer;
 import exc.persistence.SQLConnect;
+import exc.service.state;
 import exc.ui.SecondaryMenus;
+import exc.persistence.DAOCompany;
+import exc.persistence.DAOComputer;
 
 public class MainMenu {
 	public static void menu() throws SQLException

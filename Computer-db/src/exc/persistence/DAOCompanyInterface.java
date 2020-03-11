@@ -5,7 +5,7 @@ import java.util.List;
 
 import exc.model.Company;
 
-public interface DAOCompany {
+public interface DAOCompanyInterface {
 	public List<Company> getAllCompany() throws SQLException;
 
 }
