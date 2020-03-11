@@ -122,7 +122,7 @@ public  final class SQLConnect implements DAOCompanyInterface {
 	public Optional<Computer> getSpecificComputer(int id) throws SQLException, ParseException {
 		Computer computer = new Computer();
 		Statement statement = conn.createStatement();
-		ResultSet rs = statement.executeQuery("select * from computer where id =" + id);
+		ResultSet rs = statement.executeQuery("select computer.name ,computer.id,introduced,discontinued,company_id ,company.name as company from computer LEFT JOIN company ON computer.company_id = company.id where computer.id =" + id);
 		if (rs.next())
 		{
 
@@ -135,7 +135,11 @@ public  final class SQLConnect implements DAOCompanyInterface {
 				computer.setName(name);
 				if(introduced != null) computer.setIntroduced(DateMapper.StringConverter(introduced));
 				if(discontinued != null) computer.setDiscontinued(DateMapper.StringConverter(discontinued));
-				computer.setCompany_id(company_id);
+				if(company_id!=0)
+				{
+				Company comp = new Company().setId(rs.getInt("company_id")).setName(rs.getString("company"));
+				computer.setCompany(comp);
+				}
 				
 		}
 		else

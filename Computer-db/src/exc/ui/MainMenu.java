@@ -96,7 +96,7 @@ public class MainMenu {
 				if (compute.isPresent())
 				{	 
 					Computer c = compute.get();
-					System.out.println("id : "+c.getId()+" name : " +c.getName() +" start :" + c.getIntroduced() + " end :" + c.getDiscontinued() + " C_id " + c.getCompany_id());
+					System.out.println(" id : "+c.getId()+" name : " +c.getName() +" start : " + c.getIntroduced() + " end :" + c.getDiscontinued() + " | Company :  " + c.getCompany().getName());
 				}
 				else
 				{

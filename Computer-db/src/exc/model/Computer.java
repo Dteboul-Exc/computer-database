@@ -12,7 +12,6 @@ public class Computer {
 	private Company company = new Company();
 	private LocalDate introduced;
 	private LocalDate discontinued;
-	private int company_id;
 	public int getId() {
 		return id;
 	}
@@ -36,12 +35,6 @@ public class Computer {
 	}
 	public void setDiscontinued(LocalDate discontinued) {
 		this.discontinued = discontinued;
-	}
-	public int getCompany_id() {
-		return company_id;
-	}
-	public void setCompany_id(int company_id) {
-		this.company_id = company_id;
 	}
 	public Company getComputer_company() {
 		return Computer_company;
