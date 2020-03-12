@@ -82,14 +82,26 @@ public class MainMenu {
 				break;
 			case LComputer :
 				sta = state.Main;
-				List<Computer> lcomp = a.getAllComputer();
-				Page h = new Page();
-				h.Following(lcomp);
+				Optional<List<Computer>> optcomputer = a.getAllComputer();
+				if (!optcomputer.isEmpty())
+				{
+					List<Computer> lcomp = optcomputer.get();
+					Page h = new Page();
+					h.Following(lcomp);
+				}
 				break;
 			case LCompany :
 				sta = state.Main;
-				List<Company> lcny = a.getAllCompany();
-				lcny.forEach((i)->System.out.println("id : "+i.getId()+" name : " +i.getName()));
+				Optional<List<Company>> optcompany = a.getAllCompany();
+				if (!optcompany.isEmpty())
+				{
+					List<Company> lcny = optcompany.get();
+					lcny.forEach((i)->System.out.println("id : "+i.getId()+" name : " +i.getName()));
+				}
+				else
+				{
+					System.out.println("Error, list company is empty");
+				}
 				break;
 			case DComputer :
 				sta = state.Main;

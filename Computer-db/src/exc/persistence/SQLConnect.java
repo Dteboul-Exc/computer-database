@@ -58,8 +58,9 @@ public  final class SQLConnect implements DAOCompanyInterface {
 	 *@return The list of all the company
 	 *@throws SQLException
 	 */
-	public List<Company> getAllCompany() throws SQLException {
+	public Optional<List<Company>> getAllCompany() throws SQLException {
 		List<Company> company = new ArrayList();
+		//Optional<List<Company>> company = Optional.of(new ArrayList());
 		Statement statement = conn.createStatement();
 		ResultSet rs = statement.executeQuery("select name,id from company");
         while ( rs.next() ) {
@@ -71,7 +72,8 @@ public  final class SQLConnect implements DAOCompanyInterface {
             company.add(tcompany);
             
         }
-		return company;
+        Optional<List<Company>> result = Optional.ofNullable(company);
+		return result;
 	}
 	
 	/**
@@ -82,7 +84,7 @@ public  final class SQLConnect implements DAOCompanyInterface {
 	 *@throws SQLException
 	 * @throws ParseException 
 	 */
-	public List<Computer> getAllComputer() throws SQLException, ParseException{
+	public Optional<List<Computer>> getAllComputer() throws SQLException, ParseException{
 		List<Computer> computer = new ArrayList();
 		Statement statement = conn.createStatement();
 		ResultSet rs = statement.executeQuery("select computer.name ,computer.id,introduced,discontinued,company_id ,company.name as company from computer LEFT JOIN company ON computer.company_id = company.id");
@@ -96,8 +98,8 @@ public  final class SQLConnect implements DAOCompanyInterface {
             int company_id = rs.getInt("company_id");
             tcomputer.setId(id);
             tcomputer.setName(name);
-			if(introduced != null) tcomputer.setIntroduced(DateMapper.StringConverter(introduced));
-			if(discontinued != null) tcomputer.setDiscontinued(DateMapper.StringConverter(discontinued));
+			if(introduced != null) tcomputer.setIntroduced(DateMapper.StringConverter(introduced).get());
+			if(discontinued != null) tcomputer.setDiscontinued(DateMapper.StringConverter(discontinued).get());
 			if(company_id!=0)
 				{
 				Company comp = new Company().setId(rs.getInt("company_id")).setName(rs.getString("company"));
@@ -106,7 +108,8 @@ public  final class SQLConnect implements DAOCompanyInterface {
             computer.add(tcomputer);
             
         }
-		return computer;
+        Optional<List<Computer>> result = Optional.ofNullable(computer);
+		return result;
 	}
 	
 	/**
@@ -131,8 +134,8 @@ public  final class SQLConnect implements DAOCompanyInterface {
 				int company_id = rs.getInt("company_id");
 				computer.setId(id);
 				computer.setName(name);
-				if(introduced != null) computer.setIntroduced(DateMapper.StringConverter(introduced));
-				if(discontinued != null) computer.setDiscontinued(DateMapper.StringConverter(discontinued));
+				if(introduced != null) computer.setIntroduced(DateMapper.StringConverter(introduced).get());
+				if(discontinued != null) computer.setDiscontinued(DateMapper.StringConverter(discontinued).get());
 				if(company_id!=0)
 				{
 				Company comp = new Company().setId(rs.getInt("company_id")).setName(rs.getString("company"));
