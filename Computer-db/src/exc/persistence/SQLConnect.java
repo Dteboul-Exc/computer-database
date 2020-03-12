@@ -64,7 +64,7 @@ public  final class SQLConnect implements DAOCompanyInterface {
 		Statement statement = conn.createStatement();
 		ResultSet rs = statement.executeQuery("select name,id from company");
         while ( rs.next() ) {
-        	Company tcompany = new Company();
+        	Company tcompany = Company.Builder.newInstance().build();
             String name = rs.getString("name");
             int id = rs.getInt("id");
             tcompany.setId(id);
@@ -89,7 +89,7 @@ public  final class SQLConnect implements DAOCompanyInterface {
 		Statement statement = conn.createStatement();
 		ResultSet rs = statement.executeQuery("select computer.name ,computer.id,introduced,discontinued,company_id ,company.name as company from computer LEFT JOIN company ON computer.company_id = company.id");
         while ( rs.next() ) {
-        	Computer tcomputer = new Computer();
+        	Computer tcomputer = Computer.Builder.newInstance().build();
             String name = rs.getString("name");
             String company = rs.getString("company");
             int id = rs.getInt("id");
@@ -102,9 +102,15 @@ public  final class SQLConnect implements DAOCompanyInterface {
 			if(discontinued != null) tcomputer.setDiscontinued(DateMapper.StringConverter(discontinued).get());
 			if(company_id!=0)
 				{
-				Company comp = new Company().setId(rs.getInt("company_id")).setName(rs.getString("company"));
+				
+				Company comp = Company.Builder.newInstance().setId(rs.getInt("company_id")).setName(rs.getString("company")).build();
 				tcomputer.setCompany(comp);
-				};
+				}
+				else
+				{
+					Company comp = Company.Builder.newInstance().setId(0).setName("none").build();
+					tcomputer.setCompany(comp);
+				}
             computer.add(tcomputer);
             
         }
@@ -121,7 +127,7 @@ public  final class SQLConnect implements DAOCompanyInterface {
 	 * @throws ParseException 
 	 */
 	public Optional<Computer> getSpecificComputer(int id) throws SQLException, ParseException {
-		Computer computer = new Computer();
+		Computer computer = Computer.Builder.newInstance().build();
 		Statement statement = conn.createStatement();
 		ResultSet rs = statement.executeQuery("select computer.name ,computer.id,introduced,discontinued,company_id ,company.name as company from computer LEFT JOIN company ON computer.company_id = company.id where computer.id =" + id);
 		if (rs.next())
@@ -138,8 +144,8 @@ public  final class SQLConnect implements DAOCompanyInterface {
 				if(discontinued != null) computer.setDiscontinued(DateMapper.StringConverter(discontinued).get());
 				if(company_id!=0)
 				{
-				Company comp = new Company().setId(rs.getInt("company_id")).setName(rs.getString("company"));
-				computer.setCompany(comp);
+					Company comp = Company.Builder.newInstance().setId(rs.getInt("company_id")).setName(rs.getString("company")).build();
+					computer.setCompany(comp);
 				}
 				
 		}
