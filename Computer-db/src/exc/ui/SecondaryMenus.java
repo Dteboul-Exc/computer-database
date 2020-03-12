@@ -85,7 +85,7 @@ public class SecondaryMenus {
 				sta = Computermapper.Main;
 				System.out.println("Enter the company id ");
 				int id1 = reader.nextInt();
-				Company comp = new Company().setId(id1);
+				Company comp =  Company.Builder.newInstance().setId(id1).build();
 				computer.setCompany(comp);
 				break;
 			case Validate:
@@ -110,9 +110,9 @@ public class SecondaryMenus {
 	 */
 	public static void Computer_Add() throws ParseException
 	{
-		Computer computer = new Computer();
+		Computer computer = Computer.Builder.newInstance().build();
 		computer.setName(null);
-		Company comp = new Company().setId(0);
+		Company comp =  Company.Builder.newInstance().setId(0).build();
 		computer.setCompany(comp);
 		computer.setDiscontinued(null);
 		computer.setIntroduced(null);
@@ -178,7 +178,7 @@ public class SecondaryMenus {
 				sta = Computermapper.Main;
 				System.out.println("Enter the company id ");
 				int id = reader.nextInt();
-				comp = new Company().setId(id);
+				comp =  Company.Builder.newInstance().setId(id).build();
 				computer.setCompany(comp);
 				break;
 			case Validate:
