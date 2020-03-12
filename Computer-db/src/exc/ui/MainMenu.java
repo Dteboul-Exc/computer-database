@@ -18,6 +18,14 @@ import exc.ui.SecondaryMenus;
 
 
 public class MainMenu {
+	
+	/**
+	 * Method Allowing an user to delete,create or modify a computer. Show a list of the computers or companies present in the DB. Also allow an user 
+	 * to have the details of a specific computer. To use the Menu, the first numeric value in the user input is read.
+	 * 
+	 * @throws SQLException
+	 * @throws ParseException
+	 */
 	public static void menu() throws SQLException, ParseException
 	{
 		state sta;

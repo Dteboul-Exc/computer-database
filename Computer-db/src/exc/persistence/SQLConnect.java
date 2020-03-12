@@ -207,16 +207,25 @@ public  final class SQLConnect implements DAOCompanyInterface {
 				tdiscontinued = "DATE " + "'"+discontinued+"'";;
 			}
 		    rs = statement.executeUpdate("insert into computer (name,introduced, discontinued, company_id) values('"+tname+"',"+tintroduced+" ,"+tdiscontinued+",(select company.id from company where company.id = "+company_id+"))");
-			//rs = statement.execute("insert into computer (name,introduced, discontinued, company_id) values('"+name+"',NULL ,NULL,"+company_id+")");
 				System.out.println(rs);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 		return 1;
 		
 	}
+	
+	
+	/**
+	 * Method that update a single computer within its Id
+	 * @param name
+	 * @param introduced
+	 * @param discontinued
+	 * @param company_id
+	 * @param id
+	 * @return
+	 */
 	public int updateComputer(String name,String introduced,String discontinued, int company_id,int id) 
 	{
 		int computer_id = 2;

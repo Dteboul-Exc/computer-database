@@ -10,6 +10,14 @@ import exc.persistence.SQLConnect;
 import exc.service.Computermapper;
 
 public class SecondaryMenus {
+	/**
+	 * Method that allow a computer to modify a computer in the database. The argument is the computer taken from the Database.
+	 * The menu has been done in such a way that it allows the user to change values if he isn't satisfied 
+	 * 
+	 * @param computer
+	 * @return
+	 * @throws ParseException
+	 */
 	public static int Computer_Modify(Computer computer) throws ParseException
 	{
 
@@ -94,6 +102,12 @@ public class SecondaryMenus {
 		}
 		return 0;
 	}
+	/**
+	 * Method that allow a computer to create a computer in the database. 
+	 * The menu has been done in such a way that it allows the user to change values if he isn't satisfied 
+	 * 
+	 * @throws ParseException
+	 */
 	public static void Computer_Add() throws ParseException
 	{
 		Computer computer = new Computer();
