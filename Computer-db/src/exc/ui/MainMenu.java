@@ -75,14 +75,6 @@ public class MainMenu {
 			case LComputer :
 				sta = state.Main;
 				List<Computer> lcomp = a.getAllComputer();
-				/*lcomp.forEach((i)->{
-					try {
-						System.out.println("id : "+i.getId()+" name : " +i.getName() +" |start : " + DateMapper.DateConverter(i.getIntroduced()) + " end : " + DateMapper.DateConverter(i.getDiscontinued()) + " | Company :  " + i.getCompany().getName() );
-					} catch (ParseException e2) {
-						// TODO Auto-generated catch block
-						e2.printStackTrace();
-					}
-				});*/
 				Page h = new Page();
 				h.Following(lcomp);
 				break;

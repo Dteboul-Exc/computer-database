@@ -15,6 +15,12 @@ public class Page {
 		
 	}
 	private int nb_Pages=10;
+	
+	/**
+	 * Method for a Pager class that allow the user to parse the list of Computer 
+	 * 
+	 * @param lcomp List of computer to be paged
+	 */
 	public void Following(List<Computer> lcomp) 
 	{
 		int read_count  = 0 ;
@@ -34,7 +40,6 @@ public class Page {
 						return;
 					}
 			} catch (ParseException e2) {
-				// TODO Auto-generated catch block
 				e2.printStackTrace();
 				
 			}
@@ -43,6 +48,13 @@ public class Page {
 		
 		return;
 	}
+	
+	
+	/**
+	 * Method that allow the user to choose if he wish to continue or not
+	 * 
+	 * @return if the user wishes to continue or to end 
+	 */
 	public boolean Scrolling_Menu ()
 	{
 		selector sta;
