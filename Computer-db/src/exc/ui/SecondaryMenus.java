@@ -73,13 +73,13 @@ public class SecondaryMenus {
 				sta = Computermapper.Main;
 				System.out.println("Enter the introduced (format YYYY-MM-DD)");
 				String introduced = reader.next();
-				computer.setIntroduced(DateMapper.StringConverter(introduced));
+				computer.setIntroduced(DateMapper.StringConverter(introduced).get());
 				break;
 			case Discontinued:
 				sta = Computermapper.Main;
 				System.out.println("Enter the discontinued (format YYYY-MM-DD)");
 				String discontinued = reader.next();
-				computer.setDiscontinued(DateMapper.StringConverter(discontinued));
+				computer.setDiscontinued(DateMapper.StringConverter(discontinued).get());
 				break;
 			case Company_id:
 				sta = Computermapper.Main;
@@ -95,7 +95,7 @@ public class SecondaryMenus {
 			case End:
 				SQLConnect a =  SQLConnect.getInstance();
 				System.out.println(" name : " +computer.getName() +" start :" + computer.getIntroduced() + " end :" + computer.getDiscontinued() + " C_id " + computer.getCompany().getId());
-				a.updateComputer(computer.getName(),DateMapper.DateConverter(computer.getIntroduced()),DateMapper.DateConverter(computer.getDiscontinued()), computer.getCompany().getId(),computer.getId());
+				a.updateComputer(computer.getName(),DateMapper.DateConverter(computer.getIntroduced()).get(),DateMapper.DateConverter(computer.getDiscontinued()).get(), computer.getCompany().getId(),computer.getId());
 				check= false;
 				return 0;
 			}
@@ -166,13 +166,13 @@ public class SecondaryMenus {
 				sta = Computermapper.Main;
 				System.out.println("Enter the introduced (format YYYY-MM-DD)");
 				String introduced = reader.next();
-				computer.setIntroduced(DateMapper.StringConverterInput(introduced));
+				computer.setIntroduced(DateMapper.StringConverterInput(introduced).get());
 				break;
 			case Discontinued:
 				sta = Computermapper.Main;
 				System.out.println("Enter the discontinued (format YYYYMM-DD)");
 				String discontinued = reader.next();
-				computer.setDiscontinued(DateMapper.StringConverterInput(discontinued));
+				computer.setDiscontinued(DateMapper.StringConverterInput(discontinued).get());
 				break;
 			case Company_id:
 				sta = Computermapper.Main;
@@ -189,7 +189,7 @@ public class SecondaryMenus {
 				SQLConnect a =  SQLConnect.getInstance();
 				System.out.println("babarhum");
 				System.out.println(" name : " +computer.getName() +" start :" + computer.getIntroduced() + " end :" + computer.getDiscontinued() + " C_id " + computer.getCompany().getId());
-				a.addComputer(computer.getName(),DateMapper.DateConverter(computer.getIntroduced()),DateMapper.DateConverter(computer.getDiscontinued()), computer.getCompany().getId());
+				a.addComputer(computer.getName(),DateMapper.DateConverter(computer.getIntroduced()).get(),DateMapper.DateConverter(computer.getDiscontinued()).get(), computer.getCompany().getId());
 				check= false;
 				return;
 			}

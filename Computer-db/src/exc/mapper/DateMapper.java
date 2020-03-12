@@ -4,6 +4,10 @@ import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.Optional;
+
+import exc.model.Computer;
 
 public class DateMapper {
 	/**
@@ -13,13 +17,13 @@ public class DateMapper {
 	 * @return
 	 * @throws ParseException
 	 */
-	public static LocalDate StringConverter(String localDate) throws ParseException
+	public static Optional<LocalDate> StringConverter(String localDate) throws ParseException
 	{
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 	    LocalDateTime date = LocalDateTime.parse(localDate,formatter);
 	    LocalDate myDateObj = date.toLocalDate();
-
-		return myDateObj;
+	    Optional<LocalDate> result = Optional.ofNullable(myDateObj);
+		return result;
 	}
 	
 	/**
@@ -29,11 +33,12 @@ public class DateMapper {
 	 * @return
 	 * @throws ParseException
 	 */
-	public static LocalDate StringConverterInput(String localDate) throws ParseException
+	public static Optional<LocalDate> StringConverterInput(String localDate) throws ParseException
 	{
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 	    LocalDate myDateObj = LocalDate.parse(localDate,formatter);
-		return myDateObj;
+	    Optional<LocalDate> result = Optional.ofNullable(myDateObj);
+		return result;
 	}
 	
 	
@@ -44,14 +49,18 @@ public class DateMapper {
 	 * @return
 	 * @throws ParseException
 	 */
-	public static String DateConverter(LocalDate myDateObj) throws ParseException
+	public static Optional<String> DateConverter(LocalDate myDateObj) throws ParseException
 	{
-		if (myDateObj == null) return "NULL";
+		if (myDateObj == null) 
+			{
+		    Optional<String> result = Optional.ofNullable("NULL");
+			return result;
+			}
 
 	    DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 	    
 	    String formattedDate = myDateObj.format(myFormatObj);
-
-		return formattedDate;
+	    Optional<String> result = Optional.ofNullable(formattedDate);
+		return result;
 	}
 }
