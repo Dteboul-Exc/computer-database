@@ -87,15 +87,15 @@ public  final class SQLConnect implements DAOCompanyInterface {
 	public Optional<List<Computer>> getAllComputer() throws SQLException, ParseException{
 		List<Computer> computer = new ArrayList();
 		Statement statement = conn.createStatement();
-		ResultSet rs = statement.executeQuery("select computer.name ,computer.id,introduced,discontinued,company_id ,company.name as company from computer LEFT JOIN company ON computer.company_id = company.id");
-        while ( rs.next() ) {
+		ResultSet resset = statement.executeQuery("select computer.name ,computer.id,introduced,discontinued,company_id ,company.name as company from computer LEFT JOIN company ON computer.company_id = company.id");
+        while ( resset.next() ) {
         	Computer tcomputer = Computer.Builder.newInstance().build();
-            String name = rs.getString("name");
-            String company = rs.getString("company");
-            int id = rs.getInt("id");
-            String introduced = rs.getString("introduced");
-            String discontinued = rs.getString("discontinued");
-            int company_id = rs.getInt("company_id");
+            String name = resset.getString("name");
+            String company = resset.getString("company");
+            int id = resset.getInt("id");
+            String introduced = resset.getString("introduced");
+            String discontinued = resset.getString("discontinued");
+            int company_id = resset.getInt("company_id");
             tcomputer.setId(id);
             tcomputer.setName(name);
 			if(introduced != null) tcomputer.setIntroduced(DateMapper.StringConverter(introduced).get());
@@ -103,7 +103,7 @@ public  final class SQLConnect implements DAOCompanyInterface {
 			if(company_id!=0)
 				{
 				
-				Company comp = Company.Builder.newInstance().setId(rs.getInt("company_id")).setName(rs.getString("company")).build();
+				Company comp = Company.Builder.newInstance().setId(resset.getInt("company_id")).setName(resset.getString("company")).build();
 				tcomputer.setCompany(comp);
 				}
 				else
@@ -129,22 +129,22 @@ public  final class SQLConnect implements DAOCompanyInterface {
 	public Optional<Computer> getSpecificComputer(int id) throws SQLException, ParseException {
 		Computer computer = Computer.Builder.newInstance().build();
 		Statement statement = conn.createStatement();
-		ResultSet rs = statement.executeQuery("select computer.name ,computer.id,introduced,discontinued,company_id ,company.name as company from computer LEFT JOIN company ON computer.company_id = company.id where computer.id =" + id);
-		if (rs.next())
+		ResultSet resset = statement.executeQuery("select computer.name ,computer.id,introduced,discontinued,company_id ,company.name as company from computer LEFT JOIN company ON computer.company_id = company.id where computer.id =" + id);
+		if (resset.next())
 		{
 
-				String name = rs.getString("name");
-				int id1 = rs.getInt("id");
-				String introduced = rs.getString("introduced");
-				String discontinued = rs.getString("discontinued");
-				int company_id = rs.getInt("company_id");
+				String name = resset.getString("name");
+				int id1 = resset.getInt("id");
+				String introduced = resset.getString("introduced");
+				String discontinued = resset.getString("discontinued");
+				int company_id = resset.getInt("company_id");
 				computer.setId(id);
 				computer.setName(name);
 				if(introduced != null) computer.setIntroduced(DateMapper.StringConverter(introduced).get());
 				if(discontinued != null) computer.setDiscontinued(DateMapper.StringConverter(discontinued).get());
 				if(company_id!=0)
 				{
-					Company comp = Company.Builder.newInstance().setId(rs.getInt("company_id")).setName(rs.getString("company")).build();
+					Company comp = Company.Builder.newInstance().setId(resset.getInt("company_id")).setName(resset.getString("company")).build();
 					computer.setCompany(comp);
 				}
 				
@@ -167,8 +167,8 @@ public  final class SQLConnect implements DAOCompanyInterface {
 	 */
 	public int deleteSpecificComputer(int id) throws SQLException {
 		Statement statement = conn.createStatement();
-		int rs = statement.executeUpdate("DELETE FROM computer WHERE id =" + id);
-		if (rs == 1)
+		int resset = statement.executeUpdate("DELETE FROM computer WHERE id =" + id);
+		if (resset == 1)
 		{
 
 			System.out.println(" Computer successfully deleted");
@@ -178,12 +178,12 @@ public  final class SQLConnect implements DAOCompanyInterface {
 		{ //TODO Error System
 			System.out.println("Error while deleting");
 		}
-		return rs;
+		return resset;
 	}
 	public int addComputer(String name,String introduced,String discontinued, int company_id) 
 	{
 		int computer_id = 2;
-		int rs=0;
+		int resset=0;
 		String tname = "NULL";
 		String tintroduced = "NULL";
 		String tdiscontinued = "NULL";
@@ -215,10 +215,10 @@ public  final class SQLConnect implements DAOCompanyInterface {
 			{
 				tdiscontinued = "DATE " + "'"+discontinued+"'";;
 			}
-		    rs = statement.executeUpdate("insert into computer (name,introduced, discontinued, company_id) values('"+tname+"',"+tintroduced+" ,"+tdiscontinued+",(select company.id from company where company.id = "+company_id+"))");
-				System.out.println(rs);
-		} catch (SQLException e) {
-			e.printStackTrace();
+		    resset = statement.executeUpdate("insert into computer (name,introduced, discontinued, company_id) values('"+tname+"',"+tintroduced+" ,"+tdiscontinued+",(select company.id from company where company.id = "+company_id+"))");
+				System.out.println(resset);
+		} catch (SQLException exc) {
+			exc.printStackTrace();
 		}
 
 		return 1;
@@ -238,7 +238,7 @@ public  final class SQLConnect implements DAOCompanyInterface {
 	public int updateComputer(String name,String introduced,String discontinued, int company_id,int id) 
 	{
 		int computer_id = 2;
-		int rs=0;
+		int resset=0;
 		String tname = "NULL";
 		String tintroduced = "NULL";
 		String tdiscontinued = "NULL";
@@ -270,12 +270,10 @@ public  final class SQLConnect implements DAOCompanyInterface {
 			{
 				tdiscontinued = "DATE " + "'"+discontinued+"'";;
 			}
-		    rs = statement.executeUpdate("UPDATE computer SET name = '"+tname+"', introduced = "+tintroduced+", discontinued = "+tdiscontinued+", company_id = "+company_id+" WHERE id = " +id);
-			//rs = statement.execute("insert into computer (name,introduced, discontinued, company_id) values('"+name+"',NULL ,NULL,"+company_id+")");
-				System.out.println(rs);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		    resset = statement.executeUpdate("UPDATE computer SET name = '"+tname+"', introduced = "+tintroduced+", discontinued = "+tdiscontinued+", company_id = "+company_id+" WHERE id = " +id);
+				System.out.println(resset);
+		} catch (SQLException exc) {
+			exc.printStackTrace();
 		}
 
 		return 1;
