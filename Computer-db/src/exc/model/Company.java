@@ -5,7 +5,7 @@ public class Company {
 	private String name="none";
 
 	public int getId() {
-		return id;//
+		return id;
 	}
 	public Company setId(int id) {
 		this.id = id;
