@@ -11,6 +11,8 @@ import java.util.Scanner;
 import exc.mapper.DateMapper;
 import exc.model.Company;
 import exc.model.Computer;
+import exc.persistence.DAOCompany;
+import exc.persistence.DAOComputer;
 import exc.persistence.SQLConnect;
 import exc.service.Page;
 import exc.service.state;
@@ -82,7 +84,7 @@ public class MainMenu {
 				break;
 			case LComputer :
 				sta = state.Main;
-				Optional<List<Computer>> optcomputer = a.getAllComputer();
+				Optional<List<Computer>> optcomputer = DAOComputer.getAllComputer();
 				if (!optcomputer.isEmpty())
 				{
 					List<Computer> lcomp = optcomputer.get();
@@ -92,7 +94,7 @@ public class MainMenu {
 				break;
 			case LCompany :
 				sta = state.Main;
-				Optional<List<Company>> optcompany = a.getAllCompany();
+				Optional<List<Company>> optcompany = DAOCompany.getAllCompany();
 				if (!optcompany.isEmpty())
 				{
 					List<Company> lcny = optcompany.get();
@@ -107,7 +109,7 @@ public class MainMenu {
 				sta = state.Main;
 				System.out.println("Enter the id of the computer you want to select");
 				s = reader.nextInt();
-				compute = a.getSpecificComputer(s);
+				compute = DAOComputer.getSpecificComputer(s);
 				if (compute.isPresent())
 				{	 
 					Computer c = compute.get();
@@ -133,7 +135,7 @@ public class MainMenu {
 				System.out.println("Enter the id of the computer you want to select");
 				s = reader.nextInt();
 				try {
-					compute = a.getSpecificComputer(s);
+					compute = DAOComputer.getSpecificComputer(s);
 					if (compute.isPresent())
 					{	 
 						Computer c = compute.get();
@@ -158,7 +160,7 @@ public class MainMenu {
 				System.out.println("Enter the id of the computer you want to delete");
 				s = reader.nextInt();
 				try {
-					a.deleteSpecificComputer(s);
+					DAOComputer.deleteSpecificComputer(s);
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

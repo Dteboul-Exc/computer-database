@@ -15,7 +15,7 @@ import exc.model.Computer;
 
 public class DAOComputer {
 	
-	public Optional<List<Computer>> getAllComputer() throws SQLException, ParseException{
+	public static Optional<List<Computer>> getAllComputer() throws SQLException, ParseException{
 		Connection conn = SQLConnect.getConn();
 		List<Computer> computer = new ArrayList();
 		Statement statement = conn.createStatement();
@@ -58,7 +58,7 @@ public class DAOComputer {
 	 * @throws SQLException
 	 * @throws ParseException 
 	 */
-	public Optional<Computer> getSpecificComputer(int id) throws SQLException, ParseException {
+	public static Optional<Computer> getSpecificComputer(int id) throws SQLException, ParseException {
 		Connection conn = SQLConnect.getConn();
 		Computer computer = Computer.Builder.newInstance().build();
 		Statement statement = conn.createStatement();
@@ -98,7 +98,7 @@ public class DAOComputer {
 	 * @return
 	 * @throws SQLException
 	 */
-	public int deleteSpecificComputer(int id) throws SQLException {
+	public static int deleteSpecificComputer(int id) throws SQLException {
 		Connection conn = SQLConnect.getConn();
 		Statement statement = conn.createStatement();
 		int resset = statement.executeUpdate("DELETE FROM computer WHERE id =" + id);
@@ -114,7 +114,7 @@ public class DAOComputer {
 		}
 		return resset;
 	}
-	public int addComputer(String name,String introduced,String discontinued, int company_id) 
+	public static int addComputer(String name,String introduced,String discontinued, int company_id) 
 	{
 		Connection conn = SQLConnect.getConn();
 		int computer_id = 2;
@@ -170,7 +170,7 @@ public class DAOComputer {
 	 * @param id
 	 * @return
 	 */
-	public int updateComputer(String name,String introduced,String discontinued, int company_id,int id) 
+	public static int updateComputer(String name,String introduced,String discontinued, int company_id,int id) 
 	{
 		Connection conn = SQLConnect.getConn();
 		int computer_id = 2;

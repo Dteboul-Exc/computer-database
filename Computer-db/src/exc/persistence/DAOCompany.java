@@ -18,7 +18,7 @@ public class DAOCompany {
 	 *@return The list of all the company
 	 *@throws SQLException
 	 */
-	public Optional<List<Company>> getAllCompany() throws SQLException {
+	public static Optional<List<Company>> getAllCompany() throws SQLException {
 		Connection conn = SQLConnect.getConn();
 		List<Company> company = new ArrayList();
 		//Optional<List<Company>> company = Optional.of(new ArrayList());
