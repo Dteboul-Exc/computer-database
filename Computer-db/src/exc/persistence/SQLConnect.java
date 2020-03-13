@@ -16,7 +16,7 @@ import exc.mapper.DateMapper;
 import exc.model.Company;
 import exc.model.Computer;
 
-public  final class SQLConnect implements DAOCompanyInterface {
+public  final class SQLConnect {
 	private static SQLConnect instance = new SQLConnect();
 	private static   Connection conn;
 	public  static Connection getConn() {
