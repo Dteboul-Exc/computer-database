@@ -1,14 +1,14 @@
-package exc.ui;
+package main.java.exc.ui;
 
 import java.text.ParseException;
 import java.util.Scanner;
 
-import exc.mapper.DateMapper;
-import exc.model.Company;
-import exc.model.Computer;
-import exc.persistence.DAOComputer;
-import exc.persistence.SQLConnect;
-import exc.service.Computermapper;
+import main.java.exc.mapper.DateMapper;
+import main.java.exc.model.Company;
+import main.java.exc.model.Computer;
+import main.java.exc.persistence.DAOComputer;
+import main.java.exc.persistence.SQLConnect;
+import main.java.exc.service.MenuComputerInterface;
 
 public class SecondaryMenus {
 	/**
@@ -23,11 +23,11 @@ public class SecondaryMenus {
 	{
 
 		Scanner reader = new Scanner(System.in);
-		Computermapper sta;
+		MenuComputerInterface sta;
 		boolean check = true;
 		System.out.println("Default Parameters");
 		System.out.println(" name : " +computer.getName() +" start :" + computer.getIntroduced() + " end :" + computer.getDiscontinued() + " C_id " + computer.getCompany().getId());
-		sta = Computermapper.Main;
+		sta = MenuComputerInterface.Main;
 		while (check) {
 			switch (sta) {
 			case Main:
@@ -41,56 +41,56 @@ public class SecondaryMenus {
 				int select = reader.nextInt();
 				if (select == 1)
 				{
-					sta = Computermapper.Name; 
+					sta = MenuComputerInterface.Name; 
 				}
 				else if (select == 2)
 				{
-					sta = Computermapper.Introduced; 
+					sta = MenuComputerInterface.Introduced; 
 				}
 				else if (select == 3)
 				{
-					sta = Computermapper.Discontinued;					
+					sta = MenuComputerInterface.Discontinued;					
 				}
 				else if (select==4)
 				{
-					sta =Computermapper.Company_id;
+					sta =MenuComputerInterface.Company_id;
 				}
 				else if (select == 5)
 				{
-					sta = Computermapper.Validate;
+					sta = MenuComputerInterface.Validate;
 				}
 				else if (select == 6)
 				{
-					sta = Computermapper.End;
+					sta = MenuComputerInterface.End;
 				}
 				break;
 			case Name:
-				sta = Computermapper.Main;
+				sta = MenuComputerInterface.Main;
 				System.out.println("Enter the name of the Computer");
 				String name = reader.next();
 				computer.setName(name);
 				break;
 			case Introduced:
-				sta = Computermapper.Main;
+				sta = MenuComputerInterface.Main;
 				System.out.println("Enter the introduced (format YYYY-MM-DD)");
 				String introduced = reader.next();
 				computer.setIntroduced(DateMapper.StringConverter(introduced).get());
 				break;
 			case Discontinued:
-				sta = Computermapper.Main;
+				sta = MenuComputerInterface.Main;
 				System.out.println("Enter the discontinued (format YYYY-MM-DD)");
 				String discontinued = reader.next();
 				computer.setDiscontinued(DateMapper.StringConverter(discontinued).get());
 				break;
 			case Company_id:
-				sta = Computermapper.Main;
+				sta = MenuComputerInterface.Main;
 				System.out.println("Enter the company id ");
 				int id1 = reader.nextInt();
 				Company comp =  Company.Builder.newInstance().setId(id1).build();
 				computer.setCompany(comp);
 				break;
 			case Validate:
-				sta = Computermapper.Main;
+				sta = MenuComputerInterface.Main;
 				System.out.println(" name : " +computer.getName() +" start :" + computer.getIntroduced() + " end :" + computer.getDiscontinued() + " C_id " + computer.getCompany().getId());
 				break;
 			case End:
@@ -118,9 +118,9 @@ public class SecondaryMenus {
 		computer.setDiscontinued(null);
 		computer.setIntroduced(null);
 		Scanner reader = new Scanner(System.in);
-		Computermapper sta;
+		MenuComputerInterface sta;
 		boolean check = true;
-		sta = Computermapper.Main;
+		sta = MenuComputerInterface.Main;
 		while (check) {
 			switch (sta) {
 			case Main:
@@ -134,56 +134,56 @@ public class SecondaryMenus {
 				int select = reader.nextInt();
 				if (select == 1)
 				{
-					sta = Computermapper.Name; 
+					sta = MenuComputerInterface.Name; 
 				}
 				else if (select == 2)
 				{
-					sta = Computermapper.Introduced; 
+					sta = MenuComputerInterface.Introduced; 
 				}
 				else if (select == 3)
 				{
-					sta = Computermapper.Discontinued;					
+					sta = MenuComputerInterface.Discontinued;					
 				}
 				else if (select==4)
 				{
-					sta =Computermapper.Company_id;
+					sta =MenuComputerInterface.Company_id;
 				}
 				else if (select == 5)
 				{
-					sta = Computermapper.Validate;
+					sta = MenuComputerInterface.Validate;
 				}
 				else if (select == 6)
 				{
-					sta = Computermapper.End;
+					sta = MenuComputerInterface.End;
 				}
 				break;
 			case Name:
-				sta = Computermapper.Main;
+				sta = MenuComputerInterface.Main;
 				System.out.println("Enter the name of the Computer");
 				String name = reader.next();
 				computer.setName(name);
 				break;
 			case Introduced:
-				sta = Computermapper.Main;
+				sta = MenuComputerInterface.Main;
 				System.out.println("Enter the introduced (format YYYY-MM-DD)");
 				String introduced = reader.next();
 				computer.setIntroduced(DateMapper.StringConverterInput(introduced).get());
 				break;
 			case Discontinued:
-				sta = Computermapper.Main;
+				sta = MenuComputerInterface.Main;
 				System.out.println("Enter the discontinued (format YYYYMM-DD)");
 				String discontinued = reader.next();
 				computer.setDiscontinued(DateMapper.StringConverterInput(discontinued).get());
 				break;
 			case Company_id:
-				sta = Computermapper.Main;
+				sta = MenuComputerInterface.Main;
 				System.out.println("Enter the company id ");
 				int id = reader.nextInt();
 				comp =  Company.Builder.newInstance().setId(id).build();
 				computer.setCompany(comp);
 				break;
 			case Validate:
-				sta = Computermapper.Main;
+				sta = MenuComputerInterface.Main;
 				System.out.println(" name : " +computer.getName() +" start :" + computer.getIntroduced() + " end :" + computer.getDiscontinued() + " C_id " + computer.getCompany().getId());
 				break;
 			case End:

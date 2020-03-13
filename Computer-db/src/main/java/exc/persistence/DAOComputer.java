@@ -1,4 +1,4 @@
-package exc.persistence;
+package main.java.exc.persistence;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -9,9 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import exc.mapper.DateMapper;
-import exc.model.Company;
-import exc.model.Computer;
+import main.java.exc.mapper.DateMapper;
+import main.java.exc.model.Company;
+import main.java.exc.model.Computer;
 
 public class DAOComputer {
 	

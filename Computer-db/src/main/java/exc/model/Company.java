@@ -1,4 +1,4 @@
-package exc.model;
+package main.java.exc.model;
 
 public final class Company {
 	private int id=0;

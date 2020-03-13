@@ -1,11 +1,11 @@
-package exc.service;
+package main.java.exc.service;
 
 import java.text.ParseException;
 import java.util.List;
 import java.util.Scanner;
 
-import exc.mapper.DateMapper;
-import exc.model.Computer;
+import main.java.exc.mapper.DateMapper;
+import main.java.exc.model.Computer;
 
 public class Page {
 	enum selector {
