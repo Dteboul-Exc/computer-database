@@ -1,4 +1,4 @@
-package exc.ui;
+package main.java.exc.ui;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -8,15 +8,15 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
-import exc.mapper.DateMapper;
-import exc.model.Company;
-import exc.model.Computer;
-import exc.persistence.DAOCompany;
-import exc.persistence.DAOComputer;
-import exc.persistence.SQLConnect;
-import exc.service.Page;
-import exc.service.state;
-import exc.ui.SecondaryMenus;
+import main.java.exc.mapper.DateMapper;
+import main.java.exc.model.Company;
+import main.java.exc.model.Computer;
+import main.java.exc.persistence.DAOCompany;
+import main.java.exc.persistence.DAOComputer;
+import main.java.exc.persistence.SQLConnect;
+import main.java.exc.service.Page;
+import main.java.exc.service.state;
+import main.java.exc.ui.SecondaryMenus;
 
 
 public class MainMenu {

@@ -1,4 +1,4 @@
-package exc.persistence;
+package main.java.exc.persistence;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import exc.model.Company;
+import main.java.exc.model.Company;
 
 public class DAOCompany {
 	/**

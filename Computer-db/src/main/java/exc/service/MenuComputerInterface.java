@@ -1,6 +1,6 @@
-package exc.service;
+package main.java.exc.service;
 
-public enum Computermapper {
+public enum MenuComputerInterface {
 	Name,
 	Introduced,
 	Discontinued,

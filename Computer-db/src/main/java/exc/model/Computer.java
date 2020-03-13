@@ -1,10 +1,10 @@
-package exc.model;
+package main.java.exc.model;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 
-import exc.model.Company.Builder;
+import main.java.exc.model.Company.Builder;
 
 public class Computer {
 	private int id;

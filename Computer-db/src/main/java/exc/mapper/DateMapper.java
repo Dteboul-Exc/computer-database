@@ -1,4 +1,4 @@
-package exc.mapper;
+package main.java.exc.mapper;
 
 import java.text.ParseException;
 import java.time.LocalDate;
@@ -7,7 +7,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
-import exc.model.Computer;
+import main.java.exc.model.Computer;
 
 public class DateMapper {
 	/**
