@@ -8,6 +8,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
+
+import org.slf4j.LoggerFactory;
+import org.apache.log4j.BasicConfigurator;
+import org.slf4j.Logger;
+
+
 import main.java.exc.mapper.DateMapper;
 import main.java.exc.model.Company;
 import main.java.exc.model.Computer;
@@ -30,6 +36,10 @@ public class MainMenu {
 	 */
 	public static void menu() throws SQLException, ParseException
 	{
+		BasicConfigurator.configure();
+		Logger logger = LoggerFactory.getLogger(MainMenu.class);
+	    logger.debug("Main Menu Initialized");
+
 		state sta;
 		sta = state.Main;
 		Scanner reader = new Scanner(System.in);
@@ -81,12 +91,15 @@ public class MainMenu {
 				{
 					sta = state.Exit;
 				}
+				logger.debug("user is going to the menu " + sta);
 				break;
 			case LComputer :
 				sta = state.Main;
 				Optional<List<Computer>> optcomputer = DAOComputer.getAllComputer();
+				
 				if (!optcomputer.isEmpty())
 				{
+					logger.debug("user is being shown a list of the computer in the database");
 					List<Computer> lcomp = optcomputer.get();
 					Page h = new Page();
 					h.Following(lcomp);
@@ -97,15 +110,18 @@ public class MainMenu {
 				Optional<List<Company>> optcompany = DAOCompany.getAllCompany();
 				if (!optcompany.isEmpty())
 				{
+					logger.debug("user is being shown a list of the companies in the database");
 					List<Company> lcny = optcompany.get();
 					lcny.forEach((i)->System.out.println("id : "+i.getId()+" name : " +i.getName()));
 				}
 				else
 				{
 					System.out.println("Error, list company is empty");
+					logger.error("no computer was shown in the database");
 				}
 				break;
 			case DComputer :
+				logger.debug("User search  a specific computer by id");
 				sta = state.Main;
 				System.out.println("Enter the id of the computer you want to select");
 				s = reader.nextInt();
@@ -118,19 +134,23 @@ public class MainMenu {
 				else
 				{
 					System.out.println("pc not found");
+					logger.error("the computer with id "+ s+"was not found ");
 				}
 				break;
 			case CreateComputer:
 				sta = state.Main;
+				logger.debug("User tries to create a computer");
 				try {
 					SecondaryMenus.Computer_Add();
 				} catch (ParseException e) {
 					// TODO Auto-generated catch block
+					logger.error("Parse exception while trying to create a computer: " + e);
 					e.printStackTrace();
 				}
 
 				break;
 			case UpdateComputer:
+				logger.debug("User tries to update a specific computer by id");
 				sta = state.Main;
 				System.out.println("Enter the id of the computer you want to select");
 				s = reader.nextInt();
@@ -143,19 +163,23 @@ public class MainMenu {
 							System.out.println(SecondaryMenus.Computer_Modify(c));
 						} catch (ParseException e) {
 							// TODO Auto-generated catch block
+							logger.error("Parse exception while trying to update a computer: " + e);
 							e.printStackTrace();
 						}
 					}
 					else
 					{
+						logger.error("PC was not found by id  : " + s);
 						System.out.println("pc not found");
 					}
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
+					logger.error("exception while trying to update a computer: " + e1);
 					e1.printStackTrace();
 				}
 				break;
 			case DeleteComputer:
+				logger.debug("User tries to delete a specific computer by id");
 				sta = state.Main;
 				System.out.println("Enter the id of the computer you want to delete");
 				s = reader.nextInt();
@@ -163,6 +187,7 @@ public class MainMenu {
 					DAOComputer.deleteSpecificComputer(s);
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
+					logger.error("PC was not found by id  : " + s);
 					e.printStackTrace();
 				}
 				break;

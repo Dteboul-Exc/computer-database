@@ -8,7 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.log4j.BasicConfigurator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import main.java.exc.model.Company;
+import main.java.exc.ui.MainMenu;
 
 public class DAOCompany {
 	/**
@@ -19,6 +24,9 @@ public class DAOCompany {
 	 *@throws SQLException
 	 */
 	public static Optional<List<Company>> getAllCompany() throws SQLException {
+		BasicConfigurator.configure();
+		Logger logger = LoggerFactory.getLogger(DAOCompany.class);
+	    logger.debug("getAllCompany start");
 		Connection conn = SQLConnect.getConn();
 		List<Company> company = new ArrayList();
 		//Optional<List<Company>> company = Optional.of(new ArrayList());
