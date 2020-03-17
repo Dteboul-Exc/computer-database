@@ -9,6 +9,7 @@ import main.java.exc.model.Computer;
 import main.java.exc.persistence.DAOComputer;
 import main.java.exc.persistence.SQLConnect;
 import main.java.exc.service.MenuComputerInterface;
+import main.java.exc.service.ServiceDAOComputer;
 
 public class SecondaryMenus {
 	/**
@@ -96,7 +97,7 @@ public class SecondaryMenus {
 			case End:
 				SQLConnect a =  SQLConnect.getInstance();
 				System.out.println(" name : " +computer.getName() +" start :" + computer.getIntroduced() + " end :" + computer.getDiscontinued() + " C_id " + computer.getCompany().getId());
-				DAOComputer.updateComputer(computer.getName(),DateMapper.DateConverter(computer.getIntroduced()).get(),DateMapper.DateConverter(computer.getDiscontinued()).get(), computer.getCompany().getId(),computer.getId());
+				ServiceDAOComputer.updateComputer(computer.getName(),DateMapper.DateConverter(computer.getIntroduced()).get(),DateMapper.DateConverter(computer.getDiscontinued()).get(), computer.getCompany().getId(),computer.getId());
 				check= false;
 				return 0;
 			}
@@ -188,9 +189,8 @@ public class SecondaryMenus {
 				break;
 			case End:
 				SQLConnect a =  SQLConnect.getInstance();
-				System.out.println("babarhum");
 				System.out.println(" name : " +computer.getName() +" start :" + computer.getIntroduced() + " end :" + computer.getDiscontinued() + " C_id " + computer.getCompany().getId());
-				DAOComputer.addComputer(computer.getName(),DateMapper.DateConverter(computer.getIntroduced()).get(),DateMapper.DateConverter(computer.getDiscontinued()).get(), computer.getCompany().getId());
+				ServiceDAOComputer.addComputer(computer.getName(),DateMapper.DateConverter(computer.getIntroduced()).get(),DateMapper.DateConverter(computer.getDiscontinued()).get(), computer.getCompany().getId());
 				check= false;
 				return;
 			}

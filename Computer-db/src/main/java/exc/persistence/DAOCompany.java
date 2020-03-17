@@ -24,9 +24,7 @@ public class DAOCompany {
 	 *@throws SQLException
 	 */
 	public static Optional<List<Company>> getAllCompany() throws SQLException {
-		BasicConfigurator.configure();
-		Logger logger = LoggerFactory.getLogger(DAOCompany.class);
-	    logger.debug("getAllCompany start");
+
 		Connection conn = SQLConnect.getConn();
 		List<Company> company = new ArrayList();
 		//Optional<List<Company>> company = Optional.of(new ArrayList());

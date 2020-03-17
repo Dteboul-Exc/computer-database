@@ -21,6 +21,8 @@ import main.java.exc.persistence.DAOCompany;
 import main.java.exc.persistence.DAOComputer;
 import main.java.exc.persistence.SQLConnect;
 import main.java.exc.service.Page;
+import main.java.exc.service.ServiceDAOCompany;
+import main.java.exc.service.ServiceDAOComputer;
 import main.java.exc.service.state;
 import main.java.exc.ui.SecondaryMenus;
 
@@ -95,7 +97,7 @@ public class MainMenu {
 				break;
 			case LComputer :
 				sta = state.Main;
-				Optional<List<Computer>> optcomputer = DAOComputer.getAllComputer();
+				Optional<List<Computer>> optcomputer = ServiceDAOComputer.getAllComputer();
 				
 				if (!optcomputer.isEmpty())
 				{
@@ -107,7 +109,7 @@ public class MainMenu {
 				break;
 			case LCompany :
 				sta = state.Main;
-				Optional<List<Company>> optcompany = DAOCompany.getAllCompany();
+				Optional<List<Company>> optcompany = ServiceDAOCompany.getAllCompany();
 				if (!optcompany.isEmpty())
 				{
 					logger.debug("user is being shown a list of the companies in the database");
@@ -125,7 +127,7 @@ public class MainMenu {
 				sta = state.Main;
 				System.out.println("Enter the id of the computer you want to select");
 				s = reader.nextInt();
-				compute = DAOComputer.getSpecificComputer(s);
+				compute = ServiceDAOComputer.getSpecificComputer(s);
 				if (compute.isPresent())
 				{	 
 					Computer c = compute.get();
@@ -183,13 +185,7 @@ public class MainMenu {
 				sta = state.Main;
 				System.out.println("Enter the id of the computer you want to delete");
 				s = reader.nextInt();
-				try {
-					DAOComputer.deleteSpecificComputer(s);
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					logger.error("PC was not found by id  : " + s);
-					e.printStackTrace();
-				}
+				ServiceDAOComputer.deleteSpecificComputer(s);
 				break;
 			case Exit:
 				System.exit(0); 
