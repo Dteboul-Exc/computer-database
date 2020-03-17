@@ -114,7 +114,7 @@ public class DAOComputer {
 		}
 		return resset;
 	}
-	public static int addComputer(String name,String introduced,String discontinued, int company_id) 
+	public static int addComputer(String name,String introduced,String discontinued, int company_id) throws SQLException 
 	{
 		Connection conn = SQLConnect.getConn();
 		int computer_id = 2;
@@ -124,37 +124,11 @@ public class DAOComputer {
 		String tdiscontinued = "NULL";
 
 		Statement statement;
-		try {
+
 			statement = conn.createStatement();
-			if (name == null)
-			{
-				tname = "NULL";
-			}
-			else
-			{
-				tname = name;
-			}
-			if (introduced.equals("NULL"))
-			{
-				tintroduced = "NULL";
-			}
-			else
-			{
-				tintroduced = "DATE " + "'"+introduced+"'";
-			}
-			if (discontinued.equals("NULL"))
-			{
-				tdiscontinued = "NULL";
-			}
-			else
-			{
-				tdiscontinued = "DATE " + "'"+discontinued+"'";;
-			}
-		    resset = statement.executeUpdate("insert into computer (name,introduced, discontinued, company_id) values('"+tname+"',"+tintroduced+" ,"+tdiscontinued+",(select company.id from company where company.id = "+company_id+"))");
-				System.out.println(resset);
-		} catch (SQLException exc) {
-			exc.printStackTrace();
-		}
+		    resset = statement.executeUpdate("insert into computer (name,introduced, discontinued, company_id) values('"+tname+"',"+introduced+" ,"+discontinued+",(select company.id from company where company.id = "+company_id+"))");
+			System.out.println(resset);
+
 
 		return 1;
 		
@@ -169,48 +143,20 @@ public class DAOComputer {
 	 * @param company_id
 	 * @param id
 	 * @return
+	 * @throws SQLException 
 	 */
-	public static int updateComputer(String name,String introduced,String discontinued, int company_id,int id) 
+	public static int updateComputer(String name,String introduced,String discontinued, int company_id,int id) throws SQLException 
 	{
 		Connection conn = SQLConnect.getConn();
-		int computer_id = 2;
 		int resset=0;
-		String tname = "NULL";
-		String tintroduced = "NULL";
-		String tdiscontinued = "NULL";
+
 
 		Statement statement;
-		try {
+		
 			statement = conn.createStatement();
-			if (name == null)
-			{
-				tname = "NULL";
-			}
-			else
-			{
-				tname = name;
-			}
-			if (introduced.equals("NULL"))
-			{
-				tintroduced = "NULL";
-			}
-			else
-			{
-				tintroduced = "DATE " + "'"+introduced+"'";
-			}
-			if (discontinued.equals("NULL"))
-			{
-				tdiscontinued = "NULL";
-			}
-			else
-			{
-				tdiscontinued = "DATE " + "'"+discontinued+"'";;
-			}
-		    resset = statement.executeUpdate("UPDATE computer SET name = '"+tname+"', introduced = "+tintroduced+", discontinued = "+tdiscontinued+", company_id = "+company_id+" WHERE id = " +id);
+		    resset = statement.executeUpdate("UPDATE computer SET name = '"+name+"', introduced = "+introduced+", discontinued = "+discontinued+", company_id = "+company_id+" WHERE id = " +id);
 				System.out.println(resset);
-		} catch (SQLException exc) {
-			exc.printStackTrace();
-		}
+
 
 		return 1;
 		
