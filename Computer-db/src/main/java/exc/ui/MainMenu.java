@@ -36,7 +36,7 @@ public class MainMenu {
 	 * @throws SQLException
 	 * @throws ParseException
 	 */
-	public static void menu() throws SQLException, ParseException
+	public static void menu() 
 	{
 		BasicConfigurator.configure();
 		Logger logger = LoggerFactory.getLogger(MainMenu.class);
@@ -47,7 +47,14 @@ public class MainMenu {
 		Scanner reader = new Scanner(System.in);
 		Optional<Computer> compute;
 		SQLConnect a =  SQLConnect.getInstance();
-		a.connect();
+		logger.debug("Trying to connect to the database ...");
+		try {
+			a.connect();
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			logger.error("Error while connecting to the database : " + e2);
+			e2.printStackTrace();
+		}
 
 		while(true)
 		{
