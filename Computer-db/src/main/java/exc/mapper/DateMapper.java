@@ -43,7 +43,7 @@ public class DateMapper {
 	
 	
 	/**
-	 * Mapper used to convert a LocalDate into a format that the Database can understand
+	 * Mapper used to convert a LocalDate into a format that the Database can understand the Date Object
 	 * 
 	 * @param myDateObj
 	 * @return
