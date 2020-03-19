@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,13 +18,23 @@ public class DateMapper {
 	 * @return
 	 * @throws ParseException
 	 */
-	public static Optional<LocalDate> StringConverter(String localDate) throws ParseException
+	public static Optional<LocalDate> StringConverter(String localDate) 
 	{
+		System.out.println("argument : " + localDate);
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		try {
 	    LocalDateTime date = LocalDateTime.parse(localDate,formatter);
 	    LocalDate myDateObj = date.toLocalDate();
 	    Optional<LocalDate> result = Optional.ofNullable(myDateObj);
 		return result;
+		}
+		catch (DateTimeParseException e) {
+			    LocalDateTime date = LocalDateTime.parse("1910-01-01 00:00:00",formatter);
+			    LocalDate myDateObj = date.toLocalDate();
+			    Optional<LocalDate> result = Optional.ofNullable(myDateObj);
+				return result;
+		}
+		
 	}
 	
 	/**

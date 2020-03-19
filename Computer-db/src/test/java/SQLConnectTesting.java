@@ -24,6 +24,7 @@ public class SQLConnectTesting {
 		SQLConnect a = SQLConnect.getInstance();
 		try {
 			a.connect();
+			assertNotNull(a);
 		} catch (SQLException e) {
 			fail("SQL Exception while connecting to db with error type : " + e.getErrorCode());
 		}
