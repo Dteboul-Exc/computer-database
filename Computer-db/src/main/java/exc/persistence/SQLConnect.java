@@ -1,20 +1,8 @@
 package main.java.exc.persistence;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.text.ParseException;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-import main.java.exc.mapper.DateMapper;
-import main.java.exc.model.Company;
-import main.java.exc.model.Computer;
 
 public  final class SQLConnect {
 	private static SQLConnect instance = new SQLConnect();
@@ -34,6 +22,11 @@ public  final class SQLConnect {
 	 * Method that allow a connection to the SQL Database
 	 * @throws SQLException
 	 */
+	
+	public void close() throws SQLException
+	{
+		conn.close();
+	}
 	public  void  connect() throws SQLException
 	{
 		String url = "jdbc:mysql://localhost:3306/";

@@ -59,6 +59,8 @@ public class DAOComputer {
 	 * @throws ParseException 
 	 */
 	public static Optional<Computer> getSpecificComputer(int id) throws SQLException, ParseException {
+		if (id == 0) 
+			return Optional.empty();
 		Connection conn = SQLConnect.getConn();
 		Computer computer = Computer.Builder.newInstance().build();
 		Statement statement = conn.createStatement();
