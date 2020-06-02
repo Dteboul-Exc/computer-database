@@ -13,7 +13,13 @@ import main.java.exc.model.Company;
 import main.java.exc.persistence.DAOCompany;
 
 public class ServiceDAOCompany {
-	public static Optional<List<Company>> getAllCompany() {
+	private DAOCompany DAOCompany;
+	
+	public ServiceDAOCompany()
+	{
+		DAOCompany = new DAOCompany();
+	}
+	public  Optional<List<Company>> getAllCompany() {
 	BasicConfigurator.configure();
 	Logger logger = LoggerFactory.getLogger(DAOCompany.class);
     logger.debug("getAllCompany start");
@@ -28,12 +34,13 @@ public class ServiceDAOCompany {
 	}
 	}
 	
-	public static Optional<Company> getSpecificCompany(int id)
+	public Optional<Company> getSpecificCompany(int id)
 	{
 		BasicConfigurator.configure();
 		Logger logger = LoggerFactory.getLogger(DAOCompany.class);
 	    logger.debug("getA Company start");
 	    Optional<Company> result;
+	    if (id == 0) return Optional.empty();
 	    try {
 			result = DAOCompany.getSpecificCompany(id);
 			return result;
@@ -47,5 +54,9 @@ public class ServiceDAOCompany {
 		}
 	}
 	
+	public void setDAOCompany(final DAOCompany tDAOCompany)
+	{
+		this.DAOCompany = tDAOCompany;
+	}
 
 }

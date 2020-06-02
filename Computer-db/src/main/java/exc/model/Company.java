@@ -1,9 +1,11 @@
 package main.java.exc.model;
 
+import java.util.Objects;
+
 public final class Company {
 	private int id=0;
 	private String name="none";
-
+	
 	public int getId() {
 		return id;//
 	}
@@ -23,6 +25,17 @@ public final class Company {
 		this.id = builder.id;
 		this.name = builder.name;
 	}
+	
+	
+    public boolean equals(final Company other) {
+        if (other == null) {
+            return false;
+        }
+        if (this == other) {
+            return true;
+        }
+        return Objects.equals(name, other.name);
+    }
 	public static class Builder
 	{
 		private int id;

@@ -1,5 +1,6 @@
 package main.java.exc.ui;
 
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.Scanner;
 
@@ -22,6 +23,7 @@ public class SecondaryMenus {
 	 */
 	public static int Computer_Modify(Computer computer) throws ParseException
 	{
+		ServiceDAOComputer DAOComputer =new ServiceDAOComputer();
 
 		Scanner reader = new Scanner(System.in);
 		MenuComputerInterface sta;
@@ -97,7 +99,7 @@ public class SecondaryMenus {
 			case End:
 				SQLConnect a =  SQLConnect.getInstance();
 				System.out.println(" name : " +computer.getName() +" start :" + computer.getIntroduced() + " end :" + computer.getDiscontinued() + " C_id " + computer.getCompany().getId());
-				ServiceDAOComputer.updateComputer(computer.getName(),DateMapper.DateConverter(computer.getIntroduced()).get(),DateMapper.DateConverter(computer.getDiscontinued()).get(), computer.getCompany().getId(),computer.getId());
+				DAOComputer.updateComputer(computer.getName(),DateMapper.DateConverter(computer.getIntroduced()).get(),DateMapper.DateConverter(computer.getDiscontinued()).get(), computer.getCompany().getId(),computer.getId());
 				check= false;
 				return 0;
 			}
@@ -190,7 +192,12 @@ public class SecondaryMenus {
 			case End:
 				SQLConnect a =  SQLConnect.getInstance();
 				System.out.println(" name : " +computer.getName() +" start :" + computer.getIntroduced() + " end :" + computer.getDiscontinued() + " C_id " + computer.getCompany().getId());
-				ServiceDAOComputer.addComputer(computer.getName(),DateMapper.DateConverter(computer.getIntroduced()).get(),DateMapper.DateConverter(computer.getDiscontinued()).get(), computer.getCompany().getId());
+				try {
+					DAOComputer.addComputer(computer.getName(),DateMapper.DateConverter(computer.getIntroduced()).get(),DateMapper.DateConverter(computer.getDiscontinued()).get(), computer.getCompany().getId());
+				} catch (SQLException | ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				check= false;
 				return;
 			}

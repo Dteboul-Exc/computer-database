@@ -38,6 +38,9 @@ public class MainMenu {
 	 */
 	public static void menu() 
 	{
+		ServiceDAOComputer DAOComputer = new ServiceDAOComputer();
+		ServiceDAOCompany DAOCompany = new ServiceDAOCompany();
+		
 		BasicConfigurator.configure();
 		Logger logger = LoggerFactory.getLogger(MainMenu.class);
 	    logger.debug("Main Menu Initialized");
@@ -104,7 +107,7 @@ public class MainMenu {
 				break;
 			case LComputer :
 				sta = state.Main;
-				Optional<List<Computer>> optcomputer = ServiceDAOComputer.getAllComputer();
+				Optional<List<Computer>> optcomputer = DAOComputer.getAllComputer();
 				
 				if (!optcomputer.isEmpty())
 				{
@@ -116,7 +119,7 @@ public class MainMenu {
 				break;
 			case LCompany :
 				sta = state.Main;
-				Optional<List<Company>> optcompany = ServiceDAOCompany.getAllCompany();
+				Optional<List<Company>> optcompany = DAOCompany.getAllCompany();
 				if (!optcompany.isEmpty())
 				{
 					logger.debug("user is being shown a list of the companies in the database");
@@ -134,7 +137,7 @@ public class MainMenu {
 				sta = state.Main;
 				System.out.println("Enter the id of the computer you want to select");
 				s = reader.nextInt();
-				compute = ServiceDAOComputer.getSpecificComputer(s);
+				compute = DAOComputer.getSpecificComputer(s);
 				if (compute.isPresent())
 				{	 
 					Computer c = compute.get();

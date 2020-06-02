@@ -26,7 +26,7 @@ public class DAOCompany {
 	 *@return The list of all the company
 	 *@throws SQLException
 	 */
-	public static Optional<List<Company>> getAllCompany() throws SQLException {
+	public Optional<List<Company>> getAllCompany() throws SQLException {
 
 		Connection conn = SQLConnect.getConn();
 		List<Company> company = new ArrayList();
@@ -45,7 +45,7 @@ public class DAOCompany {
         Optional<List<Company>> result = Optional.ofNullable(company);
 		return result;
 	}
-	public static Optional<Company> getSpecificCompany(int id) throws SQLException, ParseException {
+	public Optional<Company> getSpecificCompany(int id) throws SQLException, ParseException {
 		if (id == 0) 
 			return Optional.empty();
 		SQLConnect sql = SQLConnect.getInstance();
