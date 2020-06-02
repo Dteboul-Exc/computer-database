@@ -21,6 +21,7 @@ public class Computer {
 		this.discontinued = builder.discontinued;
 		this.introduced = builder.introduced;
 	}
+	
 	public int getId() {
 		return id;
 	}

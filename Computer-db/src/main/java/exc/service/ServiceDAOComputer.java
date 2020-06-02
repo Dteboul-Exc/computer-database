@@ -21,39 +21,44 @@ import main.java.exc.persistence.DAOComputer;
 import main.java.exc.persistence.SQLConnect;
 
 public class ServiceDAOComputer {
+	private static final Logger lOG =
+            LoggerFactory.getLogger(ServiceDAOComputer.class);
+	public ServiceDAOComputer() {
+		
+	}
 	
-	public static Optional<List<Computer>> getAllComputer() {
+	public Optional<List<Computer>> getAllComputer() {
 		BasicConfigurator.configure();
-		Logger logger = LoggerFactory.getLogger(ServiceDAOComputer.class);
-	    logger.debug("getAllComputer start");
+
+	    lOG.debug("getAllComputer start");
 	    Optional<List<Computer>> result;
 	    try {
 			result = DAOComputer.getAllComputer();
 			return result;
 		} catch (SQLException e) {
-			logger.error("SQLerror while getting all Computer : "+ e);
+			lOG.error("SQLerror while getting all Computer : "+ e);
 			e.printStackTrace();
 			return result = Optional.empty();
 		} catch (ParseException e) {
-			logger.error("ParseException while getting all Computer : "+ e);
+			lOG.error("ParseException while getting all Computer : "+ e);
 			e.printStackTrace();
 			return result = Optional.empty();
 		}
 	}
-	public static Optional<Computer> getSpecificComputer(int id) {
+	public  Optional<Computer> getSpecificComputer(int id) {
 		BasicConfigurator.configure();
-		Logger logger = LoggerFactory.getLogger(ServiceDAOComputer.class);
-	    logger.debug("getSpecificComputer start using computer id : "+id);
+
+	    lOG.debug("getSpecificComputer start using computer id : "+id);
 	    Optional<Computer> result;
 	    try {
 			result = DAOComputer.getSpecificComputer(id);
 			return result;
 		} catch (SQLException e) {
-			logger.error("SQLerror while getting Computer with id "+id+"error: "+ e);
+			lOG.error("SQLerror while getting Computer with id "+id+"error: "+ e);
 			e.printStackTrace();
 			return result = Optional.empty();
 		} catch (ParseException e) {
-			logger.error("ParseException while getting  Computer id " + id+ "error : "+ e);
+			lOG.error("ParseException while getting  Computer id " + id+ "error : "+ e);
 			e.printStackTrace();
 			return result = Optional.empty();
 		}
@@ -61,23 +66,21 @@ public class ServiceDAOComputer {
 	public static int deleteSpecificComputer(int id)
 	{
 		BasicConfigurator.configure();
-		Logger logger = LoggerFactory.getLogger(ServiceDAOComputer.class);
-	    logger.debug("getSpecificComputer start using computer id : "+id);
+	    lOG.debug("getSpecificComputer start using computer id : "+id);
 	    int result;
 	    try {
 			result = DAOComputer.deleteSpecificComputer(id);
 			return result;
 		} catch (SQLException e) {
-			logger.error("SQL error while deleting Computer with id "+id+"error: "+ e);
+			lOG.error("SQL error while deleting Computer with id "+id+"error: "+ e);
 			e.printStackTrace();
 			return result = 0;
 		}  
 	}
-	public static int addComputer(String name,String introduced,String discontinued, int company_id) 
+	public int addComputer(String name,String introduced,String discontinued, int company_id) 
 	{
 		BasicConfigurator.configure();
-		Logger logger = LoggerFactory.getLogger(ServiceDAOComputer.class);
-	    logger.debug("addComputer start using computer");
+	    lOG.debug("addComputer start using computer");
 		int computer_id = 2;
 		int resset=0;
 		String tname = "NULL";
@@ -114,16 +117,15 @@ public class ServiceDAOComputer {
 			return result;
 	
 		} catch (SQLException exc) {
-			 logger.error("SQL Error while creating a new computer : " + exc);
+			 lOG.error("SQL Error while creating a new computer : " + exc);
 			exc.printStackTrace();
 			return 1;
 		}		
 	}
-	public static int updateComputer(String name,String introduced,String discontinued, int company_id,int id) 
+	public int updateComputer(String name,String introduced,String discontinued, int company_id,int id) 
 	{
 		BasicConfigurator.configure();
-		Logger logger = LoggerFactory.getLogger(ServiceDAOComputer.class);
-	    logger.debug("updateComputer start using computer");
+	    lOG.debug("updateComputer start using computer");
 		int computer_id = 2;
 		int resset=0;
 		String tname = "NULL";
@@ -160,7 +162,7 @@ public class ServiceDAOComputer {
 			return result;
 	
 		} catch (SQLException exc) {
-			 logger.error("SQL Error while creating a new computer : " + exc);
+			 lOG.error("SQL Error while creating a new computer : " + exc);
 			exc.printStackTrace();
 			return 1;
 		}
