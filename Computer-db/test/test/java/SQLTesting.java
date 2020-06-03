@@ -7,7 +7,7 @@ import org.junit.runner.notification.Failure;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
-@RunWith(Suite.class)
+/*@RunWith(Suite.class)
 @SuiteClasses({ SQLConnectTesting.class })
 public class SQLTesting {
 	public static void main(String[] args) {
@@ -20,3 +20,4 @@ public class SQLTesting {
 	}
 
 }
+*/
