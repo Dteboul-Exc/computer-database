@@ -47,7 +47,7 @@ class ServiceDAOCompanyTesting {
 		
 	}
 	
-	
+/*	
 	@Test 
 	public void findByIdTest() throws SQLException, ParseException{
 		Company company = Company.Builder.newInstance().setId(55).setName("Comedy").build();
@@ -59,7 +59,7 @@ class ServiceDAOCompanyTesting {
 		System.out.println(tested2.get().getName());
 		Assert.assertEquals(Optional.empty(), this.serviceDAO.getSpecificCompany(0));
 		Assert.assertEquals(tested, this.serviceDAO.getSpecificCompany(55));		
-	}
+	}*/
 	/*
 	@Test
 	public void testGetAllCompany() throws SQLException, ParseException{

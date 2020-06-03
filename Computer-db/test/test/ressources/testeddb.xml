@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+<!--company Table -->
+<company id="1" name="Sweden"/>
+<company id="14" name="Fin de siecle"/>
+<company id="13" name="End of a century"/>
+
+<!--Computer table -->
+<computer id="1" name="Aristochat" introduced="null" discontinued="null" company_id="1"/>
+<computer id="2" name="another day" introduced="null" discontinued="null" company_id="1"/>
+<computer id="3" name="WARuDDO" introduced="null" discontinued="null" company_id="13"/>
+</dataset>
