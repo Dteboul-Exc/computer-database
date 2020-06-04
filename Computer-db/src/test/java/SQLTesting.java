@@ -7,11 +7,11 @@ import org.junit.runner.notification.Failure;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
-/*@RunWith(Suite.class)
-@SuiteClasses({ SQLConnectTesting.class })
+@RunWith(Suite.class)
+@SuiteClasses({ SQLTestingCase.class })
 public class SQLTesting {
 	public static void main(String[] args) {
-		Result result = JUnitCore.runClasses(SQLConnectTesting.class);
+		Result result = JUnitCore.runClasses(SQLTestingCase.class);
 	      for (Failure failure : result.getFailures()) {
 	          System.out.println(failure.toString());
 	       }
@@ -20,4 +20,3 @@ public class SQLTesting {
 	}
 
 }
-*/

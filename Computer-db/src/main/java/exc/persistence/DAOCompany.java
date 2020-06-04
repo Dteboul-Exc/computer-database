@@ -9,14 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.apache.log4j.BasicConfigurator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import main.java.exc.mapper.DateMapper;
 import main.java.exc.model.Company;
-import main.java.exc.model.Computer;
-import main.java.exc.ui.MainMenu;
 
 public class DAOCompany {
 	/**
@@ -27,7 +20,8 @@ public class DAOCompany {
 	 *@throws SQLException
 	 */
 	public Optional<List<Company>> getAllCompany() throws SQLException {
-
+		SQLConnect sql = SQLConnect.getInstance();
+		sql.connect();
 		Connection conn = SQLConnect.getConn();
 		List<Company> company = new ArrayList();
 		//Optional<List<Company>> company = Optional.of(new ArrayList());
@@ -43,6 +37,7 @@ public class DAOCompany {
             
         }
         Optional<List<Company>> result = Optional.ofNullable(company);
+        sql.close();
 		return result;
 	}
 	public Optional<Company> getSpecificCompany(int id) throws SQLException, ParseException {
@@ -71,7 +66,6 @@ public class DAOCompany {
 		{
 			company = null;
 		}
-		System.out.println("id = " + company.getId());
 		sql.close();
 		return Optional.ofNullable(company);
 	}

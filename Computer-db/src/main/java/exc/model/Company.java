@@ -26,7 +26,7 @@ public final class Company {
 		this.name = builder.name;
 	}
 	
-	
+
     public boolean equals(final Company other) {
         if (other == null) {
             return false;
@@ -34,7 +34,8 @@ public final class Company {
         if (this == other) {
             return true;
         }
-        return Objects.equals(name, other.name);
+        if (Objects.equals(name, other.name) && Objects.equals(id, other.id)) return true;
+        return false;
     }
 	public static class Builder
 	{
