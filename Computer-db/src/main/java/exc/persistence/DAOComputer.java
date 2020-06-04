@@ -15,7 +15,10 @@ import main.java.exc.model.Computer;
 
 public class DAOComputer {
 	
+	private static SQLConnect sql;
 	public static Optional<List<Computer>> getAllComputer() throws SQLException, ParseException{
+		sql = SQLConnect.getInstance();
+		sql.connect();
 		Connection conn = SQLConnect.getConn();
 		List<Computer> computer = new ArrayList();
 		Statement statement = conn.createStatement();
@@ -47,6 +50,7 @@ public class DAOComputer {
             
         }
         Optional<List<Computer>> result = Optional.ofNullable(computer);
+        sql.close();
 		return result;
 	}
 	
@@ -59,6 +63,8 @@ public class DAOComputer {
 	 * @throws ParseException 
 	 */
 	public static Optional<Computer> getSpecificComputer(int id) throws SQLException, ParseException {
+		sql = SQLConnect.getInstance();
+		sql.connect();
 		if (id == 0) 
 			return Optional.empty();
 		Connection conn = SQLConnect.getConn();
@@ -89,6 +95,7 @@ public class DAOComputer {
 			computer = null;
 		}
 		System.out.println("id = " + computer.getId());
+		sql.close();
 		return Optional.ofNullable(computer);
 	}
 	
@@ -101,6 +108,8 @@ public class DAOComputer {
 	 * @throws SQLException
 	 */
 	public static int deleteSpecificComputer(int id) throws SQLException {
+		sql = SQLConnect.getInstance();
+		sql.connect();
 		Connection conn = SQLConnect.getConn();
 		Statement statement = conn.createStatement();
 		int resset = statement.executeUpdate("DELETE FROM computer WHERE id =" + id);
@@ -116,22 +125,27 @@ public class DAOComputer {
 		}
 		return resset;
 	}
-	public static int addComputer(String name,String introduced,String discontinued, int company_id) throws SQLException 
+	public static int addComputer(String name,String introduced,String discontinued, long l) throws SQLException 
 	{
+		System.out.print(name);
+		sql = SQLConnect.getInstance();
+		sql.connect();
 		Connection conn = SQLConnect.getConn();
 		int computer_id = 2;
 		int resset=0;
 		String tname = "NULL";
 		String tintroduced = "NULL";
 		String tdiscontinued = "NULL";
-
+		if (name !=null ) tname = name;
+		if (introduced !=null ) tintroduced = name;
+		if (discontinued !=null ) tdiscontinued = name;
 		Statement statement;
 
 			statement = conn.createStatement();
-		    resset = statement.executeUpdate("insert into computer (name,introduced, discontinued, company_id) values('"+tname+"',"+introduced+" ,"+discontinued+",(select company.id from company where company.id = "+company_id+"))");
+		    resset = statement.executeUpdate("insert into computer (name,introduced, discontinued, company_id) values('"+tname+"',"+introduced+" ,"+discontinued+",(select company.id from company where company.id = "+l+"))");
 			System.out.println(resset);
 
-
+			sql.close();
 		return 1;
 		
 	}
@@ -142,13 +156,15 @@ public class DAOComputer {
 	 * @param name
 	 * @param introduced
 	 * @param discontinued
-	 * @param company_id
+	 * @param l
 	 * @param id
 	 * @return
 	 * @throws SQLException 
 	 */
-	public static int updateComputer(String name,String introduced,String discontinued, int company_id,int id) throws SQLException 
+	public static int updateComputer(String name,String introduced,String discontinued, long l,int id) throws SQLException 
 	{
+		sql = SQLConnect.getInstance();
+		sql.connect();
 		Connection conn = SQLConnect.getConn();
 		int resset=0;
 
@@ -156,10 +172,10 @@ public class DAOComputer {
 		Statement statement;
 		
 			statement = conn.createStatement();
-		    resset = statement.executeUpdate("UPDATE computer SET name = '"+name+"', introduced = "+introduced+", discontinued = "+discontinued+", company_id = "+company_id+" WHERE id = " +id);
+		    resset = statement.executeUpdate("UPDATE computer SET name = '"+name+"', introduced = "+introduced+", discontinued = "+discontinued+", company_id = "+l+" WHERE id = " +id);
 				System.out.println(resset);
 
-
+				sql.close();
 		return 1;
 		
 	}

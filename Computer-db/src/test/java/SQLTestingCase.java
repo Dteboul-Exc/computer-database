@@ -25,7 +25,7 @@ import org.mockito.internal.matchers.apachecommons.ReflectionEquals;
 
 import main.java.exc.model.Company;
 import main.java.exc.persistence.DAOCompany;
-import main.java.exc.service.ServiceDAOCompany;
+import main.java.exc.service.ServiceCompany;
 
 public class SQLTestingCase extends DatabaseTestCase {
 	private DAOCompany DAO = new DAOCompany();

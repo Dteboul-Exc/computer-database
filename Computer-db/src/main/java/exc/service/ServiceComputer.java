@@ -20,10 +20,10 @@ import main.java.exc.persistence.DAOCompany;
 import main.java.exc.persistence.DAOComputer;
 import main.java.exc.persistence.SQLConnect;
 
-public class ServiceDAOComputer {
+public class ServiceComputer {
 	private static final Logger lOG =
-            LoggerFactory.getLogger(ServiceDAOComputer.class);
-	public ServiceDAOComputer() {
+            LoggerFactory.getLogger(ServiceComputer.class);
+	public ServiceComputer() {
 		
 	}
 	
@@ -113,6 +113,7 @@ public class ServiceDAOComputer {
 			{
 				tdiscontinued = "DATE " + "'"+discontinued+"'";;
 			}
+			System.out.print(name);
 			int result  = DAOComputer.addComputer(name,tintroduced,tdiscontinued,company_id);
 			return result;
 	
@@ -122,7 +123,7 @@ public class ServiceDAOComputer {
 			return 1;
 		}		
 	}
-	public int updateComputer(String name,String introduced,String discontinued, int company_id,int id) 
+	public int updateComputer(String name,String introduced,String discontinued, long l,int id) 
 	{
 		BasicConfigurator.configure();
 	    lOG.debug("updateComputer start using computer");
@@ -158,7 +159,7 @@ public class ServiceDAOComputer {
 			{
 				tdiscontinued = "DATE " + "'"+discontinued+"'";;
 			}
-			int result  = DAOComputer.updateComputer(name,tintroduced,tdiscontinued,company_id,id);
+			int result  = DAOComputer.updateComputer(name,tintroduced,tdiscontinued,l,id);
 			return result;
 	
 		} catch (SQLException exc) {

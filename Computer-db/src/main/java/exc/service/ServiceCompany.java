@@ -2,6 +2,7 @@ package main.java.exc.service;
 
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,48 +10,53 @@ import org.apache.log4j.BasicConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import main.java.exc.mapper.CompanyMapper;
 import main.java.exc.model.Company;
+import main.java.exc.model.CompanyDTO;
 import main.java.exc.persistence.DAOCompany;
 
-public class ServiceDAOCompany {
+public class ServiceCompany {
 	private DAOCompany DAOCompany;
 	
-	public ServiceDAOCompany()
+	public ServiceCompany()
 	{
 		DAOCompany = new DAOCompany();
 	}
-	public  Optional<List<Company>> getAllCompany() {
+	public  Optional<List<CompanyDTO>> getAllCompany() {
 	BasicConfigurator.configure();
 	Logger logger = LoggerFactory.getLogger(DAOCompany.class);
     logger.debug("getAllCompany start");
-    Optional<List<Company>> result;
     try {
-		result = DAOCompany.getAllCompany();
-		return result;
+    	
+		Optional<List<Company>> dataset = DAOCompany.getAllCompany();
+		List<CompanyDTO> result = new ArrayList<>();
+		for(Company company : dataset.get())
+			result.add(CompanyMapper.companyToDTO(company));
+		return Optional.of(result);
 	} catch (SQLException e) {
 		logger.error("error while getting all Company : "+ e);
 		e.printStackTrace();
-		return result = Optional.empty();
+		return  Optional.empty();
 	}
 	}
 	
-	public Optional<Company> getSpecificCompany(int id)
+	public Optional<CompanyDTO> getSpecificCompany(int id)
 	{
 		BasicConfigurator.configure();
 		Logger logger = LoggerFactory.getLogger(DAOCompany.class);
 	    logger.debug("getA Company start");
-	    Optional<Company> result;
+	    CompanyDTO result;
 	    if (id == 0) return Optional.empty();
 	    try {
-			result = DAOCompany.getSpecificCompany(id);
-			return result;
+			result = CompanyMapper.companyToDTO(DAOCompany.getSpecificCompany(id).get());
+			return Optional.of(result);
 		} catch (SQLException e) {
 			logger.error("error while getting all Computers : "+ e);
 			e.printStackTrace();
-			return result = Optional.empty();
+			return Optional.empty();
 		} catch (ParseException e) {
 			logger.error("error while getting all Computers : "+ e);
-			return result = Optional.empty();
+			return Optional.empty();
 		}
 	}
 	
