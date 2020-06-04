@@ -4,13 +4,15 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.Scanner;
 
+import main.java.exc.mapper.CompanyMapper;
 import main.java.exc.mapper.DateMapper;
 import main.java.exc.model.Company;
+import main.java.exc.model.CompanyDTO;
 import main.java.exc.model.Computer;
 import main.java.exc.persistence.DAOComputer;
 import main.java.exc.persistence.SQLConnect;
 import main.java.exc.service.MenuComputerInterface;
-import main.java.exc.service.ServiceDAOComputer;
+import main.java.exc.service.ServiceComputer;
 
 public class SecondaryMenus {
 	/**
@@ -23,7 +25,7 @@ public class SecondaryMenus {
 	 */
 	public static int Computer_Modify(Computer computer) throws ParseException
 	{
-		ServiceDAOComputer DAOComputer =new ServiceDAOComputer();
+		ServiceComputer DAOComputer =new ServiceComputer();
 
 		Scanner reader = new Scanner(System.in);
 		MenuComputerInterface sta;
@@ -88,9 +90,10 @@ public class SecondaryMenus {
 			case Company_id:
 				sta = MenuComputerInterface.Main;
 				System.out.println("Enter the company id ");
-				int id1 = reader.nextInt();
-				Company comp =  Company.Builder.newInstance().setId(id1).build();
-				computer.setCompany(comp);
+				String id1 = reader.next();
+				CompanyDTO comp =  new CompanyDTO();
+				comp.setId(id1);
+				computer.setCompany(CompanyMapper.companyDTOToCompany(comp).get());
 				break;
 			case Validate:
 				sta = MenuComputerInterface.Main;

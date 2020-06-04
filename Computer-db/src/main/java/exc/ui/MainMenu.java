@@ -16,13 +16,14 @@ import org.slf4j.Logger;
 
 import main.java.exc.mapper.DateMapper;
 import main.java.exc.model.Company;
+import main.java.exc.model.CompanyDTO;
 import main.java.exc.model.Computer;
 import main.java.exc.persistence.DAOCompany;
 import main.java.exc.persistence.DAOComputer;
 import main.java.exc.persistence.SQLConnect;
 import main.java.exc.service.Page;
-import main.java.exc.service.ServiceDAOCompany;
-import main.java.exc.service.ServiceDAOComputer;
+import main.java.exc.service.ServiceCompany;
+import main.java.exc.service.ServiceComputer;
 import main.java.exc.service.state;
 import main.java.exc.ui.SecondaryMenus;
 
@@ -38,8 +39,8 @@ public class MainMenu {
 	 */
 	public static void menu() 
 	{
-		ServiceDAOComputer DAOComputer = new ServiceDAOComputer();
-		ServiceDAOCompany DAOCompany = new ServiceDAOCompany();
+		ServiceComputer DAOComputer = new ServiceComputer();
+		ServiceCompany DAOCompany = new ServiceCompany();
 		
 		BasicConfigurator.configure();
 		Logger logger = LoggerFactory.getLogger(MainMenu.class);
@@ -119,11 +120,11 @@ public class MainMenu {
 				break;
 			case LCompany :
 				sta = state.Main;
-				Optional<List<Company>> optcompany = DAOCompany.getAllCompany();
+				Optional<List<CompanyDTO>> optcompany = DAOCompany.getAllCompany();
 				if (!optcompany.isEmpty())
 				{
 					logger.debug("user is being shown a list of the companies in the database");
-					List<Company> lcny = optcompany.get();
+					List<CompanyDTO> lcny = optcompany.get();
 					lcny.forEach((i)->System.out.println("id : "+i.getId()+" name : " +i.getName()));
 				}
 				else
@@ -195,7 +196,7 @@ public class MainMenu {
 				sta = state.Main;
 				System.out.println("Enter the id of the computer you want to delete");
 				s = reader.nextInt();
-				ServiceDAOComputer.deleteSpecificComputer(s);
+				ServiceComputer.deleteSpecificComputer(s);
 				break;
 			case Exit:
 				System.exit(0); 
