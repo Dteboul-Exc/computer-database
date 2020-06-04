@@ -13,6 +13,7 @@ import org.apache.log4j.BasicConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import main.java.exc.mapper.CompanyMapper;
 import main.java.exc.mapper.DateMapper;
 import main.java.exc.model.Company;
 import main.java.exc.model.Computer;
@@ -27,22 +28,25 @@ public class ServiceComputer {
 		
 	}
 	
-	public Optional<List<Computer>> getAllComputer() {
+	public Optional<List<ComputerDTO>> getAllComputer() {
 		BasicConfigurator.configure();
 
 	    lOG.debug("getAllComputer start");
-	    Optional<List<Computer>> result;
+	    Optional<List<Computer>> dataset;
 	    try {
-			result = DAOComputer.getAllComputer();
+			dataset = DAOComputer.getAllComputer();
+			for(Computer company : dataset.get())
+				result.add(CompanyMapper.companyToDTO(company));
+			return Optional.of(result);
 			return result;
 		} catch (SQLException e) {
 			lOG.error("SQLerror while getting all Computer : "+ e);
 			e.printStackTrace();
-			return result = Optional.empty();
+			return Optional.empty();
 		} catch (ParseException e) {
 			lOG.error("ParseException while getting all Computer : "+ e);
 			e.printStackTrace();
-			return result = Optional.empty();
+			return Optional.empty();
 		}
 	}
 	public  Optional<Computer> getSpecificComputer(int id) {
