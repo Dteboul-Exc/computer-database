@@ -45,7 +45,7 @@ public class ComputerMapper {
         Optional<String> discontinued  = DateMapper.DateConverter(computer.getDiscontinued());
         String company = Long.toString(computer.getCompany().getId());
         
-		return Optional.of(ComputerDTO.Builder.newInstance().setCompany(company).setId(id).setIntroduced(introduced.get()).setDiscontinued(discontinued.get()).build());
+		return Optional.of(ComputerDTO.Builder.newInstance().setName(name).setCompany(company).setId(id).setIntroduced(introduced.get()).setDiscontinued(discontinued.get()).build());
 
     }
 
