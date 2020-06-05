@@ -14,7 +14,7 @@ import main.java.exc.model.ComputerDTO;
 public class ComputerMapper {
     private static final org.slf4j.Logger LOG = LoggerFactory.getLogger(ComputerMapper.class);
 
-    public static Optional<Computer> computerDTOToComputer(final ComputerDTO computer) {
+    public static Optional<Computer> CDTOToComputer(final ComputerDTO computer) {
         Company company = Company.Builder.newInstance().setId(Integer.parseInt(computer.getCompany())).build();
         int id = Integer.parseInt(computer.getId());
         String name = computer.getName();
@@ -37,10 +37,15 @@ public class ComputerMapper {
 
 
     
-    public static Optional<ComputerDTO> computerToDTO(final Computer computer) {
+    public static Optional<ComputerDTO> computerToDTO(final Computer computer) throws ParseException {
 
         String name = computer.getName();
         String id = Integer.toString(computer.getId()) ;
+        Optional<String> introduced  = DateMapper.DateConverter(computer.getIntroduced());
+        Optional<String> discontinued  = DateMapper.DateConverter(computer.getDiscontinued());
+        String company = Long.toString(computer.getCompany().getId());
+        
+		return Optional.of(ComputerDTO.Builder.newInstance().setCompany(company).setId(id).setIntroduced(introduced.get()).setDiscontinued(discontinued.get()).build());
 
     }
 

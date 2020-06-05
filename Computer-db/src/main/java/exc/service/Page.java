@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import main.java.exc.mapper.DateMapper;
 import main.java.exc.model.Computer;
+import main.java.exc.model.ComputerDTO;
 import main.java.exc.ui.MainMenu;
 
 public class Page {
@@ -25,33 +26,27 @@ public class Page {
 	 * 
 	 * @param lcomp List of computer to be paged
 	 */
-	public void Following(List<Computer> lcomp) 
+	public void Following(List<ComputerDTO> lcomp) 
 	{
 		Logger logger = LoggerFactory.getLogger(MainMenu.class);
 	    logger.debug("Pager initialized");
 		int read_count  = 0 ;
 		int listCount = lcomp.size();
-		for(Computer i :  lcomp)
+		for(ComputerDTO i :  lcomp)
 		{
-			try {
-				System.out.println("id : "+i.getId()+" name : " +i.getName() +" |start : " + DateMapper.DateConverter(i.getIntroduced()) + " end : " + DateMapper.DateConverter(i.getDiscontinued()) + " | Company :  " + i.getCompany().getName() );
-				read_count++;
-				if (read_count == nb_Pages)
-					if(Scrolling_Menu())
-					{
-						logger.debug("User decides to continue using the pager");
-						read_count=0;
-					}
-					else
-					{
-						logger.debug("Pager stopped by the user");
-						return;
-					}
-			} catch (ParseException e2) {
-				e2.printStackTrace();
-				logger.error("Parser error in parsing : "  + e2);
-				
-			}
+			System.out.println("id : "+i.getId()+" name : " +i.getName() +" |start : " + DateMapper.StringConverter(i.getIntroduced()) + " end : " + DateMapper.StringConverter(i.getDiscontinued()) + " | Company :  " + i.getCompany());
+			read_count++;
+			if (read_count == nb_Pages)
+				if(Scrolling_Menu())
+				{
+					logger.debug("User decides to continue using the pager");
+					read_count=0;
+				}
+				else
+				{
+					logger.debug("Pager stopped by the user");
+					return;
+				}
 		}
 		
 		

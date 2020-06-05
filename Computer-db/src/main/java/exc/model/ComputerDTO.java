@@ -63,41 +63,35 @@ public class ComputerDTO {
 		private String company;
 		private String introduced;
 		private String discontinued;
-		public String getId() {
-			return id;
-		}
-		public void setId(String id) {
+
+		public Builder setId(String id) {
 			this.id = id;
+			return this;
 		}
-		public String getName() {
-			return name;
-		}
-		public void setName(String name) {
+
+		public Builder setName(String name) {
 			this.name = name;
+			return this;
 		}
-		public String getIntroduced() {
-			return introduced;
-		}
-		public void setIntroduced(String introduced) {
+
+		public Builder setIntroduced(String introduced) {
 			this.introduced = introduced;
+			return this;
 		}
-		public String getDiscontinued() {
-			return discontinued;
-		}
-		public void setDiscontinued(String discontinued) {
+
+		public Builder setDiscontinued(String discontinued) {
 			this.discontinued = discontinued;
+			return this;
 		}
-		public String getComputer_company() {
-			return Computer_company;
-		}
-		public void setComputer_company(String computer_company) {
+
+		public Builder setComputer_company(String computer_company) {
 			Computer_company = computer_company;
+			return this;
 		}
-		public String getCompany() {
-			return company;
-		}
-		public void setCompany(String company) {
+
+		public Builder setCompany(String company) {
 			this.company = company;
+			return this;
 		}
         public static Builder newInstance() 
         { 

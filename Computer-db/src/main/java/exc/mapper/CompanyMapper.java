@@ -45,6 +45,5 @@ public class CompanyMapper {
         return result;
     }
 
-    private CompanyMapper() {
-    }
+
 }
