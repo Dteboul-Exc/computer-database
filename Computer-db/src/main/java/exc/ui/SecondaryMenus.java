@@ -9,6 +9,7 @@ import main.java.exc.mapper.DateMapper;
 import main.java.exc.model.Company;
 import main.java.exc.model.CompanyDTO;
 import main.java.exc.model.Computer;
+import main.java.exc.model.ComputerDTO;
 import main.java.exc.persistence.DAOComputer;
 import main.java.exc.persistence.SQLConnect;
 import main.java.exc.service.MenuComputerInterface;
@@ -19,11 +20,11 @@ public class SecondaryMenus {
 	 * Method that allow a computer to modify a computer in the database. The argument is the computer taken from the Database.
 	 * The menu has been done in such a way that it allows the user to change values if he isn't satisfied 
 	 * 
-	 * @param computer
+	 * @param c
 	 * @return
 	 * @throws ParseException
 	 */
-	public static int Computer_Modify(Computer computer) throws ParseException
+	public static int Computer_Modify(ComputerDTO c) throws ParseException
 	{
 		ServiceComputer DAOComputer =new ServiceComputer();
 
@@ -31,7 +32,7 @@ public class SecondaryMenus {
 		MenuComputerInterface sta;
 		boolean check = true;
 		System.out.println("Default Parameters");
-		System.out.println(" name : " +computer.getName() +" start :" + computer.getIntroduced() + " end :" + computer.getDiscontinued() + " C_id " + computer.getCompany().getId());
+		System.out.println(" name : " +c.getName() +" start :" + c.getIntroduced() + " end :" + c.getDiscontinued() + " C_id " + c.getCompany());
 		sta = MenuComputerInterface.Main;
 		while (check) {
 			switch (sta) {
@@ -73,19 +74,19 @@ public class SecondaryMenus {
 				sta = MenuComputerInterface.Main;
 				System.out.println("Enter the name of the Computer");
 				String name = reader.next();
-				computer.setName(name);
+				c.setName(name);
 				break;
 			case Introduced:
 				sta = MenuComputerInterface.Main;
 				System.out.println("Enter the introduced (format YYYY-MM-DD)");
 				String introduced = reader.next();
-				computer.setIntroduced(DateMapper.StringConverter(introduced).get());
+				c.setIntroduced(introduced);
 				break;
 			case Discontinued:
 				sta = MenuComputerInterface.Main;
 				System.out.println("Enter the discontinued (format YYYY-MM-DD)");
 				String discontinued = reader.next();
-				computer.setDiscontinued(DateMapper.StringConverter(discontinued).get());
+				c.setDiscontinued(discontinued);
 				break;
 			case Company_id:
 				sta = MenuComputerInterface.Main;
@@ -93,16 +94,16 @@ public class SecondaryMenus {
 				String id1 = reader.next();
 				CompanyDTO comp =  new CompanyDTO();
 				comp.setId(id1);
-				computer.setCompany(CompanyMapper.companyDTOToCompany(comp).get());
+				c.setCompany(id1);
 				break;
 			case Validate:
 				sta = MenuComputerInterface.Main;
-				System.out.println(" name : " +computer.getName() +" start :" + computer.getIntroduced() + " end :" + computer.getDiscontinued() + " C_id " + computer.getCompany().getId());
+				System.out.println(" name : " +c.getName() +" start :" + c.getIntroduced() + " end :" + c.getDiscontinued() + " C_id " + c.getCompany());
 				break;
 			case End:
 				SQLConnect a =  SQLConnect.getInstance();
-				System.out.println(" name : " +computer.getName() +" start :" + computer.getIntroduced() + " end :" + computer.getDiscontinued() + " C_id " + computer.getCompany().getId());
-				DAOComputer.updateComputer(computer.getName(),DateMapper.DateConverter(computer.getIntroduced()).get(),DateMapper.DateConverter(computer.getDiscontinued()).get(), computer.getCompany().getId(),computer.getId());
+				System.out.println(" name : " +c.getName() +" start :" + c.getIntroduced() + " end :" + c.getDiscontinued() + " C_id " + c.getCompany());
+				DAOComputer.updateComputer(c.getName(),c.getIntroduced(),c.getDiscontinued(), c.getCompany(),c.getId());
 				check= false;
 				return 0;
 			}

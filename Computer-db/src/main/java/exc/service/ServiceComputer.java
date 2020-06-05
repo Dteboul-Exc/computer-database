@@ -14,9 +14,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import main.java.exc.mapper.CompanyMapper;
+import main.java.exc.mapper.ComputerMapper;
 import main.java.exc.mapper.DateMapper;
 import main.java.exc.model.Company;
+import main.java.exc.model.CompanyDTO;
 import main.java.exc.model.Computer;
+import main.java.exc.model.ComputerDTO;
 import main.java.exc.persistence.DAOCompany;
 import main.java.exc.persistence.DAOComputer;
 import main.java.exc.persistence.SQLConnect;
@@ -32,13 +35,14 @@ public class ServiceComputer {
 		BasicConfigurator.configure();
 
 	    lOG.debug("getAllComputer start");
+	   
 	    Optional<List<Computer>> dataset;
 	    try {
+	    	 List<ComputerDTO> result = new ArrayList<>();
 			dataset = DAOComputer.getAllComputer();
-			for(Computer company : dataset.get())
-				result.add(CompanyMapper.companyToDTO(company));
+			for(Computer computer : dataset.get())
+				result.add(ComputerMapper.computerToDTO(computer).get());
 			return Optional.of(result);
-			return result;
 		} catch (SQLException e) {
 			lOG.error("SQLerror while getting all Computer : "+ e);
 			e.printStackTrace();
@@ -49,13 +53,13 @@ public class ServiceComputer {
 			return Optional.empty();
 		}
 	}
-	public  Optional<Computer> getSpecificComputer(int id) {
+	public  Optional<ComputerDTO> getSpecificComputer(int id) {
 		BasicConfigurator.configure();
 
 	    lOG.debug("getSpecificComputer start using computer id : "+id);
-	    Optional<Computer> result;
+	    Optional<ComputerDTO> result;
 	    try {
-			result = DAOComputer.getSpecificComputer(id);
+			result = ComputerMapper.computerToDTO(DAOComputer.getSpecificComputer(id).get());
 			return result;
 		} catch (SQLException e) {
 			lOG.error("SQLerror while getting Computer with id "+id+"error: "+ e);
@@ -127,7 +131,7 @@ public class ServiceComputer {
 			return 1;
 		}		
 	}
-	public int updateComputer(String name,String introduced,String discontinued, long l,int id) 
+	public int updateComputer(String name,String introduced,String discontinued, String string,String string2) 
 	{
 		BasicConfigurator.configure();
 	    lOG.debug("updateComputer start using computer");
@@ -163,7 +167,7 @@ public class ServiceComputer {
 			{
 				tdiscontinued = "DATE " + "'"+discontinued+"'";;
 			}
-			int result  = DAOComputer.updateComputer(name,tintroduced,tdiscontinued,l,id);
+			int result  = DAOComputer.updateComputer(name,tintroduced,tdiscontinued,Long.parseLong(string),Integer.parseInt(string2));
 			return result;
 	
 		} catch (SQLException exc) {

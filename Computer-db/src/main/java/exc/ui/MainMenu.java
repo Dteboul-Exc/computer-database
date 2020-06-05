@@ -18,6 +18,7 @@ import main.java.exc.mapper.DateMapper;
 import main.java.exc.model.Company;
 import main.java.exc.model.CompanyDTO;
 import main.java.exc.model.Computer;
+import main.java.exc.model.ComputerDTO;
 import main.java.exc.persistence.DAOCompany;
 import main.java.exc.persistence.DAOComputer;
 import main.java.exc.persistence.SQLConnect;
@@ -49,7 +50,7 @@ public class MainMenu {
 		state sta;
 		sta = state.Main;
 		Scanner reader = new Scanner(System.in);
-		Optional<Computer> compute;
+		Optional<ComputerDTO> compute;
 		SQLConnect a =  SQLConnect.getInstance();
 		logger.debug("Trying to connect to the database ...");
 		try {
@@ -108,12 +109,12 @@ public class MainMenu {
 				break;
 			case LComputer :
 				sta = state.Main;
-				Optional<List<Computer>> optcomputer = DAOComputer.getAllComputer();
+				Optional<List<ComputerDTO>> optcomputer = DAOComputer.getAllComputer();
 				
 				if (!optcomputer.isEmpty())
 				{
 					logger.debug("user is being shown a list of the computer in the database");
-					List<Computer> lcomp = optcomputer.get();
+					List<ComputerDTO> lcomp = optcomputer.get();
 					Page h = new Page();
 					h.Following(lcomp);
 				}
@@ -141,8 +142,8 @@ public class MainMenu {
 				compute = DAOComputer.getSpecificComputer(s);
 				if (compute.isPresent())
 				{	 
-					Computer c = compute.get();
-					System.out.println(" id : "+c.getId()+" name : " +c.getName() +" start : " + c.getIntroduced() + " end :" + c.getDiscontinued() +  " | Company :  " + c.getCompany().getName());
+					ComputerDTO c = compute.get();
+					System.out.println(" id : "+c.getId()+" name : " +c.getName() +" start : " + c.getIntroduced() + " end :" + c.getDiscontinued() +  " | Company :  " + c.getCompany());
 				}
 				else
 				{
@@ -171,7 +172,7 @@ public class MainMenu {
 					compute = DAOComputer.getSpecificComputer(s);
 					if (compute.isPresent())
 					{	 
-						Computer c = compute.get();
+						ComputerDTO c = compute.get();
 						try {
 							System.out.println(SecondaryMenus.Computer_Modify(c));
 						} catch (ParseException e) {
