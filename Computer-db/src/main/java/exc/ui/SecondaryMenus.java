@@ -23,8 +23,10 @@ public class SecondaryMenus {
 	 * @param c
 	 * @return
 	 * @throws ParseException
+	 * @throws ClassNotFoundException 
+	 * @throws NumberFormatException 
 	 */
-	public static int Computer_Modify(ComputerDTO c) throws ParseException
+	public static int Computer_Modify(ComputerDTO c) throws ParseException, NumberFormatException, ClassNotFoundException
 	{
 		ServiceComputer DAOComputer =new ServiceComputer();
 
@@ -115,8 +117,9 @@ public class SecondaryMenus {
 	 * The menu has been done in such a way that it allows the user to change values if he isn't satisfied 
 	 * 
 	 * @throws ParseException
+	 * @throws ClassNotFoundException 
 	 */
-	public static void Computer_Add() throws ParseException
+	public static void Computer_Add() throws ParseException, ClassNotFoundException
 	{
 		Computer computer = Computer.Builder.newInstance().build();
 		computer.setName(null);

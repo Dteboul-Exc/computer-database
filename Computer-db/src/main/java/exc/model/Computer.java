@@ -22,6 +22,10 @@ public class Computer {
 		this.introduced = builder.introduced;
 	}
 	
+	public Computer() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public int getId() {
 		return id;
 	}
@@ -68,28 +72,34 @@ public class Computer {
 		private LocalDate introduced;
 		private LocalDate discontinued;
 
-		public void setId(int id) {
+		public Builder setId(int id) {
 			this.id = id;
+			return this;
 		}
 
-		public void setName(String name) {
+		public Builder setName(String name) {
 			this.name = name;
+			return this;
 		}
 
-		public void setIntroduced(LocalDate introduced) {
+		public Builder setIntroduced(LocalDate introduced) {
 			this.introduced = introduced;
+			return this;
 		}
 
-		public void setDiscontinued(LocalDate discontinued) {
+		public Builder setDiscontinued(LocalDate discontinued) {
 			this.discontinued = discontinued;
+			return this;
 		}
 
-		public void setComputer_company(Company computer_company) {
+		public Builder setComputer_company(Company computer_company) {
 			Computer_company = computer_company;
+			return this;
 		}
 
-		public void setCompany(Company company) {
+		public Builder setCompany(Company company) {
 			this.company = company;
+			return this;
 		}
         public static Builder newInstance() 
         { 

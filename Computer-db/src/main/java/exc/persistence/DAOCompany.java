@@ -18,8 +18,9 @@ public class DAOCompany {
 	 * 
 	 *@return The list of all the company
 	 *@throws SQLException
+	 * @throws ClassNotFoundException 
 	 */
-	public Optional<List<Company>> getAllCompany() throws SQLException {
+	public Optional<List<Company>> getAllCompany() throws SQLException, ClassNotFoundException {
 		SQLConnect sql = SQLConnect.getInstance();
 		sql.connect();
 		Connection conn = SQLConnect.getConn();
@@ -40,7 +41,7 @@ public class DAOCompany {
         sql.close();
 		return result;
 	}
-	public Optional<Company> getSpecificCompany(int id) throws SQLException, ParseException {
+	public Optional<Company> getSpecificCompany(int id) throws SQLException, ParseException, ClassNotFoundException {
 		if (id == 0) 
 			return Optional.empty();
 		SQLConnect sql = SQLConnect.getInstance();

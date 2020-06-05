@@ -27,11 +27,11 @@ import main.java.exc.persistence.SQLConnect;
 public class ServiceComputer {
 	private static final Logger lOG =
             LoggerFactory.getLogger(ServiceComputer.class);
+
 	public ServiceComputer() {
-		
 	}
 	
-	public Optional<List<ComputerDTO>> getAllComputer() {
+	public Optional<List<ComputerDTO>> getAllComputer() throws ClassNotFoundException {
 		BasicConfigurator.configure();
 
 	    lOG.debug("getAllComputer start");
@@ -53,7 +53,7 @@ public class ServiceComputer {
 			return Optional.empty();
 		}
 	}
-	public  Optional<ComputerDTO> getSpecificComputer(int id) {
+	public  Optional<ComputerDTO> getSpecificComputer(int id) throws ClassNotFoundException {
 		BasicConfigurator.configure();
 
 	    lOG.debug("getSpecificComputer start using computer id : "+id);
@@ -71,7 +71,7 @@ public class ServiceComputer {
 			return result = Optional.empty();
 		}
 	}
-	public static int deleteSpecificComputer(int id)
+	public static int deleteSpecificComputer(int id) throws ClassNotFoundException
 	{
 		BasicConfigurator.configure();
 	    lOG.debug("getSpecificComputer start using computer id : "+id);
@@ -85,7 +85,7 @@ public class ServiceComputer {
 			return result = 0;
 		}  
 	}
-	public int addComputer(String name,String introduced,String discontinued, int company_id) 
+	public int addComputer(String name,String introduced,String discontinued, int company_id) throws ClassNotFoundException 
 	{
 		BasicConfigurator.configure();
 	    lOG.debug("addComputer start using computer");
@@ -131,7 +131,7 @@ public class ServiceComputer {
 			return 1;
 		}		
 	}
-	public int updateComputer(String name,String introduced,String discontinued, String string,String string2) 
+	public int updateComputer(String name,String introduced,String discontinued, String string,String string2) throws NumberFormatException, ClassNotFoundException 
 	{
 		BasicConfigurator.configure();
 	    lOG.debug("updateComputer start using computer");

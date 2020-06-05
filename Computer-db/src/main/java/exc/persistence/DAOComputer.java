@@ -16,7 +16,7 @@ import main.java.exc.model.Computer;
 public class DAOComputer {
 	
 	private static SQLConnect sql;
-	public static Optional<List<Computer>> getAllComputer() throws SQLException, ParseException{
+	public static Optional<List<Computer>> getAllComputer() throws SQLException, ParseException, ClassNotFoundException{
 		sql = SQLConnect.getInstance();
 		sql.connect();
 		Connection conn = SQLConnect.getConn();
@@ -61,8 +61,9 @@ public class DAOComputer {
 	 * @return the computer if it exist
 	 * @throws SQLException
 	 * @throws ParseException 
+	 * @throws ClassNotFoundException 
 	 */
-	public static Optional<Computer> getSpecificComputer(int id) throws SQLException, ParseException {
+	public static Optional<Computer> getSpecificComputer(int id) throws SQLException, ParseException, ClassNotFoundException {
 		sql = SQLConnect.getInstance();
 		sql.connect();
 		if (id == 0) 
@@ -106,8 +107,9 @@ public class DAOComputer {
 	 * @param id
 	 * @return
 	 * @throws SQLException
+	 * @throws ClassNotFoundException 
 	 */
-	public static int deleteSpecificComputer(int id) throws SQLException {
+	public static int deleteSpecificComputer(int id) throws SQLException, ClassNotFoundException {
 		sql = SQLConnect.getInstance();
 		sql.connect();
 		Connection conn = SQLConnect.getConn();
@@ -125,7 +127,7 @@ public class DAOComputer {
 		}
 		return resset;
 	}
-	public static int addComputer(String name,String introduced,String discontinued, long l) throws SQLException 
+	public static int addComputer(String name,String introduced,String discontinued, long l) throws SQLException, ClassNotFoundException 
 	{
 		System.out.print(name);
 		sql = SQLConnect.getInstance();
@@ -160,8 +162,9 @@ public class DAOComputer {
 	 * @param id
 	 * @return
 	 * @throws SQLException 
+	 * @throws ClassNotFoundException 
 	 */
-	public static int updateComputer(String name,String introduced,String discontinued, long l,int id) throws SQLException 
+	public static int updateComputer(String name,String introduced,String discontinued, long l,int id) throws SQLException, ClassNotFoundException 
 	{
 		sql = SQLConnect.getInstance();
 		sql.connect();

@@ -27,8 +27,10 @@ public  final class SQLConnect {
 	{
 		conn.close();
 	}
-	public  void  connect() throws SQLException
+	public  void  connect() throws SQLException, ClassNotFoundException
 	{
+		String driver="com.mysql.jdbc.Driver";
+		Class.forName(driver);
 		String url = "jdbc:mysql://localhost:3306/";
 		String username = "admincdb";
 		String password = "qwerty1234";
