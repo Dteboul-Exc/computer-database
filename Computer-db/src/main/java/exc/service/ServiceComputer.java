@@ -105,7 +105,7 @@ public class ServiceComputer {
 			{
 				tname = name;
 			}
-			if (introduced.equals("NULL"))
+			if (introduced.equals(""))
 			{
 				tintroduced = "NULL";
 			}
@@ -113,7 +113,7 @@ public class ServiceComputer {
 			{
 				tintroduced = "DATE " + "'"+introduced+"'";
 			}
-			if (discontinued.equals("NULL"))
+			if (discontinued.equals(""))
 			{
 				tdiscontinued = "NULL";
 			}
