@@ -8,10 +8,10 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({ SQLTestingCase.class })
+@SuiteClasses({ CompanyDAOTesting.class })
 public class SQLTesting {
 	public static void main(String[] args) {
-		Result result = JUnitCore.runClasses(SQLTestingCase.class);
+		Result result = JUnitCore.runClasses(CompanyDAOTesting.class);
 	      for (Failure failure : result.getFailures()) {
 	          System.out.println(failure.toString());
 	       }

@@ -38,10 +38,6 @@ public class Starter extends HttpServlet {
 		
 		ServiceComputer a = new ServiceComputer();
 		Optional<List<ComputerDTO>> list;
-		List<String> atata = new ArrayList<>();
-		atata.add("ezze");
-		atata.add("ezze");
-		atata.add("ezze");
 		try {
 			list = a.getAllComputer();
 			request.setAttribute("Computer_list", list.get());
@@ -59,6 +55,24 @@ public class Starter extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		 if (request.getParameter("Add") != null) {
+			 System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+			 String name = request.getParameter("name");
+			 String introduced = request.getParameter("introduced");
+			 String discontinued = request.getParameter("discontinued");
+			 String company = request.getParameter("company");
+			 ComputerDTO newComputer = ComputerDTO.Builder.newInstance().setName(name).setCompany(company).setIntroduced(introduced).setDiscontinued(discontinued).build();
+			 ServiceComputer service = new ServiceComputer();
+			 try {
+				service.addComputer(name, introduced, discontinued, Integer.parseInt(company));
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	        }
 		doGet(request, response);
 	}
 
