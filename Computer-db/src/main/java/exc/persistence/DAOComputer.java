@@ -15,11 +15,9 @@ import main.java.exc.model.Computer;
 
 public class DAOComputer {
 	
-	private static SQLConnect sql;
+
 	public static Optional<List<Computer>> getAllComputer() throws SQLException, ParseException, ClassNotFoundException{
-		sql = SQLConnect.getInstance();
-		sql.connect();
-		Connection conn = SQLConnect.getConn();
+		Connection conn = DataSource.getConn();
 		List<Computer> computer = new ArrayList();
 		Statement statement = conn.createStatement();
 		ResultSet resset = statement.executeQuery("select computer.name ,computer.id,introduced,discontinued,company_id ,company.name as company from computer LEFT JOIN company ON computer.company_id = company.id");
@@ -50,7 +48,7 @@ public class DAOComputer {
             
         }
         Optional<List<Computer>> result = Optional.ofNullable(computer);
-        sql.close();
+        conn.close();
 		return result;
 	}
 	
@@ -64,11 +62,10 @@ public class DAOComputer {
 	 * @throws ClassNotFoundException 
 	 */
 	public static Optional<Computer> getSpecificComputer(int id) throws SQLException, ParseException, ClassNotFoundException {
-		sql = SQLConnect.getInstance();
-		sql.connect();
+
 		if (id == 0) 
 			return Optional.empty();
-		Connection conn = SQLConnect.getConn();
+		Connection conn = DataSource.getConn();
 		Computer computer = Computer.Builder.newInstance().build();
 		Statement statement = conn.createStatement();
 		ResultSet resset = statement.executeQuery("select computer.name ,computer.id,introduced,discontinued,company_id ,company.name as company from computer LEFT JOIN company ON computer.company_id = company.id where computer.id =" + id);
@@ -96,7 +93,7 @@ public class DAOComputer {
 			computer = null;
 		}
 		System.out.println("id = " + computer.getId());
-		sql.close();
+		conn.close();
 		return Optional.ofNullable(computer);
 	}
 	
@@ -110,9 +107,9 @@ public class DAOComputer {
 	 * @throws ClassNotFoundException 
 	 */
 	public static int deleteSpecificComputer(int id) throws SQLException, ClassNotFoundException {
-		sql = SQLConnect.getInstance();
-		sql.connect();
-		Connection conn = SQLConnect.getConn();
+
+
+		Connection conn = DataSource.getConn();
 		Statement statement = conn.createStatement();
 		int resset = statement.executeUpdate("DELETE FROM computer WHERE id =" + id);
 		if (resset == 1)
@@ -130,9 +127,7 @@ public class DAOComputer {
 	public static int addComputer(String name,String introduced,String discontinued, long l) throws SQLException, ClassNotFoundException 
 	{
 		System.out.print(name);
-		sql = SQLConnect.getInstance();
-		sql.connect();
-		Connection conn = SQLConnect.getConn();
+		Connection conn = DataSource.getConn();
 		int computer_id = 2;
 		int resset=0;
 		String tname = "NULL";
@@ -147,7 +142,7 @@ public class DAOComputer {
 		    resset = statement.executeUpdate("insert into computer (name,introduced, discontinued, company_id) values('"+tname+"',"+introduced+" ,"+discontinued+",(select company.id from company where company.id = "+l+"))");
 			System.out.println(resset);
 
-			sql.close();
+			conn.close();
 		return 1;
 		
 	}
@@ -166,9 +161,7 @@ public class DAOComputer {
 	 */
 	public static int updateComputer(String name,String introduced,String discontinued, long l,int id) throws SQLException, ClassNotFoundException 
 	{
-		sql = SQLConnect.getInstance();
-		sql.connect();
-		Connection conn = SQLConnect.getConn();
+		Connection conn = DataSource.getConn();
 		int resset=0;
 
 
@@ -178,7 +171,7 @@ public class DAOComputer {
 		    resset = statement.executeUpdate("UPDATE computer SET name = '"+name+"', introduced = "+introduced+", discontinued = "+discontinued+", company_id = "+l+" WHERE id = " +id);
 				System.out.println(resset);
 
-				sql.close();
+				conn.close();
 		return 1;
 		
 	}
