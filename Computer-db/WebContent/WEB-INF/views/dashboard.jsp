@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <html>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <head>
 <title>Computer Database</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -35,7 +36,7 @@
                     </form>
                 </div>
                 <div class="pull-right">
-                    <a class="btn btn-success" id="addComputer" href="addComputer.html">Add Computer</a> 
+                    <a class="btn btn-success" id="addComputer" href="addComputer">Add Computer</a> 
                     <a class="btn btn-default" id="editComputer" href="#" onclick="$.fn.toggleEditMode();">Edit</a>
                 </div>
             </div>
@@ -81,18 +82,18 @@
                 <!-- Browse attribute computers -->
                 
                 <tbody id="results">
-                			<c:forEach items="${Computer_list}" var="cc">
+                			<c:forEach items="${Computer_list}" var="cc" varStatus="loop">
                     <tr>
                         <td>
                             <td class="editMode">
                             <input type="checkbox" name="cb" class="cb" value="0">
                         </td>
                         <td>
-                            <a href="editComputer.html" onclick=""><c:out value = "${cc.name }" /></a>
+                            <a href="#" onclick="GoTO(${loop.index})"><c:out value = "${cc.name }" /></a>
                         </td>
 						<td><c:out value = "${cc.introduced}" /></td>
 						<td><c:out value = "${cc.discontinued}" /></td>
-					<td>	<c:out value = "${cc.company}" /></td>
+					<td>	<c:out value = "${cc.company.getName()}" /></td>
                         
 
                     </tr>
@@ -134,6 +135,10 @@
 <script src="../js/jquery.min.js"></script>
 <script src="../js/bootstrap.min.js"></script>
 <script src="../js/dashboard.js"></script>
-
+<script>function GoTO(id)
+{
+	alert(id);
+	window.location.href = "editComputer?id=" + id;
+	}</script>
 </body>
-</html>
+<html/>

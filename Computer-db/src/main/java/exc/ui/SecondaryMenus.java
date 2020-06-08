@@ -96,7 +96,7 @@ public class SecondaryMenus {
 				String id1 = reader.next();
 				CompanyDTO comp =  new CompanyDTO();
 				comp.setId(id1);
-				c.setCompany(id1);
+				c.setCompany(comp);
 				break;
 			case Validate:
 				sta = MenuComputerInterface.Main;
@@ -105,7 +105,7 @@ public class SecondaryMenus {
 			case End:
 				SQLConnect a =  SQLConnect.getInstance();
 				System.out.println(" name : " +c.getName() +" start :" + c.getIntroduced() + " end :" + c.getDiscontinued() + " C_id " + c.getCompany());
-				DAOComputer.updateComputer(c.getName(),c.getIntroduced(),c.getDiscontinued(), c.getCompany(),c.getId());
+				DAOComputer.updateComputer(c.getName(),c.getIntroduced(),c.getDiscontinued(), c.getCompany().getId(),c.getId());
 				check= false;
 				return 0;
 			}
