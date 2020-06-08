@@ -11,13 +11,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import main.java.exc.model.CompanyDTO;
 import main.java.exc.model.ComputerDTO;
 import main.java.exc.service.ServiceComputer;
 
 /**
  * Servlet implementation class Starter
  */
-@WebServlet("/Starter")
+@WebServlet("/dashboard")
 public class Starter extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -56,15 +57,15 @@ public class Starter extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		 if (request.getParameter("Add") != null) {
-			 System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+			 System.out.print("Addoracd");
 			 String name = request.getParameter("name");
 			 String introduced = request.getParameter("introduced");
 			 String discontinued = request.getParameter("discontinued");
-			 String company = request.getParameter("company");
+			 CompanyDTO company = CompanyDTO.Builder.newInstance().setId(request.getParameter("companyId")).build();
 			 ComputerDTO newComputer = ComputerDTO.Builder.newInstance().setName(name).setCompany(company).setIntroduced(introduced).setDiscontinued(discontinued).build();
 			 ServiceComputer service = new ServiceComputer();
 			 try {
-				service.addComputer(name, introduced, discontinued, Integer.parseInt(company));
+				service.addComputer(name, introduced, discontinued, Integer.parseInt(request.getParameter("companyId")));
 			} catch (NumberFormatException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -73,7 +74,27 @@ public class Starter extends HttpServlet {
 				e.printStackTrace();
 			}
 	        }
+		 else if (request.getParameter("Edit") != null) {
+			 String name = request.getParameter("name");
+			 String id = request.getParameter("id");
+			 String introduced = request.getParameter("introduced");
+			 String discontinued = request.getParameter("discontinued");
+			 CompanyDTO company = CompanyDTO.Builder.newInstance().setId(request.getParameter("id")).build();
+			 ComputerDTO newComputer = ComputerDTO.Builder.newInstance().setName(name).setCompany(company).setIntroduced(introduced).setDiscontinued(discontinued).build();
+			 ServiceComputer service = new ServiceComputer();
+			 try {
+				service.updateComputer(name, introduced, discontinued, company.getId(),id);
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	        }
+
 		doGet(request, response);
 	}
+	
 
 }

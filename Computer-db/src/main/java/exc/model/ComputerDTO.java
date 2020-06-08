@@ -31,10 +31,10 @@ public class ComputerDTO {
 	public void setComputer_company(String computer_company) {
 		Computer_company = computer_company;
 	}
-	public String getCompany() {
+	public CompanyDTO getCompany() {
 		return company;
 	}
-	public void setCompany(String company) {
+	public void setCompany(CompanyDTO company) {
 		this.company = company;
 	}
 	public String getIntroduced() {
@@ -52,7 +52,7 @@ public class ComputerDTO {
 	private String id;
 	private String name;
 	private String Computer_company;
-	private String company;
+	private CompanyDTO company;
 	private String introduced;
 	private String discontinued;
 	public static class Builder
@@ -60,7 +60,7 @@ public class ComputerDTO {
 		private String id;
 		private String name;
 		private String Computer_company;
-		private String company;
+		private CompanyDTO company;
 		private String introduced;
 		private String discontinued;
 
@@ -89,7 +89,7 @@ public class ComputerDTO {
 			return this;
 		}
 
-		public Builder setCompany(String company) {
+		public Builder setCompany(CompanyDTO company) {
 			this.company = company;
 			return this;
 		}
