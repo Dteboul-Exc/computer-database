@@ -21,9 +21,8 @@ public class DAOCompany {
 	 * @throws ClassNotFoundException 
 	 */
 	public Optional<List<Company>> getAllCompany() throws SQLException, ClassNotFoundException {
-		SQLConnect sql = SQLConnect.getInstance();
-		sql.connect();
-		Connection conn = SQLConnect.getConn();
+
+		Connection conn = DataSource.getConn();
 		List<Company> company = new ArrayList();
 		//Optional<List<Company>> company = Optional.of(new ArrayList());
 		Statement statement = conn.createStatement();
@@ -37,16 +36,14 @@ public class DAOCompany {
             company.add(tcompany);
             
         }
+        conn.close();
         Optional<List<Company>> result = Optional.ofNullable(company);
-        sql.close();
 		return result;
 	}
 	public Optional<Company> getSpecificCompany(int id) throws SQLException, ParseException, ClassNotFoundException {
 		if (id == 0) 
 			return Optional.empty();
-		SQLConnect sql = SQLConnect.getInstance();
-		sql.connect();
-		Connection conn = SQLConnect.getConn();
+		Connection conn = DataSource.getConn();
 		Company company = Company.Builder.newInstance().build();
 		Statement statement = conn.createStatement();
 		ResultSet resset = statement.executeQuery("select computer.name ,computer.id,introduced,discontinued,company_id ,company.name as company from computer LEFT JOIN company ON computer.company_id = company.id where computer.id =" + id);
@@ -67,7 +64,7 @@ public class DAOCompany {
 		{
 			company = null;
 		}
-		sql.close();
+		conn.close();
 		return Optional.ofNullable(company);
 	}
 }
