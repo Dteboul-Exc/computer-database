@@ -27,10 +27,12 @@ import main.java.exc.persistence.SQLConnect;
 public class ServiceComputer {
 	private static final Logger lOG =
             LoggerFactory.getLogger(ServiceComputer.class);
-
+	private ComputerValidator validator = new ComputerValidator();
 	public ServiceComputer() {
 	}
-	
+	public ServiceComputer(ComputerValidator c) {
+		this.validator = c;
+	}
 	public Optional<List<ComputerDTO>> getAllComputer() throws ClassNotFoundException {
 		BasicConfigurator.configure();
 
