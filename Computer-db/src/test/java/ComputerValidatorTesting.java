@@ -14,14 +14,12 @@ import main.java.exc.servlet.AddComputer;
 
 class ComputerValidatorTesting {
 	
-	ComputerValidator validator = mock(ComputerValidator.class);
-	
+		
     @Rule public MockitoRule mockitoRule = MockitoJUnit.rule(); 
     
 	@Test
 	void testSuccessfulComputer() {
-		ServiceComputer t  = new ServiceComputer(validator); 
-		when(validator.isName("test"))
+
 	}
 
 }
