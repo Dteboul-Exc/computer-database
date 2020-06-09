@@ -138,7 +138,8 @@
 <script>function GoTO(id)
 {
 	alert(id);
-	window.location.href = "editComputer?id=" + id;
+	value = id+1;
+	window.location.href = "editComputer?id=" + value;
 	}</script>
 </body>
 <html/>
