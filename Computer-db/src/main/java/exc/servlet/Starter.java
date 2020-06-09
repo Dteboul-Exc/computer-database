@@ -76,6 +76,7 @@ public class Starter extends HttpServlet {
 			}
 	        }
 		 else if (request.getParameter("Edit") != null) {
+			 System.out.print("Adoration");
 			 String name = request.getParameter("name");
 			 String id = request.getParameter("id");
 			 String introduced = request.getParameter("introduced");
