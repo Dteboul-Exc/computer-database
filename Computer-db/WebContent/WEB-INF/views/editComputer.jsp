@@ -32,20 +32,20 @@
                         <fieldset>
                             <div class="form-group">
                                 <label for="computerName">Computer name</label>
-                                <input type="text" class="form-control" id="computerName" placeholder="Computer name" value=<c:out value = "${computerName}"/>>
-                                <input type="text" class="form-control" id="id" placeholder="id" value=<c:out value = "${id}"/>>
+                                <input name="name" type="text" class="form-control" id="computerName" placeholder="Computer name" value=<c:out value = "${computerName}"/>>
+                                <input type="text" class="form-control" id="id" placeholder="id" name="id" value=<c:out value = "${id}"/>>
                             </div>
                             <div class="form-group">
                                 <label for="introduced">Introduced date</label>
-                                <input type="date" class="form-control" id="introduced" placeholder="Introduced date"value=<c:out value = "${introduced}"/>>
+                                <input name="introduced" type="date" class="form-control" id="introduced" placeholder="Introduced date"value=<c:out value = "${introduced}"/>>
                             </div>
                             <div class="form-group">
                                 <label for="discontinued">Discontinued date</label>
-                                <input type="date" class="form-control" id="discontinued" placeholder="Discontinued date"value=<c:out value = "${discontinued}"/>>
+                                <input name="discontinued" type="date" class="form-control" id="discontinued" placeholder="Discontinued date"value=<c:out value = "${discontinued}"/>>
                             </div>
                             <div class="form-group">
                                 <label for="companyId">Company</label>
-                                <select class="form-control" id="companyId" >
+                                <select class="form-control" id="companyId" name="company" >
                                     <c:forEach items="${company}" var="list">
                                     	<option value=<c:out value = "${list.id}" />><c:out value = "${list.name}"/></option>
                                     </c:forEach>
