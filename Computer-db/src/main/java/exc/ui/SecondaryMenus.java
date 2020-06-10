@@ -105,7 +105,8 @@ public class SecondaryMenus {
 			case End:
 				SQLConnect a =  SQLConnect.getInstance();
 				System.out.println(" name : " +c.getName() +" start :" + c.getIntroduced() + " end :" + c.getDiscontinued() + " C_id " + c.getCompany());
-				DAOComputer.updateComputer(c.getName(),c.getIntroduced(),c.getDiscontinued(), c.getCompany().getId(),c.getId());
+				
+				DAOComputer.updateComputer(c);
 				check= false;
 				return 0;
 			}

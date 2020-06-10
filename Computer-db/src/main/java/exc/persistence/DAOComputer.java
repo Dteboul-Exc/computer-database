@@ -139,6 +139,7 @@ public class DAOComputer {
 		Statement statement;
 
 			statement = conn.createStatement();
+			System.out.println("insert into computer (name,introduced, discontinued, company_id) values('"+tname+"',"+introduced+" ,"+discontinued+",(select company.id from company where company.id = "+l+"))");
 		    resset = statement.executeUpdate("insert into computer (name,introduced, discontinued, company_id) values('"+tname+"',"+introduced+" ,"+discontinued+",(select company.id from company where company.id = "+l+"))");
 			System.out.println(resset);
 
@@ -168,6 +169,7 @@ public class DAOComputer {
 		Statement statement;
 		
 			statement = conn.createStatement();
+			System.out.println("UPDATE computer SET name = '"+name+"', introduced = "+introduced+", discontinued = "+discontinued+", company_id = "+l+" WHERE id = " +id);
 		    resset = statement.executeUpdate("UPDATE computer SET name = '"+name+"', introduced = "+introduced+", discontinued = "+discontinued+", company_id = "+l+" WHERE id = " +id);
 				System.out.println(resset);
 

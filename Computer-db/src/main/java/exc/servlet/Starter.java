@@ -85,7 +85,7 @@ public class Starter extends HttpServlet {
 			 ComputerDTO newComputer = ComputerDTO.Builder.newInstance().setName(name).setCompany(company).setIntroduced(introduced).setDiscontinued(discontinued).build();
 			 ServiceComputer service = new ServiceComputer();
 			 try {
-				service.updateComputer(name, introduced, discontinued, company.getId(),id);
+				service.updateComputer(newComputer);
 			} catch (NumberFormatException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
