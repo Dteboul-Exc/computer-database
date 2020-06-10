@@ -133,7 +133,7 @@ public class ServiceComputer {
 			return 1;
 		}		
 	}
-	public int updateComputer(String name,String introduced,String discontinued, String string,String string2) throws NumberFormatException, ClassNotFoundException 
+	public int updateComputer(ComputerDTO computer) throws NumberFormatException, ClassNotFoundException 
 	{
 		BasicConfigurator.configure();
 	    lOG.debug("updateComputer start using computer");
@@ -145,31 +145,31 @@ public class ServiceComputer {
 
 		Statement statement;
 		try {
-			if (name == null)
+			if (computer.getName() == null)
 			{
 				tname = "NULL";
 			}
 			else
 			{
-				tname = name;
+				tname = computer.getName();
 			}
-			if (introduced.equals(""))
+			if (computer.getIntroduced().equals(""))
 			{
 				tintroduced = "NULL";
 			}
 			else
 			{
-				tintroduced = "DATE " + "'"+introduced+"'";
+				tintroduced = "DATE " + "'"+computer.getIntroduced().equals("")+"'";
 			}
-			if (discontinued.equals(""))
+			if (computer.getDiscontinued().equals(""))
 			{
 				tdiscontinued = "NULL";
 			}
 			else
 			{
-				tdiscontinued = "DATE " + "'"+discontinued+"'";;
+				tdiscontinued = "DATE " + "'"+computer.getDiscontinued()+"'";;
 			}
-			int result  = DAOComputer.updateComputer(name,tintroduced,tdiscontinued,Long.parseLong(string),Integer.parseInt(string2));
+			int result  = DAOComputer.updateComputer(tname,tintroduced,tdiscontinued,Long.parseLong(computer.getCompany().getId()),Integer.parseInt(computer.getId()));
 			return result;
 	
 		} catch (SQLException exc) {

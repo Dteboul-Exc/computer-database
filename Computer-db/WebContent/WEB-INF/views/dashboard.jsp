@@ -38,6 +38,7 @@
                 <div class="pull-right">
                     <a class="btn btn-success" id="addComputer" href="addComputer">Add Computer</a> 
                     <a class="btn btn-default" id="editComputer" href="#" onclick="$.fn.toggleEditMode();">Edit</a>
+                    <a class="btn btn-danger" id="delete-Computer" href="#"">Delete selected Computer</a>
                 </div>
             </div>
         </div>
@@ -84,8 +85,8 @@
                 <tbody id="results">
                 			<c:forEach items="${Computer_list}" var="cc" varStatus="loop">
                     <tr>
-                        <td>
-                            <td class="editMode">
+                        
+                        <td class="editMode">
                             <input type="checkbox" name="cb" class="cb" value="0">
                         </td>
                         <td>
@@ -93,7 +94,7 @@
                         </td>
 						<td><c:out value = "${cc.introduced}" /></td>
 						<td><c:out value = "${cc.discontinued}" /></td>
-					<td>	<c:out value = "${cc.company.getName()}" /></td>
+						<td><c:out value = "${cc.company.getName()}" /></td>
                         
 
                     </tr>
