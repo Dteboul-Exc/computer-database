@@ -1,6 +1,7 @@
 package main.java.exc.model;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 import main.java.exc.model.Computer.Builder;
 
@@ -49,6 +50,20 @@ public class ComputerDTO {
 	public void setDiscontinued(String discontinued) {
 		this.discontinued = discontinued;
 	}
+    public boolean equals(final ComputerDTO other) {
+        if (other == null) {
+            return false;
+        }
+        if (this == other) {
+            return true;
+        }
+        if (Objects.equals(name, other.name) && Objects.equals(id, other.id)) return true;
+        return false;
+    }
+    public boolean equals(final Object other) {
+        if (other instanceof ComputerDTO)  return equals((ComputerDTO) other);
+        return false;
+    }
 	private String id;
 	private String name;
 	private String Computer_company;

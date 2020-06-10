@@ -27,11 +27,16 @@ import main.java.exc.persistence.SQLConnect;
 public class ServiceComputer {
 	private static final Logger lOG =
             LoggerFactory.getLogger(ServiceComputer.class);
-	private ComputerValidator validator = new ComputerValidator();
+	private DAOComputer DAOComputer = new DAOComputer();
 	public ServiceComputer() {
+		DAOComputer = new DAOComputer();
 	}
-	public ServiceComputer(ComputerValidator c) {
-		this.validator = c;
+	public ServiceComputer(DAOComputer c) {
+		this.DAOComputer = c;
+	}
+	public void set_ComputerValidator(DAOComputer DAO)
+	{
+		this.DAOComputer = DAO;
 	}
 	public Optional<List<ComputerDTO>> getAllComputer() throws ClassNotFoundException {
 		BasicConfigurator.configure();
@@ -73,7 +78,7 @@ public class ServiceComputer {
 			return result = Optional.empty();
 		}
 	}
-	public static int deleteSpecificComputer(int id) throws ClassNotFoundException
+	public int deleteSpecificComputer(int id) throws ClassNotFoundException
 	{
 		BasicConfigurator.configure();
 	    lOG.debug("getSpecificComputer start using computer id : "+id);
