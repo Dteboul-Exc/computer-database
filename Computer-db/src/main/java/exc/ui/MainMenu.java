@@ -198,7 +198,8 @@ public class MainMenu {
 				sta = state.Main;
 				System.out.println("Enter the id of the computer you want to delete");
 				s = reader.nextInt();
-				ServiceComputer.deleteSpecificComputer(s);
+				ServiceComputer t = new ServiceComputer();
+				t.deleteSpecificComputer(s);
 				break;
 			case Exit:
 				System.exit(0); 

@@ -3,6 +3,7 @@ package main.java.exc.model;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.Objects;
 
 import main.java.exc.model.Company.Builder;
 
@@ -62,6 +63,20 @@ public class Computer {
 	public void setCompany(Company company) {
 		this.company = company;
 	}
+    public boolean equals(final Computer other) {
+        if (other == null) {
+            return false;
+        }
+        if (this == other) {
+            return true;
+        }
+        if (Objects.equals(name, other.name) && Objects.equals(id, other.id)) return true;
+        return false;
+    }
+    public boolean equals(final Object other) {
+        if (other instanceof Computer)  return equals((Computer) other);
+        return false;
+    }
 	public static class Builder
 	{
 		

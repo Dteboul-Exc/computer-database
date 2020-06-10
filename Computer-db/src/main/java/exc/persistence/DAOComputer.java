@@ -16,7 +16,7 @@ import main.java.exc.model.Computer;
 public class DAOComputer {
 	
 
-	public static Optional<List<Computer>> getAllComputer() throws SQLException, ParseException, ClassNotFoundException{
+	public Optional<List<Computer>> getAllComputer() throws SQLException, ParseException, ClassNotFoundException{
 		Connection conn = DataSource.getConn();
 		List<Computer> computer = new ArrayList();
 		Statement statement = conn.createStatement();
@@ -61,7 +61,7 @@ public class DAOComputer {
 	 * @throws ParseException 
 	 * @throws ClassNotFoundException 
 	 */
-	public static Optional<Computer> getSpecificComputer(int id) throws SQLException, ParseException, ClassNotFoundException {
+	public Optional<Computer> getSpecificComputer(int id) throws SQLException, ParseException, ClassNotFoundException {
 
 		if (id == 0) 
 			return Optional.empty();
