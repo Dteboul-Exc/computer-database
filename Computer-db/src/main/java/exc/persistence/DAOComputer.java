@@ -106,7 +106,7 @@ public class DAOComputer {
 	 * @throws SQLException
 	 * @throws ClassNotFoundException 
 	 */
-	public static int deleteSpecificComputer(int id) throws SQLException, ClassNotFoundException {
+	public int deleteSpecificComputer(int id) throws SQLException, ClassNotFoundException {
 
 
 		Connection conn = DataSource.getConn();
@@ -160,7 +160,7 @@ public class DAOComputer {
 	 * @throws SQLException 
 	 * @throws ClassNotFoundException 
 	 */
-	public static int updateComputer(String name,String introduced,String discontinued, long l,int id) throws SQLException, ClassNotFoundException 
+	public int updateComputer(String name,String introduced,String discontinued, long l,int id) throws SQLException, ClassNotFoundException 
 	{
 		Connection conn = DataSource.getConn();
 		int resset=0;
