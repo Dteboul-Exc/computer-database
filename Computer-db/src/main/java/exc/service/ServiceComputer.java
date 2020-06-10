@@ -87,7 +87,7 @@ public class ServiceComputer {
 			return result = 0;
 		}  
 	}
-	public int addComputer(String name,String introduced,String discontinued, int company_id) throws ClassNotFoundException 
+	public int addComputer(ComputerDTO computer) throws ClassNotFoundException 
 	{
 		BasicConfigurator.configure();
 	    lOG.debug("addComputer start using computer");
@@ -99,32 +99,31 @@ public class ServiceComputer {
 
 		Statement statement;
 		try {
-			if (name == null)
+			if (computer.getName() == null)
 			{
 				tname = "NULL";
 			}
 			else
 			{
-				tname = name;
+				tname = computer.getName();
 			}
-			if (introduced.equals(""))
+			if (computer.getIntroduced().equals(""))
 			{
 				tintroduced = "NULL";
 			}
 			else
 			{
-				tintroduced = "DATE " + "'"+introduced+"'";
+				tintroduced = "DATE " + "'"+computer.getIntroduced()+"'";
 			}
-			if (discontinued.equals(""))
+			if (computer.getDiscontinued().equals(""))
 			{
 				tdiscontinued = "NULL";
 			}
 			else
 			{
-				tdiscontinued = "DATE " + "'"+discontinued+"'";;
+				tdiscontinued = "DATE " + "'"+computer.getDiscontinued()+"'";;
 			}
-			System.out.print(name);
-			int result  = DAOComputer.addComputer(name,tintroduced,tdiscontinued,company_id);
+			int result  = DAOComputer.addComputer(tname,tintroduced,tdiscontinued,Integer.parseInt(computer.getCompany().getId()));
 			return result;
 	
 		} catch (SQLException exc) {
