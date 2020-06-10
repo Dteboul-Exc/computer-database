@@ -60,12 +60,12 @@ public class Starter extends HttpServlet {
 			 String name = request.getParameter("name");
 			 String introduced = request.getParameter("introduced");
 			 String discontinued = request.getParameter("discontinued");
-			 CompanyDTO company = CompanyDTO.Builder.newInstance().setId(request.getParameter("companyId")).build();
-			 ComputerDTO newComputer = ComputerDTO.Builder.newInstance().setName(name).setCompany(company).setIntroduced(introduced).setDiscontinued(discontinued).build();
+			 CompanyDTO company = CompanyDTO.Builder.newInstance().setId(request.getParameter("company")).build();
+			 ComputerDTO newComputer = ComputerDTO.Builder.newInstance().setName(name).setCompany(company).setIntroduced(introduced).setDiscontinued(discontinued).setCompany(company).build();
 			 ServiceComputer service = new ServiceComputer();
 			 System.out.print("companyID is"  + request.getParameter("company"));
 			 try {
-				service.addComputer(name, introduced, discontinued, Integer.parseInt(request.getParameter("company")));
+				service.addComputer(newComputer);
 			} catch (NumberFormatException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
