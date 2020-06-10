@@ -42,7 +42,11 @@ public class Company_testing {
 	@Test
 	public void testAllCompany() throws ClassNotFoundException, SQLException, ParseException {
 		List<CompanyDTO> expected= new ArrayList<>();
-		System.out.println("size is :" + list.size());	
+		System.out.println("size is :" + list.size());
+		for (Company element : list  )
+		{
+			expected.add(CompanyMapper.companyToDTO(element));
+		}
 		//Optional<List<CompanyDTO>> expected = Optional.of(list);
 		Mockito.when(mockDAO.getAllCompany()).thenReturn(Optional.of(list));
 		List<CompanyDTO> obtained= this.service.getAllCompany().get();
