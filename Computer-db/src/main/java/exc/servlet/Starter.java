@@ -57,7 +57,6 @@ public class Starter extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		 if (request.getParameter("Add") != null) {
-			 System.out.print("Addoracd");
 			 String name = request.getParameter("name");
 			 String introduced = request.getParameter("introduced");
 			 String discontinued = request.getParameter("discontinued");

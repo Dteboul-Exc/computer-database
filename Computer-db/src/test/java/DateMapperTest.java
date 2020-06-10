@@ -34,5 +34,13 @@ class DateMapperTest {
 		assertEquals("1910-01-01",DateMapper.StringConverter(standard).get().toString());
 	}
 	
+	@Test
+	void testNormalInputStringConverterInput() throws ParseException {
+		String standard = "2011-02-09";
+		assertEquals("2011-02-09",DateMapper.StringConverterInput(standard).get().toString());
+	}
+	
+
+	
 
 }

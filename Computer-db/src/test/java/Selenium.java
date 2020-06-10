@@ -18,18 +18,11 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 public class Selenium {
 	  protected static WebDriver driver;
 	  static int name;
-	  // <input name="user_name" type="text" value="">
-	  private By usernameBy = By.name("user_name");
-	  // <input name="password" type="password" value="">
-	  private By passwordBy = By.name("password");
-	  // <input name="sign_in" type="submit" value="SignIn">
-	  private By signinBy = By.name("sign_in");
 
 
 	    @BeforeClass
 	    public static void setupTest(){
 	    	//eze
-	    	System.out.print(LocalTime.now() == LocalTime.now());
 	    	System.setProperty("webdriver.gecko.driver", "/opt/WebDriver/bin/geckodriver");
 	    	//driver = new ChromeDriver();
 	    	driver = new FirefoxDriver();
@@ -114,7 +107,7 @@ public class Selenium {
 	 
 	    }
 	    @Test
-	    public void T05_Edit_first_computer() throws InterruptedException {
+	    public void T05_Add_first_computer() throws InterruptedException {
 
 	    	
 	        driver.get("http://localhost:8080/Computer-db/addComputer");
