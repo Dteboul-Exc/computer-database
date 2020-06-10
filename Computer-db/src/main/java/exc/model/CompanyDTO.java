@@ -1,5 +1,7 @@
 package main.java.exc.model;
 
+import java.util.Objects;
+
 import main.java.exc.model.Company.Builder;
 
 public class CompanyDTO {
@@ -21,6 +23,20 @@ public class CompanyDTO {
 	public CompanyDTO() {
 		// TODO Auto-generated constructor stub
 	}
+    public boolean equals(final CompanyDTO other) {
+        if (other == null) {
+            return false;
+        }
+        if (this == other) {
+            return true;
+        }
+        if (Objects.equals(name, other.name) && Objects.equals(id, other.id)) return true;
+        return false;
+    }
+    public boolean equals(final Object other) {
+        if (other instanceof CompanyDTO)  return equals((CompanyDTO) other);
+        return false;
+    }
 	public void setName(String name) {
 		this.name = name;
 	}

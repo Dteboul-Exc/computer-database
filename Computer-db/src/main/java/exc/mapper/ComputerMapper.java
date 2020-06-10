@@ -19,21 +19,15 @@ public class ComputerMapper {
         Company company = Company.Builder.newInstance().setId(Integer.parseInt(computer.getCompany().getId())).setName(computer.getCompany().getName()).build();
         int id = Integer.parseInt(computer.getId());
         String name = computer.getName();
-        try {
-			Optional<LocalDate> introduced = DateMapper.StringConverterInput(computer.getIntroduced());
-			Optional<LocalDate> discontinued = DateMapper.StringConverterInput(computer.getDiscontinued());
-			 Computer result = Computer.Builder.newInstance().build();
-			 result.setCompany(company);
-			 result.setIntroduced(introduced.get());
-			 result.setDiscontinued(discontinued.get());
-			 result.setId(id);
-			 result.setName(name);
-			 return Optional.of(result);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
+        Optional<LocalDate> introduced = DateMapper.StringConverterInput(computer.getIntroduced());
+		Optional<LocalDate> discontinued = DateMapper.StringConverterInput(computer.getDiscontinued());
+		 Computer result = Computer.Builder.newInstance().build();
+		 result.setCompany(company);
+		 result.setIntroduced(introduced.get());
+		 result.setDiscontinued(discontinued.get());
+		 result.setId(id);
+		 result.setName(name);
+		 return Optional.of(result);
     }
 
 

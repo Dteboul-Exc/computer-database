@@ -41,8 +41,9 @@ public class DateMapper {
 	 * @return
 	 * @throws ParseException
 	 */
-	public static Optional<LocalDate> StringConverterInput(String localDate) throws ParseException
+	public static Optional<LocalDate> StringConverterInput(String localDate) 
 	{
+		
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 	    LocalDate myDateObj = LocalDate.parse(localDate,formatter);
 	    Optional<LocalDate> result = Optional.ofNullable(myDateObj);

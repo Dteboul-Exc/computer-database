@@ -22,6 +22,11 @@ public class ServiceCompany {
 	{
 		DAOCompany = new DAOCompany();
 	}
+	
+	public void set_DAOCompany(DAOCompany DAO)
+	{
+		this.DAOCompany = DAO;
+	}
 	public  Optional<List<CompanyDTO>> getAllCompany() throws ClassNotFoundException {
 	BasicConfigurator.configure();
 	Logger logger = LoggerFactory.getLogger(DAOCompany.class);
