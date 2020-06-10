@@ -80,6 +80,48 @@ public class ServiceComputer_Testing {
 		assertEquals(true,check);
 
 	}
+	@Test
+	public void DeleteComputerTesting() throws ClassNotFoundException, SQLException, ParseException {
+		Computer c = Computer.Builder
+				.newInstance().setId(45).setName("Jole")
+				.setDiscontinued(LocalDate.of(2014, Month.JANUARY, 1))
+				.setIntroduced(LocalDate.of(2013, Month.JANUARY, 1))
+				.setCompany(new Company(14,"Kalo"))
+				.build();
+		Optional<Computer> tested = Optional.of(c);
+		//Mockito.when(mockDAO.getSpecificComputer(0)).thenReturn(tested);
+		Mockito.when(mockDAO.deleteSpecificComputer(45)).thenReturn(1);
+		assertEquals(1,this.service.deleteSpecificComputer(45));
+
+	}
+	@Test
+	public void AddComputerTesting() throws ClassNotFoundException, SQLException, ParseException {
+		Computer c = Computer.Builder
+				.newInstance().setId(45).setName("Jole")
+				.setDiscontinued(LocalDate.of(2014, Month.JANUARY, 1))
+				.setIntroduced(LocalDate.of(2013, Month.JANUARY, 1))
+				.setCompany(new Company(14,"Kalo"))
+				.build();
+		Optional<Computer> tested = Optional.of(c);
+		//Mockito.when(mockDAO.getSpecificComputer(0)).thenReturn(tested);
+		Mockito.when(mockDAO.deleteSpecificComputer(45)).thenReturn(1);
+		assertEquals(1,this.service.deleteSpecificComputer(45));
+
+	}
+	/*@Test
+	public void UpdateComputerTesting() throws ClassNotFoundException, SQLException, ParseException {
+		Computer c = Computer.Builder
+				.newInstance().setId(45).setName("Jole")
+				.setDiscontinued(LocalDate.of(2014, Month.JANUARY, 1))
+				.setIntroduced(LocalDate.of(2013, Month.JANUARY, 1))
+				.setCompany(new Company(14,"Kalo"))
+				.build();
+		Optional<Computer> tested = Optional.of(c);
+		//Mockito.when(mockDAO.getSpecificComputer(0)).thenReturn(tested);
+		Mockito.when(mockDAO.updateComputer("Jole", LocalDate.of(2013, Month.JANUARY, 1), LocalDate.of(2014, Month.JANUARY, 1), (long)14, 45)).thenReturn(1);
+		assertEquals(1,this.service.deleteSpecificComputer(45));
+
+	}*/
 }
 
 
