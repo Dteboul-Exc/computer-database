@@ -108,7 +108,7 @@ public class ServiceComputer_Testing {
 		assertEquals(1,this.service.deleteSpecificComputer(45));
 
 	}
-	/*@Test
+	/*@Test//
 	public void UpdateComputerTesting() throws ClassNotFoundException, SQLException, ParseException {
 		Computer c = Computer.Builder
 				.newInstance().setId(45).setName("Jole")
