@@ -21,81 +21,120 @@ import main.java.exc.service.ServiceComputer;
 @WebServlet("/dashboard")
 public class Starter extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public Starter() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		//response.getWriter().append("Served at: ").append(request.getContextPath());
-		
+	public Starter() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	@Override
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		int page = 1;
+        int recordsPerPage = 10;
+        if(request.getParameter("page") != null)
+            page = Integer.parseInt(request.getParameter("page"));
+        if(request.getParameter("recordsPerPage") != null)
+        	recordsPerPage = Integer.parseInt(request.getParameter("recordsPerPage"));
 		ServiceComputer a = new ServiceComputer();
-		Optional<List<ComputerDTO>> list;
-		try {
-			list = a.getAllComputer();
-			request.setAttribute("Computer_list", list.get());
-			request.setAttribute("computer", Integer.toString(list.get().size()));
-			request.getRequestDispatcher("/WEB-INF/views/dashboard.jsp").forward(request, response);
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		List<ComputerDTO> list = new ArrayList<>();
+		list = a.getAllComputer().get();
+		List<ComputerDTO> content = new ArrayList<>();
+		//content.subList(1, 10);
+		for(int i=0;i< content.size();i++)
+		{
+			System.out.print(i);
 		}
+		request.setAttribute("Computer_list", content);
+		request.setAttribute("computer", Integer.toString(content.size()));
+		request.getRequestDispatcher("/WEB-INF/views/dashboard.jsp").forward(request, response);
 
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		 if (request.getParameter("Add") != null) {
-			 String name = request.getParameter("name");
-			 String introduced = request.getParameter("introduced");
-			 String discontinued = request.getParameter("discontinued");
-			 CompanyDTO company = CompanyDTO.Builder.newInstance().setId(request.getParameter("company")).build();
-			 ComputerDTO newComputer = ComputerDTO.Builder.newInstance().setName(name).setCompany(company).setIntroduced(introduced).setDiscontinued(discontinued).setCompany(company).build();
-			 ServiceComputer service = new ServiceComputer();
-			 System.out.print("companyID is"  + request.getParameter("company"));
-			 try {
-				service.addComputer(newComputer);
-			} catch (NumberFormatException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		if (request.getParameter("selection") != null)
+		{
+			System.out.println(request.getParameter("selection"));
+			String[] List_ID_computer=request.getParameter("selection").split(",");
+			ServiceComputer service = new ServiceComputer();
+			
+			for(String id : List_ID_computer) {
+				service.deleteSpecificComputer(Integer.parseInt(id));
 			}
-	        }
-		 else if (request.getParameter("Edit") != null) {
-			 System.out.print("Adoration");
-			 String name = request.getParameter("name");
-			 String id = request.getParameter("id");
-			 String introduced = request.getParameter("introduced");
-			 String discontinued = request.getParameter("discontinued");
-			 CompanyDTO company = CompanyDTO.Builder.newInstance().setId(request.getParameter("company")).build();
-			 ComputerDTO newComputer = ComputerDTO.Builder.newInstance().setName(name).setCompany(company).setIntroduced(introduced).setDiscontinued(discontinued).build();
-			 ServiceComputer service = new ServiceComputer();
-			 try {
-				service.updateComputer(newComputer);
-			} catch (NumberFormatException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		}
+		if (request.getParameter("AddComputer") != null) {
+			Add_Computer(request,response);
+		} else if (request.getParameter("EditComputer") != null) {
+			Edit_Computer(request,response);
+		}
+		else if (request.getParameter("selection") != null)
+		{
+			System.out.println(request.getParameter("selection"));
+			String[] List_ID_computer=request.getParameter("selection").split(",");
+			ServiceComputer service = new ServiceComputer();
+			
+			for(String id : List_ID_computer) {
+				service.deleteSpecificComputer(Integer.parseInt(id));
 			}
-	        }
+		}
+		else if (request.getParameter("order-by") !=null)
+		{
+			
+		}
 
 		doGet(request, response);
 	}
 	
+	
+	public void Add_Computer(HttpServletRequest request, HttpServletResponse response)
+	{
+		String name = request.getParameter("name");
+		String introduced = request.getParameter("introduced");
+		String discontinued = request.getParameter("discontinued");
+		CompanyDTO company = CompanyDTO.Builder.newInstance().setId(request.getParameter("company")).build();
+		ComputerDTO newComputer = ComputerDTO.Builder.newInstance().setName(name).setCompany(company)
+				.setIntroduced(introduced).setDiscontinued(discontinued).setCompany(company).build();
+		ServiceComputer service = new ServiceComputer();
+		try {
+			service.addComputer(newComputer);
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public void Edit_Computer(HttpServletRequest request, HttpServletResponse response)
+	{
+		String name = request.getParameter("name");
+		String id = request.getParameter("id");
+		System.out.print(id);
+		String introduced = request.getParameter("introduced");
+		String discontinued = request.getParameter("discontinued");
+		CompanyDTO company = CompanyDTO.Builder.newInstance().setId(request.getParameter("company")).build();
+		ComputerDTO newComputer = ComputerDTO.Builder.newInstance().setName(name).setCompany(company)
+				.setIntroduced(introduced).setDiscontinued(discontinued).setId(id).build();
+		ServiceComputer service = new ServiceComputer();
+		try {
+			service.updateComputer(newComputer);
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 }

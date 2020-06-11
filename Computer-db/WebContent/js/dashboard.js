@@ -35,7 +35,7 @@ $(function() {
         }).get().join();
         
         $(this).attr('value',str);
-        
+        alert(str);
         return this;
     };
 
@@ -68,6 +68,7 @@ $(function() {
         }
     };
 }( jQuery ));
+
 
 
 

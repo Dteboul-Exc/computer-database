@@ -8,51 +8,44 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
-
-import org.slf4j.LoggerFactory;
 import org.apache.log4j.BasicConfigurator;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-
-import main.java.exc.mapper.DateMapper;
-import main.java.exc.model.Company;
 import main.java.exc.model.CompanyDTO;
-import main.java.exc.model.Computer;
 import main.java.exc.model.ComputerDTO;
-import main.java.exc.persistence.DAOCompany;
-import main.java.exc.persistence.DAOComputer;
 import main.java.exc.persistence.SQLConnect;
 import main.java.exc.service.Page;
 import main.java.exc.service.ServiceCompany;
 import main.java.exc.service.ServiceComputer;
 import main.java.exc.service.state;
-import main.java.exc.ui.SecondaryMenus;
-
 
 public class MainMenu {
-	
+
 	/**
-	 * Method Allowing an user to delete,create or modify a computer. Show a list of the computers or companies present in the DB. Also allow an user 
-	 * to have the details of a specific computer. To use the Menu, the first numeric value in the user input is read.
-	 * @throws ClassNotFoundException 
+	 * Method Allowing an user to delete,create or modify a computer. Show a list of
+	 * the computers or companies present in the DB. Also allow an user to have the
+	 * details of a specific computer. To use the Menu, the first numeric value in
+	 * the user input is read.
 	 * 
+	 * @throws ClassNotFoundException
+	 *
 	 * @throws SQLException
 	 * @throws ParseException
 	 */
-	public static void menu() throws ClassNotFoundException 
-	{
+	public static void menu() throws ClassNotFoundException {
 		ServiceComputer DAOComputer = new ServiceComputer();
 		ServiceCompany DAOCompany = new ServiceCompany();
-		
+
 		BasicConfigurator.configure();
 		Logger logger = LoggerFactory.getLogger(MainMenu.class);
-	    logger.debug("Main Menu Initialized");
+		logger.debug("Main Menu Initialized");
 
 		state sta;
 		sta = state.Main;
 		Scanner reader = new Scanner(System.in);
 		Optional<ComputerDTO> compute;
-		SQLConnect a =  SQLConnect.getInstance();
+		SQLConnect a = SQLConnect.getInstance();
 		logger.debug("Trying to connect to the database ...");
 		try {
 			a.connect();
@@ -62,8 +55,7 @@ public class MainMenu {
 			e2.printStackTrace();
 		}
 
-		while(true)
-		{
+		while (true) {
 			switch (sta) {
 			case Main:
 				System.out.println("1  List Computer");
@@ -74,82 +66,63 @@ public class MainMenu {
 				System.out.println("6  Remove Computer");
 				System.out.println("7  Exit \n");
 				BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
-				
+
 				int s = reader.nextInt();
-				//reader.close();
+				// reader.close();
 				System.out.println(s);
-				if (s == 1)
-				{
-					sta = state.LComputer; 
-				}
-				else if (s == 2)
-				{
-					sta = state.LCompany; 
-				}
-				else if (s== 3)
-				{
-					sta = state.DComputer; 					
-				}
-				else if (s==4)
-				{
-					sta =state.CreateComputer;
-				}
-				else if (s==5)
-				{
+				if (s == 1) {
+					sta = state.LComputer;
+				} else if (s == 2) {
+					sta = state.LCompany;
+				} else if (s == 3) {
+					sta = state.DComputer;
+				} else if (s == 4) {
+					sta = state.CreateComputer;
+				} else if (s == 5) {
 					sta = state.UpdateComputer;
-				}
-				else if (s==6)
-				{
+				} else if (s == 6) {
 					sta = state.DeleteComputer;
-				}
-				else if (s==7)
-				{
+				} else if (s == 7) {
 					sta = state.Exit;
 				}
 				logger.debug("user is going to the menu " + sta);
 				break;
-			case LComputer :
+			case LComputer:
 				sta = state.Main;
 				Optional<List<ComputerDTO>> optcomputer = DAOComputer.getAllComputer();
-				
-				if (!optcomputer.isEmpty())
-				{
+
+				if (!optcomputer.isEmpty()) {
 					logger.debug("user is being shown a list of the computer in the database");
 					List<ComputerDTO> lcomp = optcomputer.get();
 					Page h = new Page();
 					h.Following(lcomp);
 				}
 				break;
-			case LCompany :
+			case LCompany:
 				sta = state.Main;
 				Optional<List<CompanyDTO>> optcompany = DAOCompany.getAllCompany();
-				if (!optcompany.isEmpty())
-				{
+				if (!optcompany.isEmpty()) {
 					logger.debug("user is being shown a list of the companies in the database");
 					List<CompanyDTO> lcny = optcompany.get();
-					lcny.forEach((i)->System.out.println("id : "+i.getId()+" name : " +i.getName()));
-				}
-				else
-				{
+					lcny.forEach((i) -> System.out.println("id : " + i.getId() + " name : " + i.getName()));
+				} else {
 					System.out.println("Error, list company is empty");
 					logger.error("no computer was shown in the database");
 				}
 				break;
-			case DComputer :
+			case DComputer:
 				logger.debug("User search  a specific computer by id");
 				sta = state.Main;
 				System.out.println("Enter the id of the computer you want to select");
 				s = reader.nextInt();
 				compute = DAOComputer.getSpecificComputer(s);
-				if (compute.isPresent())
-				{	 
+				if (compute.isPresent()) {
 					ComputerDTO c = compute.get();
-					System.out.println(" id : "+c.getId()+" name : " +c.getName() +" start : " + c.getIntroduced() + " end :" + c.getDiscontinued() +  " | Company :  " + c.getCompany());
-				}
-				else
-				{
+					System.out.println(" id : " + c.getId() + " name : " + c.getName() + " start : " + c.getIntroduced()
+							+ " end :" + c.getDiscontinued() + " | Company :  " + c.getCompany());
+				} else {
 					System.out.println("pc not found");
-					logger.error("the computer with id "+ s+"was not found ");
+					logger.error("the computer with id " + s + "was not found ");
 				}
 				break;
 			case CreateComputer:
@@ -171,8 +144,7 @@ public class MainMenu {
 				s = reader.nextInt();
 				try {
 					compute = DAOComputer.getSpecificComputer(s);
-					if (compute.isPresent())
-					{	 
+					if (compute.isPresent()) {
 						ComputerDTO c = compute.get();
 						try {
 							System.out.println(SecondaryMenus.Computer_Modify(c));
@@ -181,9 +153,7 @@ public class MainMenu {
 							logger.error("Parse exception while trying to update a computer: " + e);
 							e.printStackTrace();
 						}
-					}
-					else
-					{
+					} else {
 						logger.error("PC was not found by id  : " + s);
 						System.out.println("pc not found");
 					}
@@ -202,13 +172,13 @@ public class MainMenu {
 				t.deleteSpecificComputer(s);
 				break;
 			case Exit:
-				System.exit(0); 
+				System.exit(0);
 				break;
 			default:
 				break;
 			}
 		}
-	
+
 	}
 
 }

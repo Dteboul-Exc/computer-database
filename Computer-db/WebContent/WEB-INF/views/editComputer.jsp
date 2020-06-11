@@ -53,7 +53,7 @@
                             </div>            
                         </fieldset>
                         <div class="actions pull-right">
-                            <input type="submit" value="Edit" name="Edit" onclick="Validate()" class="btn btn-primary">
+                            <input type="submit" value="EditComputer" name="EditComputer" onclick="Validate()" class="btn btn-primary">
                             or
                             <a href="dashboard" class="btn btn-default">Cancel</a>
                         </div>

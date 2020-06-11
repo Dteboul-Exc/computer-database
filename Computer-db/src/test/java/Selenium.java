@@ -1,11 +1,6 @@
 package test.java;
 
-import static org.junit.Assert.*;
-
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -16,116 +11,109 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class Selenium {
-	  protected static WebDriver driver;
-	  static int name;
+	protected static WebDriver driver;
+	static int name;
 
+	@BeforeClass
+	public static void setupTest() {
+		// eze
+		System.setProperty("webdriver.gecko.driver", "/opt/WebDriver/bin/geckodriver");
+		// driver = new ChromeDriver();
+		driver = new FirefoxDriver();
+	}
 
-	    @BeforeClass
-	    public static void setupTest(){
-	    	//eze
-	    	System.setProperty("webdriver.gecko.driver", "/opt/WebDriver/bin/geckodriver");
-	    	//driver = new ChromeDriver();
-	    	driver = new FirefoxDriver();
-	    }
-	    
-	    @Before
-	    public void beforeland() {
+	@Before
+	public void beforeland() {
 
-	    }
-	 
-	    @Test
-	    public void T01_getURLExample() {
+	}
 
+	@Test
+	public void T01_getURLExample() {
 
+		driver.get("http://localhost:8080/Computer-db/dashboard");
 
-	        driver.get("http://localhost:8080/Computer-db/dashboard");
-	 
-	        //Check title is correct
-	        assertEquals(driver.getTitle(), "Computer Database");
-	    }
+		// Check title is correct
+		assertEquals(driver.getTitle(), "Computer Database");
+	}
 
-	    @Test
-	    public void T02_Test_AddComputer_Check_no_Name() {
+	@Test
+	public void T02_Test_AddComputer_Check_no_Name() {
 
-	    	
-	        driver.get("http://localhost:8080/Computer-db/addComputer");
+		driver.get("http://localhost:8080/Computer-db/addComputer");
 
-	        WebElement error = driver.findElement(By.id("error"));  
-	        WebElement computerName = driver.findElement(By.id("computerName"));  
-	        WebElement introduced = driver.findElement(By.id("introduced"));
-	        WebElement discontinued = driver.findElement(By.id("discontinued"));  
-	        WebElement company = driver.findElement(By.id("companyId")); 
-	        WebElement validate = driver.findElement(By.id("Add"));
-	        validate.click();
-	        assertEquals(error.getText(),"name of the Computer was not inserted");
-	        //computerName.sendKeys("Gavin");
-	 
-	    }
-	    @Test
-	    public void T04_Test_AddComputer_Check_introduced_superior_to_discontinued() throws InterruptedException {
+		WebElement error = driver.findElement(By.id("error"));
+		WebElement computerName = driver.findElement(By.id("computerName"));
+		WebElement introduced = driver.findElement(By.id("introduced"));
+		WebElement discontinued = driver.findElement(By.id("discontinued"));
+		WebElement company = driver.findElement(By.id("companyId"));
+		WebElement validate = driver.findElement(By.id("Add"));
+		validate.click();
+		assertEquals(error.getText(), "name of the Computer was not inserted");
+		// computerName.sendKeys("Gavin");
 
-	    	
-	        driver.get("http://localhost:8080/Computer-db/addComputer");
+	}
 
- 
-	        WebElement computerName = driver.findElement(By.id("computerName"));  
-	        WebElement introduced = driver.findElement(By.id("introduced"));
-	        WebElement discontinued = driver.findElement(By.id("discontinued"));  
-	        WebElement company = driver.findElement(By.id("companyId")); 
-	        WebElement validate = driver.findElement(By.id("Add"));
-	        computerName.sendKeys("Political lemon");
-	        discontinued.clear();
-	        discontinued.sendKeys("20-Aug-1985");
-	        introduced.clear();
-	        introduced.sendKeys("21-Aug-1985");
+	@Test
+	public void T04_Test_AddComputer_Check_introduced_superior_to_discontinued() throws InterruptedException {
 
-	        validate.click();
-	        WebElement error = driver.findElement(By.id("error")); 
-	        assertEquals(error.getText(),"Indicates a dangerous or potentially negative action.");
-	 
-	    }
-	    //Error to correct
-	    @Test
-	    public void T03_Test_AddComputer_Check_introduced_but_not_discontinued() throws InterruptedException {
+		driver.get("http://localhost:8080/Computer-db/addComputer");
 
-	    	
-	        driver.get("http://localhost:8080/Computer-db/addComputer");
+		WebElement computerName = driver.findElement(By.id("computerName"));
+		WebElement introduced = driver.findElement(By.id("introduced"));
+		WebElement discontinued = driver.findElement(By.id("discontinued"));
+		WebElement company = driver.findElement(By.id("companyId"));
+		WebElement validate = driver.findElement(By.id("Add"));
+		computerName.sendKeys("Political lemon");
+		discontinued.clear();
+		discontinued.sendKeys("20-Aug-1985");
+		introduced.clear();
+		introduced.sendKeys("21-Aug-1985");
 
- 
-	        WebElement computerName = driver.findElement(By.id("computerName"));  
-	        WebElement introduced = driver.findElement(By.id("introduced"));
-	        WebElement discontinued = driver.findElement(By.id("discontinued"));  
-	        WebElement company = driver.findElement(By.id("companyId")); 
-	        WebElement validate = driver.findElement(By.id("Add"));
-	        computerName.sendKeys("Political lemon");
-	        discontinued.clear();
-	        discontinued.sendKeys("20-Aug-1985");
-	        validate.click();
+		validate.click();
+		WebElement error = driver.findElement(By.id("error"));
+		assertEquals(error.getText(), "Indicates a dangerous or potentially negative action.");
 
-	        WebElement error = driver.findElement(By.id("error")); 
-	        assertEquals(error.getText(),"Indicates a dangerous or potentially negative action.");
-	 
-	    }
-	    @Test
-	    public void T05_Add_first_computer() throws InterruptedException {
+	}
 
-	    	
-	        driver.get("http://localhost:8080/Computer-db/addComputer");
+	// Error to correct
+	@Test
+	public void T03_Test_AddComputer_Check_introduced_but_not_discontinued() throws InterruptedException {
 
- 
-	        WebElement computerName = driver.findElement(By.id("computerName"));  
-	        WebElement introduced = driver.findElement(By.id("introduced"));
-	        WebElement discontinued = driver.findElement(By.id("discontinued"));  
-	        WebElement company = driver.findElement(By.id("companyId")); 
-	        WebElement validate = driver.findElement(By.id("Add"));
-	        computerName.sendKeys("Political lemon");
-	        discontinued.clear();
-	        discontinued.sendKeys("20-Aug-1985");
-	        validate.click();
+		driver.get("http://localhost:8080/Computer-db/addComputer");
 
-	        WebElement error = driver.findElement(By.id("error")); 
-	        assertEquals(error.getText(),"Indicates a dangerous or potentially negative action.");
-	 
-	    }
+		WebElement computerName = driver.findElement(By.id("computerName"));
+		WebElement introduced = driver.findElement(By.id("introduced"));
+		WebElement discontinued = driver.findElement(By.id("discontinued"));
+		WebElement company = driver.findElement(By.id("companyId"));
+		WebElement validate = driver.findElement(By.id("Add"));
+		computerName.sendKeys("Political lemon");
+		discontinued.clear();
+		discontinued.sendKeys("20-Aug-1985");
+		validate.click();
+
+		WebElement error = driver.findElement(By.id("error"));
+		assertEquals(error.getText(), "Indicates a dangerous or potentially negative action.");
+
+	}
+
+	@Test
+	public void T05_Add_first_computer() throws InterruptedException {
+
+		driver.get("http://localhost:8080/Computer-db/addComputer");
+
+		WebElement computerName = driver.findElement(By.id("computerName"));
+		WebElement introduced = driver.findElement(By.id("introduced"));
+		WebElement discontinued = driver.findElement(By.id("discontinued"));
+		WebElement company = driver.findElement(By.id("companyId"));
+		WebElement validate = driver.findElement(By.id("Add"));
+		computerName.sendKeys("Political lemon");
+		discontinued.clear();
+		discontinued.sendKeys("20-Aug-1985");
+		validate.click();
+
+		WebElement error = driver.findElement(By.id("error"));
+		assertEquals(error.getText(), "Indicates a dangerous or potentially negative action.");
+
+	}
 
 }

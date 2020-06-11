@@ -1,6 +1,6 @@
 package test.java;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.text.ParseException;
 import java.util.Optional;
@@ -21,7 +21,7 @@ class MapperComputer {
 		comp.setName("soldat");
 		comp.setCompany(Company.Builder.newInstance().setId(15).setName("soldier of fortune").build());
 		Optional<ComputerDTO> expect = ComputerMapper.computerToDTO(comp);
-		assertEquals("soldat",expect.get().getName());
+		assertEquals("soldat", expect.get().getName());
 	}
 
 }
