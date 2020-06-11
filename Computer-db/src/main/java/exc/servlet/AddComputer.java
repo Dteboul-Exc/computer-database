@@ -36,14 +36,9 @@ public class AddComputer extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		ServiceCompany c = new ServiceCompany();
-		try {
-			Optional<List<CompanyDTO>> list_company = c.getAllCompany();
-			request.setAttribute("company", list_company.get());
-			request.getRequestDispatcher("/WEB-INF/views/addComputer.jsp").forward(request, response);
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		Optional<List<CompanyDTO>> list_company = c.getAllCompany();
+		request.setAttribute("company", list_company.get());
+		request.getRequestDispatcher("/WEB-INF/views/addComputer.jsp").forward(request, response);
 	}
 
 	/**

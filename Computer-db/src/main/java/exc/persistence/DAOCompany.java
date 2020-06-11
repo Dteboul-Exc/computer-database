@@ -20,7 +20,7 @@ public class DAOCompany {
 	 *@throws SQLException
 	 * @throws ClassNotFoundException 
 	 */
-	public Optional<List<Company>> getAllCompany() throws SQLException, ClassNotFoundException {
+	public Optional<List<Company>> getAllCompany() throws SQLException{
 
 		Connection conn = DataSource.getConn();
 		List<Company> company = new ArrayList();
@@ -40,7 +40,7 @@ public class DAOCompany {
         Optional<List<Company>> result = Optional.ofNullable(company);
 		return result;
 	}
-	public Optional<Company> getSpecificCompany(int id) throws SQLException, ParseException, ClassNotFoundException {
+	public Optional<Company> getSpecificCompany(int id) throws SQLException, ParseException {
 		if (id == 0) 
 			return Optional.empty();
 		Connection conn = DataSource.getConn();
