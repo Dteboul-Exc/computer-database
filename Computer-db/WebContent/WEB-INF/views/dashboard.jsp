@@ -87,10 +87,10 @@
                     <tr>
                         
                         <td class="editMode">
-                            <input type="checkbox" name="cb" class="cb" value="0">
+                            <input type="checkbox" name="cb" class="cb" value="${cc.id }">
                         </td>
                         <td>
-                            <a href="#" onclick="GoTO(${loop.index})"><c:out value = "${cc.name }" /></a>
+                            <a href="#" onclick="GoTO(${cc.id})"><c:out value = "${cc.name }" /></a>
                         </td>
 						<td><c:out value = "${cc.introduced}" /></td>
 						<td><c:out value = "${cc.discontinued}" /></td>
@@ -114,11 +114,9 @@
                       <span aria-hidden="true">&laquo;</span>
                   </a>
               </li>
-              <li><a href="#">1</a></li>
-              <li><a href="#">2</a></li>
-              <li><a href="#">3</a></li>
-              <li><a href="#">4</a></li>
-              <li><a href="#">5</a></li>
+              <c:forEach var="i" end="${number_button}" begin="0" varStatus="loop">
+              <li><a href="#">${i}</a></li>
+              </c:forEach>
               <li>
                 <a href="#" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
@@ -127,9 +125,9 @@
         </ul>
 
         <div class="btn-group btn-group-sm pull-right" role="group" >
-            <button type="button" class="btn btn-default">10</button>
-            <button type="button" class="btn btn-default">50</button>
-            <button type="button" class="btn btn-default">100</button>
+            <button type="button" class="btn btn-default" onclick="SetNumberofPage(1,10)">10</button>
+            <button type="button" class="btn btn-default" onclick="SetNumberofPage(1,50)">50</button>
+            <button type="button" class="btn btn-default" onclick="SetNumberofPage(1,100)">100</button>
         </div>
 
     </footer>
@@ -138,9 +136,15 @@
 <script src="js/dashboard.js"></script>
 <script>function GoTO(id)
 {
-	alert(id);
-	value = id+1;
-	window.location.href = "editComputer?id=" + value;
-	}</script>
+	window.location.href = "editComputer?id=" + id;
+	}
+function SetNumberofPage(page,rpage)
+{
+	window.location.href = "dashboard?page=" + page + "&recordsPerPage=" + rpage;
+	}
+	
+	
+</script>
+	
 </body>
 <html/>

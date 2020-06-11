@@ -37,17 +37,22 @@ public class Starter extends HttpServlet {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
 		
+		int page = 1;
+        int recordsPerPage = 10;
+        if(request.getParameter("page") != null)
+            page = Integer.parseInt(request.getParameter("page"));
+        if(request.getParameter("recordsPerPage") != null)
+        	recordsPerPage = Integer.parseInt(request.getParameter("recordsPerPage"));
 		ServiceComputer a = new ServiceComputer();
-		Optional<List<ComputerDTO>> list;
-		try {
-			list = a.getAllComputer();
-			request.setAttribute("Computer_list", list.get());
-			request.setAttribute("computer", Integer.toString(list.get().size()));
-			request.getRequestDispatcher("/WEB-INF/views/dashboard.jsp").forward(request, response);
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		List<ComputerDTO> list = new ArrayList<>();
+		list = a.getAllComputer().get();
+		request.setAttribute("computer", Integer.toString(list.size()));
+		int number_button = page/recordsPerPage;
+		request.setAttribute("number_button", number_button);
+		list = list.subList(page, recordsPerPage);
+		request.setAttribute("Computer_list", list);
+		
+		request.getRequestDispatcher("/WEB-INF/views/dashboard.jsp").forward(request, response);
 
 	}
 
@@ -69,9 +74,6 @@ public class Starter extends HttpServlet {
 			} catch (NumberFormatException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
 	        }
 		 else if (request.getParameter("Edit") != null) {
@@ -88,11 +90,18 @@ public class Starter extends HttpServlet {
 			} catch (NumberFormatException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-	        }
+			} }
+			 else if (request.getParameter("selection") != null)
+				{
+					System.out.println(request.getParameter("selection"));
+					String[] List_ID_computer=request.getParameter("selection").split(",");
+					ServiceComputer service = new ServiceComputer();
+					
+					for(String id : List_ID_computer) {
+						service.deleteSpecificComputer(Integer.parseInt(id));
+					}
+				}
+	        
 
 		doGet(request, response);
 	}

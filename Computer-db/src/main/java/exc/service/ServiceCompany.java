@@ -27,7 +27,7 @@ public class ServiceCompany {
 	{
 		this.DAOCompany = DAO;
 	}
-	public  Optional<List<CompanyDTO>> getAllCompany() throws ClassNotFoundException {
+	public  Optional<List<CompanyDTO>> getAllCompany() {
 	BasicConfigurator.configure();
 	Logger logger = LoggerFactory.getLogger(DAOCompany.class);
     logger.debug("getAllCompany start");
@@ -45,7 +45,7 @@ public class ServiceCompany {
 	}
 	}
 	
-	public Optional<CompanyDTO> getSpecificCompany(int id) throws ClassNotFoundException
+	public Optional<CompanyDTO> getSpecificCompany(int id) 
 	{
 		BasicConfigurator.configure();
 		Logger logger = LoggerFactory.getLogger(DAOCompany.class);

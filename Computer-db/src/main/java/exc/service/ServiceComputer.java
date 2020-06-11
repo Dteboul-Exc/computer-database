@@ -38,7 +38,7 @@ public class ServiceComputer {
 	{
 		this.DAOComputer = DAO;
 	}
-	public Optional<List<ComputerDTO>> getAllComputer() throws ClassNotFoundException {
+	public Optional<List<ComputerDTO>> getAllComputer()  {
 		BasicConfigurator.configure();
 
 	    lOG.debug("getAllComputer start");
@@ -60,7 +60,7 @@ public class ServiceComputer {
 			return Optional.empty();
 		}
 	}
-	public  Optional<ComputerDTO> getSpecificComputer(int id) throws ClassNotFoundException {
+	public  Optional<ComputerDTO> getSpecificComputer(int id)  {
 		BasicConfigurator.configure();
 
 	    lOG.debug("getSpecificComputer start using computer id : "+id);
@@ -78,7 +78,7 @@ public class ServiceComputer {
 			return result = Optional.empty();
 		}
 	}
-	public int deleteSpecificComputer(int id) throws ClassNotFoundException
+	public int deleteSpecificComputer(int id) 
 	{
 		BasicConfigurator.configure();
 	    lOG.debug("getSpecificComputer start using computer id : "+id);
@@ -92,7 +92,7 @@ public class ServiceComputer {
 			return result = 0;
 		}  
 	}
-	public int addComputer(ComputerDTO computer) throws ClassNotFoundException 
+	public int addComputer(ComputerDTO computer)  
 	{
 		BasicConfigurator.configure();
 	    lOG.debug("addComputer start using computer");
@@ -137,7 +137,7 @@ public class ServiceComputer {
 			return 1;
 		}		
 	}
-	public int updateComputer(ComputerDTO computer) throws NumberFormatException, ClassNotFoundException 
+	public int updateComputer(ComputerDTO computer) throws NumberFormatException 
 	{
 		BasicConfigurator.configure();
 	    lOG.debug("updateComputer start using computer");

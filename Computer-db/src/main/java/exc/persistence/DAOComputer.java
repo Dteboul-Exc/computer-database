@@ -16,7 +16,7 @@ import main.java.exc.model.Computer;
 public class DAOComputer {
 	
 
-	public Optional<List<Computer>> getAllComputer() throws SQLException, ParseException, ClassNotFoundException{
+	public Optional<List<Computer>> getAllComputer() throws SQLException, ParseException{
 		Connection conn = DataSource.getConn();
 		List<Computer> computer = new ArrayList();
 		Statement statement = conn.createStatement();
@@ -61,7 +61,7 @@ public class DAOComputer {
 	 * @throws ParseException 
 	 * @throws ClassNotFoundException 
 	 */
-	public Optional<Computer> getSpecificComputer(int id) throws SQLException, ParseException, ClassNotFoundException {
+	public Optional<Computer> getSpecificComputer(int id) throws SQLException, ParseException {
 
 		if (id == 0) 
 			return Optional.empty();
@@ -106,7 +106,7 @@ public class DAOComputer {
 	 * @throws SQLException
 	 * @throws ClassNotFoundException 
 	 */
-	public int deleteSpecificComputer(int id) throws SQLException, ClassNotFoundException {
+	public int deleteSpecificComputer(int id) throws SQLException {
 
 
 		Connection conn = DataSource.getConn();
@@ -124,7 +124,7 @@ public class DAOComputer {
 		}
 		return resset;
 	}
-	public static int addComputer(String name,String introduced,String discontinued, long l) throws SQLException, ClassNotFoundException 
+	public static int addComputer(String name,String introduced,String discontinued, long l) throws SQLException 
 	{
 		System.out.print(name);
 		Connection conn = DataSource.getConn();
@@ -160,7 +160,7 @@ public class DAOComputer {
 	 * @throws SQLException 
 	 * @throws ClassNotFoundException 
 	 */
-	public int updateComputer(String name,String introduced,String discontinued, long l,int id) throws SQLException, ClassNotFoundException 
+	public int updateComputer(String name,String introduced,String discontinued, long l,int id) throws SQLException 
 	{
 		Connection conn = DataSource.getConn();
 		int resset=0;

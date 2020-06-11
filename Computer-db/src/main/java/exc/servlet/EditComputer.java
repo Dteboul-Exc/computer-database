@@ -48,7 +48,7 @@ public class EditComputer extends HttpServlet {
 				request.setAttribute("discontinued", target.get().getDiscontinued());
 				request.setAttribute("id", request.getParameter("id"));
 
-			} catch (NumberFormatException | ClassNotFoundException e) {
+			} catch (NumberFormatException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
