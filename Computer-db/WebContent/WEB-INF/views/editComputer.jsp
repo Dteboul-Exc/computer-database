@@ -65,6 +65,7 @@
 </body>
 <script>
 	document.getElementById("error").hidden = true;
+	document.getElementById("id").hidden = true;
 	function Validate() {
 		  var name,introduced,discontinued;
 

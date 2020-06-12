@@ -38,20 +38,45 @@ public class Starter extends HttpServlet {
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
 		
 		int page = 1;
-        int recordsPerPage = 10;
+        int recordsPerPage = 100;
+        int currentplace = 1;
+        int records = 10;
         if(request.getParameter("page") != null)
             page = Integer.parseInt(request.getParameter("page"));
         if(request.getParameter("recordsPerPage") != null)
         	recordsPerPage = Integer.parseInt(request.getParameter("recordsPerPage"));
+        if(request.getParameter("currentplace") != null)
+        	currentplace = Integer.parseInt(request.getParameter("currentplace"));
+       
 		ServiceComputer a = new ServiceComputer();
 		List<ComputerDTO> list = new ArrayList<>();
 		list = a.getAllComputer().get();
 		request.setAttribute("computer", Integer.toString(list.size()));
-		int number_button = page/recordsPerPage;
-		request.setAttribute("number_button", number_button);
-		list = list.subList(page, recordsPerPage);
+		long max_button=1;
+		if (page != 1)
+		{
+		if ((page*recordsPerPage  + recordsPerPage) < list.size())
+		{
+			list = list.subList(page*recordsPerPage, page*recordsPerPage + recordsPerPage);
+			//page-=1;
+			max_button =+1;
+		}
+		else
+		{
+			list = list.subList(page*recordsPerPage, list.size());
+			page = page-2;
+			
+		}}
+		else {
+			max_button = 5;
+		}
+		//if(page*recordsPerPage < max_button*recordsPerPage) { max_button= list.size()/recordsPerPage};
+		//if (max_button > page + 5) max_button = page + 5;
+		request.setAttribute("page", page);
+		request.setAttribute("recordsPerPage", recordsPerPage);
+		request.setAttribute("max_button", max_button);
 		request.setAttribute("Computer_list", list);
-		
+		request.setAttribute("min_button", page);
 		request.getRequestDispatcher("/WEB-INF/views/dashboard.jsp").forward(request, response);
 
 	}
