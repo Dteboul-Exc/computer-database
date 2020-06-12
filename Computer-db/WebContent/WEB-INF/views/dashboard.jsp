@@ -38,7 +38,6 @@
                 <div class="pull-right">
                     <a class="btn btn-success" id="addComputer" href="addComputer">Add Computer</a> 
                     <a class="btn btn-default" id="editComputer" href="#" onclick="$.fn.toggleEditMode();">Edit</a>
-                    <a class="btn btn-danger" id="delete-Computer" href="#"">Delete selected Computer</a>
                 </div>
             </div>
         </div>
@@ -114,8 +113,8 @@
                       <span aria-hidden="true">&laquo;</span>
                   </a>
               </li>
-              <c:forEach var="i" end="${number_button}" begin="0" varStatus="loop">
-              <li><a href="#">${i}</a></li>
+              <c:forEach var="i" end="${max_button}" begin="${min_button}" varStatus="loop">
+              <li><a href="http://localhost:8080/Computer-db/dashboard?page=${i}&recordsPerPage=${recordsPerPage}">${i} </a></li>
               </c:forEach>
               <li>
                 <a href="#" aria-label="Next">
@@ -141,6 +140,10 @@
 function SetNumberofPage(page,rpage)
 {
 	window.location.href = "dashboard?page=" + page + "&recordsPerPage=" + rpage;
+	}
+function Navigate(page,rpage,pos)
+{
+	window.location.href = "addComputer?page=" + page + "&recordsPerPage=" + rpage + "&currentplace=" + pos;
 	}
 	
 	
