@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import main.java.exc.model.CompanyDTO;
 import main.java.exc.model.ComputerDTO;
+import main.java.exc.persistence.OrderByState;
 import main.java.exc.service.ServiceComputer;
 
 /**
@@ -109,7 +110,7 @@ public class Dashboard extends HttpServlet {
        
 		ServiceComputer a = new ServiceComputer();
 		List<ComputerDTO> list = new ArrayList<>();
-		list = a.getAllComputer().get();
+		list = a.getAllComputerOrderBy(OrderByState.COMPANY);
 		request.setAttribute("computer", Integer.toString(list.size()));
 		long max_button=1;
 		if (page != 1)
@@ -138,7 +139,12 @@ public class Dashboard extends HttpServlet {
 		request.setAttribute("min_button", page);
 		request.getRequestDispatcher("/WEB-INF/views/dashboard.jsp").forward(request, response);
 	}
-
+	
+	
+	public void OrderBy(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+	}
+	
 	/*
 	 * @Deprecated
 	private Map<Integer,Integer> DefinePaginationList(int page,int recordsPerPage,List<ComputerDTO> list )

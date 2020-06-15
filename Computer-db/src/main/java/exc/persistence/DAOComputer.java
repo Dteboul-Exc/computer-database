@@ -1,6 +1,7 @@
 package main.java.exc.persistence;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -15,7 +16,7 @@ import main.java.exc.model.Computer;
 
 public class DAOComputer {
 	
-
+	private String QueryGetAllComputerORDERBY = "select computer.name ,computer.id,introduced,discontinued,company_id ,company.name as company from computer LEFT JOIN company ON computer.company_id = company.id ORDER BY ?";
 	public Optional<List<Computer>> getAllComputer() throws SQLException, ParseException{
 		Connection conn = DataSource.getConn();
 		List<Computer> computer = new ArrayList();
@@ -52,6 +53,42 @@ public class DAOComputer {
 		return result;
 	}
 	
+	
+	public List<Computer> getAllComputerOrderBY(String Order) throws SQLException, ParseException{
+		Connection conn = DataSource.getConn();
+		List<Computer> computer = new ArrayList();
+		PreparedStatement stmt = conn.prepareStatement(QueryGetAllComputerORDERBY);
+		stmt.setString(1, Order);
+		ResultSet resset = stmt.executeQuery();
+        while ( resset.next() ) {
+        	Computer tcomputer = Computer.Builder.newInstance().build();
+            String name = resset.getString("name");
+            String company = resset.getString("company");
+            int id = resset.getInt("id");
+            String introduced = resset.getString("introduced");
+            String discontinued = resset.getString("discontinued");
+            int company_id = resset.getInt("company_id");
+            tcomputer.setId(id);
+            tcomputer.setName(name);
+			if(introduced != null) tcomputer.setIntroduced(DateMapper.StringConverter(introduced).get());
+			if(discontinued != null) tcomputer.setDiscontinued(DateMapper.StringConverter(discontinued).get());
+			if(company_id!=0)
+				{
+				
+				Company comp = Company.Builder.newInstance().setId(resset.getInt("company_id")).setName(resset.getString("company")).build();
+				tcomputer.setCompany(comp);
+				}
+				else
+				{
+					Company comp = Company.Builder.newInstance().setId(0).setName("none").build();
+					tcomputer.setCompany(comp);
+				}
+            computer.add(tcomputer);
+            
+        }
+        conn.close();
+		return computer;
+	}
 	/**
 	 * Search a single computer in the database using its id.
 	 * 
@@ -92,7 +129,6 @@ public class DAOComputer {
 		{
 			computer = null;
 		}
-		System.out.println("id = " + computer.getId());
 		conn.close();
 		return Optional.ofNullable(computer);
 	}
