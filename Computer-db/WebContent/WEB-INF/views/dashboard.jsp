@@ -63,7 +63,9 @@
                             </span>
                         </th>
                         <th>
-                            Computer name
+                        <a href="addComputer">
+                            Computer name &#8595;
+                            </a>
                         </th>
                         <th>
                             Introduced date
@@ -108,19 +110,26 @@
     <footer class="navbar-fixed-bottom">
         <div class="container text-center">
             <ul class="pagination">
+ 				<c:if test="${min_button >1}">     
+              <li>   
                 <li>
-                    <a href="#" aria-label="Previous">
-                      <span aria-hidden="true">&laquo;</span>
+                    <a href="http://localhost:8080/Computer-db/dashboard?page=${currentplace-1}&recordsPerPage=${recordsPerPage}"aria-label="Previous">
+                      <span  aria-hidden="true">&laquo;</span>
                   </a>
               </li>
+              </c:if>
               <c:forEach var="i" end="${max_button}" begin="${min_button}" varStatus="loop">
               <li><a href="http://localhost:8080/Computer-db/dashboard?page=${i}&recordsPerPage=${recordsPerPage}">${i} </a></li>
               </c:forEach>
-              <li>
-                <a href="#" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
+              
+              <c:if test="${max_button != min_button + 1}">     
+              <li>    
+                <a href="http://localhost:8080/Computer-db/dashboard?page=${currentplace+1}&recordsPerPage=${recordsPerPage}" aria-label="Next">
+                    <span  aria-hidden="true">&raquo;</span>
                 </a>
-            </li>
+                 </li>
+               </c:if>
+           
         </ul>
 
         <div class="btn-group btn-group-sm pull-right" role="group" >

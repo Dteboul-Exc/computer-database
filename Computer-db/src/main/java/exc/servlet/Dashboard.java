@@ -2,7 +2,11 @@ package main.java.exc.servlet;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.servlet.ServletException;
@@ -19,13 +23,13 @@ import main.java.exc.service.ServiceComputer;
  * Servlet implementation class Starter
  */
 @WebServlet("/dashboard")
-public class Starter extends HttpServlet {
+public class Dashboard extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Starter() {
+    public Dashboard() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -36,48 +40,8 @@ public class Starter extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
-		
-		int page = 1;
-        int recordsPerPage = 100;
-        int currentplace = 1;
-        int records = 10;
-        if(request.getParameter("page") != null)
-            page = Integer.parseInt(request.getParameter("page"));
-        if(request.getParameter("recordsPerPage") != null)
-        	recordsPerPage = Integer.parseInt(request.getParameter("recordsPerPage"));
-        if(request.getParameter("currentplace") != null)
-        	currentplace = Integer.parseInt(request.getParameter("currentplace"));
-       
-		ServiceComputer a = new ServiceComputer();
-		List<ComputerDTO> list = new ArrayList<>();
-		list = a.getAllComputer().get();
-		request.setAttribute("computer", Integer.toString(list.size()));
-		long max_button=1;
-		if (page != 1)
-		{
-		if ((page*recordsPerPage  + recordsPerPage) < list.size())
-		{
-			list = list.subList(page*recordsPerPage, page*recordsPerPage + recordsPerPage);
-			//page-=1;
-			max_button =+1;
-		}
-		else
-		{
-			list = list.subList(page*recordsPerPage, list.size());
-			page = page-2;
-			
-		}}
-		else {
-			max_button = 5;
-		}
-		//if(page*recordsPerPage < max_button*recordsPerPage) { max_button= list.size()/recordsPerPage};
-		//if (max_button > page + 5) max_button = page + 5;
-		request.setAttribute("page", page);
-		request.setAttribute("recordsPerPage", recordsPerPage);
-		request.setAttribute("max_button", max_button);
-		request.setAttribute("Computer_list", list);
-		request.setAttribute("min_button", page);
-		request.getRequestDispatcher("/WEB-INF/views/dashboard.jsp").forward(request, response);
+		Pagination(request,response);
+
 
 	}
 
@@ -131,5 +95,73 @@ public class Starter extends HttpServlet {
 		doGet(request, response);
 	}
 	
+	private void Pagination(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		int page = 1;
+        int recordsPerPage = 100;
+        int currentplace = 1;
+        int records = 10;
+        if(request.getParameter("page") != null)
+            page = Integer.parseInt(request.getParameter("page"));
+        if(request.getParameter("recordsPerPage") != null)
+        	recordsPerPage = Integer.parseInt(request.getParameter("recordsPerPage"));
+        if(request.getParameter("page") != null)
+        	currentplace = Integer.parseInt(request.getParameter("page"));
+       
+		ServiceComputer a = new ServiceComputer();
+		List<ComputerDTO> list = new ArrayList<>();
+		list = a.getAllComputer().get();
+		request.setAttribute("computer", Integer.toString(list.size()));
+		long max_button=1;
+		if (page != 1)
+		{
+		if ((page*recordsPerPage  + recordsPerPage) < list.size())
+		{
+			list = list.subList(page*recordsPerPage, page*recordsPerPage + recordsPerPage);
+			page-=1;
+			max_button = page +2;
+		}
+		else
+		{
+			list = list.subList(page*recordsPerPage, list.size());
+			max_button = page;
+			page = page-1;	
+		}
+		}
+		else {
+			max_button = page+1;
+		}
+		
+		request.setAttribute("currentplace", currentplace);
+		request.setAttribute("recordsPerPage", recordsPerPage);
+		request.setAttribute("max_button", max_button);
+		request.setAttribute("Computer_list", list);
+		request.setAttribute("min_button", page);
+		request.getRequestDispatcher("/WEB-INF/views/dashboard.jsp").forward(request, response);
+	}
+
+	/*
+	 * @Deprecated
+	private Map<Integer,Integer> DefinePaginationList(int page,int recordsPerPage,List<ComputerDTO> list )
+	{
+		Map<Integer,Integer> result = new HashMap<>();
+		if ((page*recordsPerPage  + recordsPerPage) < list.size())
+		{
+			list = list.subList(page*recordsPerPage, page*recordsPerPage + recordsPerPage);
+			page-=1;
+			max_button = page +2;
+			result.put(page-1, page+2);
+		}
+		else
+		{
+			list = list.subList(page*recordsPerPage, list.size());
+			max_button = page;
+			page = page-1;	
+		}
+		else {
+			max_button = page+1;
+		}
+		return result;
+	}
+	*/
 
 }
