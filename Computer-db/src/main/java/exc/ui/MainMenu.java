@@ -110,12 +110,12 @@ public class MainMenu {
 				break;
 			case LComputer :
 				sta = state.Main;
-				Optional<List<ComputerDTO>> optcomputer = DAOComputer.getAllComputer();
+				List<ComputerDTO> optcomputer = DAOComputer.getAllComputer();
 				
 				if (!optcomputer.isEmpty())
 				{
 					logger.debug("user is being shown a list of the computer in the database");
-					List<ComputerDTO> lcomp = optcomputer.get();
+					List<ComputerDTO> lcomp = optcomputer;
 					Page h = new Page();
 					h.Following(lcomp);
 				}

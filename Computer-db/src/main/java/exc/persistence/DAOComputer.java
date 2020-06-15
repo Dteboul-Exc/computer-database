@@ -16,7 +16,10 @@ import main.java.exc.model.Computer;
 
 public class DAOComputer {
 	
-	private String QueryGetAllComputerORDERBY = "select computer.name ,computer.id,introduced,discontinued,company_id ,company.name as company from computer LEFT JOIN company ON computer.company_id = company.id ORDER BY ?";
+	private String QueryGetAllComputerOrderByCompany= "select computer.name ,computer.id,introduced,discontinued,company_id ,company.name as company from computer LEFT JOIN company ON computer.company_id = company.id ORDER BY company.name ";
+	private String QueryGetAllComputerOrderByComputer= "select computer.name ,computer.id,introduced,discontinued,company_id ,company.name as company from computer LEFT JOIN company ON computer.company_id = company.id ORDER BY computer.name ";
+	
+	
 	public Optional<List<Computer>> getAllComputer() throws SQLException, ParseException{
 		Connection conn = DataSource.getConn();
 		List<Computer> computer = new ArrayList();
@@ -54,12 +57,27 @@ public class DAOComputer {
 	}
 	
 	
-	public List<Computer> getAllComputerOrderBY(String Order) throws SQLException, ParseException{
+	public List<Computer> getAllComputerOrderBY(OrderByState Order) throws SQLException, ParseException{
 		Connection conn = DataSource.getConn();
 		List<Computer> computer = new ArrayList();
-		PreparedStatement stmt = conn.prepareStatement(QueryGetAllComputerORDERBY);
-		stmt.setString(1, Order);
-		ResultSet resset = stmt.executeQuery();
+		Statement stmt = conn.createStatement();
+		ResultSet resset;
+		switch (Order)
+		{
+		case COMPANY :
+			 resset = stmt.executeQuery(QueryGetAllComputerOrderByCompany);
+			 System.out.println("company");
+			 break;
+		case COMPUTER :
+			 resset = stmt.executeQuery(QueryGetAllComputerOrderByComputer);
+			 System.out.println("computer");
+			 break;
+		default :
+			resset = stmt.executeQuery(QueryGetAllComputerOrderByComputer);
+			System.out.println("default");
+			break;
+		}
+		
         while ( resset.next() ) {
         	Computer tcomputer = Computer.Builder.newInstance().build();
             String name = resset.getString("name");

@@ -2,7 +2,7 @@ package main.java.exc.persistence;
 
 public enum OrderByState {
 	COMPANY("company.name"),
-	NAME("computer.name");
+	COMPUTER("computer.name");
 
 	private String order;
 	OrderByState(String string) {
