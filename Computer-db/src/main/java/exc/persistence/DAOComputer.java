@@ -16,9 +16,9 @@ import main.java.exc.model.Computer;
 
 public class DAOComputer {
 	
-	private String QueryGetAllComputerOrderByCompany= "select computer.name ,computer.id,introduced,discontinued,company_id ,company.name as company from computer LEFT JOIN company ON computer.company_id = company.id ORDER BY company.name ";
-	private String QueryGetAllComputerOrderByComputer= "select computer.name ,computer.id,introduced,discontinued,company_id ,company.name as company from computer LEFT JOIN company ON computer.company_id = company.id ORDER BY computer.name ";
-	
+	private static final String OrderByCompany= "select computer.name ,computer.id,introduced,discontinued,company_id ,company.name as company from computer LEFT JOIN company ON computer.company_id = company.id ORDER BY company.name ";
+	private static final String OrderByComputer= "select computer.name ,computer.id,introduced,discontinued,company_id ,company.name as company from computer LEFT JOIN company ON computer.company_id = company.id ORDER BY computer.name ";
+	private static final String SearchComputer="select computer.name ,computer.id,introduced,discontinued,company_id ,company.name as company from computer LEFT JOIN company ON computer.company_id = company.id WHERE LOWER(computer.name) LIKE ? ;";
 	
 	public Optional<List<Computer>> getAllComputer() throws SQLException, ParseException{
 		Connection conn = DataSource.getConn();
@@ -65,15 +65,15 @@ public class DAOComputer {
 		switch (Order)
 		{
 		case COMPANY :
-			 resset = stmt.executeQuery(QueryGetAllComputerOrderByCompany);
+			 resset = stmt.executeQuery(OrderByCompany);
 			 System.out.println("company");
 			 break;
 		case COMPUTER :
-			 resset = stmt.executeQuery(QueryGetAllComputerOrderByComputer);
+			 resset = stmt.executeQuery(OrderByComputer);
 			 System.out.println("computer");
 			 break;
 		default :
-			resset = stmt.executeQuery(QueryGetAllComputerOrderByComputer);
+			resset = stmt.executeQuery(OrderByComputer);
 			System.out.println("default");
 			break;
 		}
@@ -107,6 +107,26 @@ public class DAOComputer {
         conn.close();
 		return computer;
 	}
+	public List<Computer> Search_Computer(String name) throws SQLException, ParseException{
+		
+		Connection conn = DataSource.getConn();
+		PreparedStatement statement = conn.prepareStatement(SearchComputer);
+		statement.setString(1, "name");
+		List<Computer> computer = new ArrayList<>();
+		ResultSet resset = statement.executeQuery();
+		while (resset.next())
+		{
+			
+				Computer tcomputer = Computer.Builder.newInstance().setName(resset.getString("name"))
+						.setIntroduced(DateMapper.StringConverter(resset.getString("introduced")).get())
+						.setDiscontinued(DateMapper.StringConverter(resset.getString("discontinued")).get())
+						.setCompany(Company.Builder.newInstance().setId(resset.getInt("company_id")).setName("company").build())
+						.build();
+				computer.add(tcomputer);
+		}
+		conn.close();
+		return computer;
+	}
 	/**
 	 * Search a single computer in the database using its id.
 	 * 
@@ -116,7 +136,7 @@ public class DAOComputer {
 	 * @throws ParseException 
 	 * @throws ClassNotFoundException 
 	 */
-	public Optional<Computer> getSpecificComputer(int id) throws SQLException, ParseException {
+	public Optional<Computer> get_Computer_By_Id(int id) throws SQLException, ParseException {
 
 		if (id == 0) 
 			return Optional.empty();

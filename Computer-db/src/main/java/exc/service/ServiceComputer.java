@@ -67,7 +67,7 @@ public class ServiceComputer {
 	    lOG.debug("getSpecificComputer start using computer id : "+id);
 	    Optional<ComputerDTO> result;
 	    try {
-			result = ComputerMapper.computerToDTO(DAOComputer.getSpecificComputer(id).get());
+			result = ComputerMapper.computerToDTO(DAOComputer.get_Computer_By_Id(id).get());
 			return result;
 		} catch (SQLException e) {
 			lOG.error("SQLerror while getting Computer with id "+id+"error: "+ e);
@@ -77,6 +77,28 @@ public class ServiceComputer {
 			lOG.error("ParseException while getting  Computer id " + id+ "error : "+ e);
 			e.printStackTrace();
 			return result = Optional.empty();
+		}
+	}
+	
+	public  List<ComputerDTO> Search_Computer(String name)  {
+		BasicConfigurator.configure();
+
+	    lOG.debug("Search_Computer start using computer name : "+name);
+	    List<Computer> dataset;
+	    List<ComputerDTO> result = new ArrayList<>();
+	    try {
+			dataset = DAOComputer.Search_Computer(name);
+			for(Computer computer : dataset)
+				result.add(ComputerMapper.computerToDTO(computer).get());
+			return result;
+		} catch (SQLException e) {
+			lOG.error("SQLerror while Searching for the Computers : "+ e);
+			e.printStackTrace();
+			return result;
+		} catch (ParseException e) {
+			lOG.error("ParseException Searching for the Computers : "+ e);
+			e.printStackTrace();
+			return result;
 		}
 	}
 	public int deleteSpecificComputer(int id) 

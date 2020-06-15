@@ -75,7 +75,7 @@ public class ServiceComputer_Testing {
 				.build();
 		Optional<Computer> tested = Optional.of(c);
 		//Mockito.when(mockDAO.getSpecificComputer(0)).thenReturn(tested);
-		Mockito.when(mockDAO.getSpecificComputer(45)).thenReturn(tested);
+		Mockito.when(mockDAO.get_Computer_By_Id(45)).thenReturn(tested);
 	boolean check = c.equals(ComputerMapper.CDTOToComputer((this.service.getSpecificComputer(45).get())).get());
 		assertEquals(true,check);
 
