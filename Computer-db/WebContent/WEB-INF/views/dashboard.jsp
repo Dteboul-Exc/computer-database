@@ -63,7 +63,7 @@
                             </span>
                         </th>
                         <th>
-                        <a href="addComputer">
+                        <a href="http://localhost:8080/Computer-db/dashboard?page=${currentplace}&recordsPerPage=${recordsPerPage}&Order=computer">
                             Computer name &#8595;
                             </a>
                         </th>
@@ -76,7 +76,9 @@
                         </th>
                         <!-- Table header for Company -->
                         <th>
+                       	<a href="http://localhost:8080/Computer-db/dashboard?page=${currentplace}&recordsPerPage=${recordsPerPage}&Order=company">
                             Company
+                            </a>
                         </th>
 
                     </tr>

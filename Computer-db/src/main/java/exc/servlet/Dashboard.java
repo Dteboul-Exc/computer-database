@@ -98,7 +98,7 @@ public class Dashboard extends HttpServlet {
 	
 	private void Pagination(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int page = 1;
-        int recordsPerPage = 100;
+        int recordsPerPage = 10;
         int currentplace = 1;
         int records = 10;
         if(request.getParameter("page") != null)
@@ -110,7 +110,12 @@ public class Dashboard extends HttpServlet {
        
 		ServiceComputer a = new ServiceComputer();
 		List<ComputerDTO> list = new ArrayList<>();
-		list = a.getAllComputerOrderBy(OrderByState.COMPANY);
+		if ((request.getParameter("Order") != null)&& ((request.getParameter("Order").equals("computer"))))
+			list = a.getAllComputerOrderBy(OrderByState.COMPUTER);
+		else if ((request.getParameter("Order") != null)&& ((request.getParameter("Order").equals("company"))))
+			list = a.getAllComputerOrderBy(OrderByState.COMPANY);
+		else 
+			list = a.getAllComputer();
 		request.setAttribute("computer", Integer.toString(list.size()));
 		long max_button=1;
 		if (page != 1)
@@ -129,6 +134,7 @@ public class Dashboard extends HttpServlet {
 		}
 		}
 		else {
+			//list = list.subList(page, recordsPerPage );
 			max_button = page+1;
 		}
 		

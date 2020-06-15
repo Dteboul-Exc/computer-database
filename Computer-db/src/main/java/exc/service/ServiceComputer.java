@@ -39,26 +39,26 @@ public class ServiceComputer {
 	{
 		this.DAOComputer = DAO;
 	}
-	public Optional<List<ComputerDTO>> getAllComputer()  {
+	public List<ComputerDTO> getAllComputer()  {
 		BasicConfigurator.configure();
 
 	    lOG.debug("getAllComputer start");
 	   
 	    Optional<List<Computer>> dataset;
+	    List<ComputerDTO> result = new ArrayList<>();
 	    try {
-	    	 List<ComputerDTO> result = new ArrayList<>();
 			dataset = DAOComputer.getAllComputer();
 			for(Computer computer : dataset.get())
 				result.add(ComputerMapper.computerToDTO(computer).get());
-			return Optional.of(result);
+			return result;
 		} catch (SQLException e) {
 			lOG.error("SQLerror while getting all Computer : "+ e);
 			e.printStackTrace();
-			return Optional.empty();
+			return result;
 		} catch (ParseException e) {
 			lOG.error("ParseException while getting all Computer : "+ e);
 			e.printStackTrace();
-			return Optional.empty();
+			return result;
 		}
 	}
 	public  Optional<ComputerDTO> getSpecificComputer(int id)  {
@@ -191,40 +191,12 @@ public class ServiceComputer {
 	    lOG.debug("getAllComputer start");
 	    List<ComputerDTO> result = new ArrayList<>();
 	    List<Computer> dataset = null;
-	    
-	    switch (state)
-	    {
-	    case COMPANY:
-	    	try {
-				dataset = DAOComputer.getAllComputerOrderBY(state.COMPANY.getOrder());
-			} catch (SQLException e2) {
-				// TODO Auto-generated catch block
-				e2.printStackTrace();
-			} catch (ParseException e2) {
-				// TODO Auto-generated catch block
-				e2.printStackTrace();
-			}
-	    case NAME:
-	    	try {
-				dataset = DAOComputer.getAllComputerOrderBY(state.NAME.getOrder());
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (ParseException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-	    default:
-	    	try {
-				dataset = DAOComputer.getAllComputerOrderBY(state.NAME.getOrder());
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (ParseException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-	    }
+	    try {
+			dataset = DAOComputer.getAllComputerOrderBY(state);
+		} catch (SQLException | ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	    
 	    try {
 			
