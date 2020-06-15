@@ -22,6 +22,7 @@ import main.java.exc.model.Computer;
 import main.java.exc.model.ComputerDTO;
 import main.java.exc.persistence.DAOCompany;
 import main.java.exc.persistence.DAOComputer;
+import main.java.exc.persistence.OrderByState;
 import main.java.exc.persistence.SQLConnect;
 
 public class ServiceComputer {
@@ -180,6 +181,61 @@ public class ServiceComputer {
 			 lOG.error("SQL Error while creating a new computer : " + exc);
 			exc.printStackTrace();
 			return 1;
+		}
+	}
+	
+	
+	public List<ComputerDTO> getAllComputerOrderBy(OrderByState state)  {
+		BasicConfigurator.configure();
+
+	    lOG.debug("getAllComputer start");
+	    List<ComputerDTO> result = new ArrayList<>();
+	    List<Computer> dataset = null;
+	    
+	    switch (state)
+	    {
+	    case COMPANY:
+	    	try {
+				dataset = DAOComputer.getAllComputerOrderBY(state.COMPANY.getOrder());
+			} catch (SQLException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			} catch (ParseException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			}
+	    case NAME:
+	    	try {
+				dataset = DAOComputer.getAllComputerOrderBY(state.NAME.getOrder());
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+	    default:
+	    	try {
+				dataset = DAOComputer.getAllComputerOrderBY(state.NAME.getOrder());
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+	    }
+	    
+	    try {
+			
+			for(Computer computer : dataset)
+				result.add(ComputerMapper.computerToDTO(computer).get());
+			return result;
+		} catch (ParseException e) {
+			lOG.error("ParseException while getting all Computer : "+ e);
+			e.printStackTrace();
+			return result;
+			
 		}
 	}
 	
