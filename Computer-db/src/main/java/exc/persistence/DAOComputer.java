@@ -16,9 +16,9 @@ import main.java.exc.model.Computer;
 
 public class DAOComputer {
 	
-	private static final String OrderByCompany= "select computer.name ,computer.id,introduced,discontinued,company_id ,company.name as company from computer LEFT JOIN company ON computer.company_id = company.id ORDER BY company.name ";
-	private static final String OrderByComputer= "select computer.name ,computer.id,introduced,discontinued,company_id ,company.name as company from computer LEFT JOIN company ON computer.company_id = company.id ORDER BY computer.name ";
-	private static final String SearchComputer="select computer.name ,computer.id,introduced,discontinued,company_id ,company.name as company from computer LEFT JOIN company ON computer.company_id = company.id WHERE LOWER(computer.name) LIKE  ? ;";
+	private static final String ORDER_BY_COMPANY= "select computer.name ,computer.id,introduced,discontinued,company_id ,company.name as company from computer LEFT JOIN company ON computer.company_id = company.id ORDER BY company.name ";
+	private static final String ORDER_BY_COMPUTER= "select computer.name ,computer.id,introduced,discontinued,company_id ,company.name as company from computer LEFT JOIN company ON computer.company_id = company.id ORDER BY computer.name ";
+	private static final String SEARCH_COMPUTER="select computer.name ,computer.id,introduced,discontinued,company_id ,company.name as company from computer LEFT JOIN company ON computer.company_id = company.id WHERE LOWER(computer.name) LIKE  ? ;";
 	
 	public Optional<List<Computer>> getAllComputer() throws SQLException, ParseException{
 		Connection conn = DataSource.getConn();
@@ -65,15 +65,15 @@ public class DAOComputer {
 		switch (Order)
 		{
 		case COMPANY :
-			 resset = stmt.executeQuery(OrderByCompany);
+			 resset = stmt.executeQuery(ORDER_BY_COMPANY);
 			 System.out.println("company");
 			 break;
 		case COMPUTER :
-			 resset = stmt.executeQuery(OrderByComputer);
+			 resset = stmt.executeQuery(ORDER_BY_COMPUTER);
 			 System.out.println("computer");
 			 break;
 		default :
-			resset = stmt.executeQuery(OrderByComputer);
+			resset = stmt.executeQuery(ORDER_BY_COMPUTER);
 			System.out.println("default");
 			break;
 		}
@@ -110,7 +110,7 @@ public class DAOComputer {
 	public List<Computer> Search_Computer(String name) throws SQLException, ParseException{
 		
 		Connection conn = DataSource.getConn();
-		PreparedStatement statement = conn.prepareStatement(SearchComputer);
+		PreparedStatement statement = conn.prepareStatement(SEARCH_COMPUTER);
 		statement.setString(1, name);
 		List<Computer> computer = new ArrayList<>();
 		ResultSet resset = statement.executeQuery();
