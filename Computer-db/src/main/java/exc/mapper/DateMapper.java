@@ -31,6 +31,10 @@ public class DateMapper {
 			    Optional<LocalDate> result = Optional.ofNullable(myDateObj);
 				return result;
 		}
+		catch (NullPointerException e) {
+		    Optional<LocalDate> result = Optional.ofNullable(null);
+			return result;
+	}
 		
 	}
 	

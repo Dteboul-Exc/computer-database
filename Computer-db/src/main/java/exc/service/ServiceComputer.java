@@ -81,13 +81,13 @@ public class ServiceComputer {
 	}
 	
 	public  List<ComputerDTO> Search_Computer(String name)  {
-		BasicConfigurator.configure();
+		BasicConfigurator.configure(); 
 
 	    lOG.debug("Search_Computer start using computer name : "+name);
 	    List<Computer> dataset;
 	    List<ComputerDTO> result = new ArrayList<>();
 	    try {
-			dataset = DAOComputer.Search_Computer(name);
+			dataset = DAOComputer.Search_Computer("%" +name+"%");
 			for(Computer computer : dataset)
 				result.add(ComputerMapper.computerToDTO(computer).get());
 			return result;

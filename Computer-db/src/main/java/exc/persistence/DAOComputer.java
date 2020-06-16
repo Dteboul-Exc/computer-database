@@ -18,7 +18,7 @@ public class DAOComputer {
 	
 	private static final String OrderByCompany= "select computer.name ,computer.id,introduced,discontinued,company_id ,company.name as company from computer LEFT JOIN company ON computer.company_id = company.id ORDER BY company.name ";
 	private static final String OrderByComputer= "select computer.name ,computer.id,introduced,discontinued,company_id ,company.name as company from computer LEFT JOIN company ON computer.company_id = company.id ORDER BY computer.name ";
-	private static final String SearchComputer="select computer.name ,computer.id,introduced,discontinued,company_id ,company.name as company from computer LEFT JOIN company ON computer.company_id = company.id WHERE LOWER(computer.name) LIKE ? ;";
+	private static final String SearchComputer="select computer.name ,computer.id,introduced,discontinued,company_id ,company.name as company from computer LEFT JOIN company ON computer.company_id = company.id WHERE LOWER(computer.name) LIKE  ? ;";
 	
 	public Optional<List<Computer>> getAllComputer() throws SQLException, ParseException{
 		Connection conn = DataSource.getConn();
@@ -111,17 +111,18 @@ public class DAOComputer {
 		
 		Connection conn = DataSource.getConn();
 		PreparedStatement statement = conn.prepareStatement(SearchComputer);
-		statement.setString(1, "name");
+		statement.setString(1, name);
 		List<Computer> computer = new ArrayList<>();
 		ResultSet resset = statement.executeQuery();
 		while (resset.next())
 		{
 			
 				Computer tcomputer = Computer.Builder.newInstance().setName(resset.getString("name"))
-						.setIntroduced(DateMapper.StringConverter(resset.getString("introduced")).get())
-						.setDiscontinued(DateMapper.StringConverter(resset.getString("discontinued")).get())
 						.setCompany(Company.Builder.newInstance().setId(resset.getInt("company_id")).setName("company").build())
 						.build();
+				if(resset.getString("introduced") != null) tcomputer.setIntroduced(DateMapper.StringConverter(resset.getString("introduced") ).get());
+				if(resset.getString("discontinued")  != null) tcomputer.setDiscontinued(DateMapper.StringConverter(resset.getString("discontinued") ).get());
+				System.out.println(tcomputer.getName());
 				computer.add(tcomputer);
 		}
 		conn.close();
