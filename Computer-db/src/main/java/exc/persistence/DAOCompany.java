@@ -1,6 +1,7 @@
 package main.java.exc.persistence;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -12,7 +13,10 @@ import java.util.Optional;
 import main.java.exc.model.Company;
 
 public class DAOCompany {
-	/**
+	
+	private final String DELETE_COMPANY = "DELETE FROM company WHERE id = ?";
+	private final String DELETE_COMPANY_FROM_COMPUTER = "DELETE FROM computer WHERE company_id = ?";
+	/*
 	 * Return the list of all companies present in the SQL database. Will throw SQLException in case it cannot access the database
 	 * 
 	 * 
@@ -66,5 +70,29 @@ public class DAOCompany {
 		}
 		conn.close();
 		return Optional.ofNullable(company);
+	}
+	
+
+	public int deleteCompany(int id) 
+	{
+		Connection conn;
+		try {
+			conn = DataSource.getConn();
+			conn.setAutoCommit(false);
+			PreparedStatement statement = conn.prepareStatement(DELETE_COMPANY_FROM_COMPUTER);
+			statement.setLong(1, id);
+			statement.executeUpdate();
+			statement = conn.prepareStatement(DELETE_COMPANY);
+			statement.setLong(1, id);
+			statement.executeUpdate();
+			conn.commit();
+			conn.setAutoCommit(true);
+			return 1;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return 0;
 	}
 }
