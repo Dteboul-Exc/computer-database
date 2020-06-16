@@ -39,9 +39,10 @@ public class Dashboard extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		//response.getWriter().append("Served at: ").append(request.getContextPath());
-		Pagination(request,response);
+		if (request.getParameter("search") != null) 
+			Search(request,response);
+		else	
+			Pagination(request,response);
 
 
 	}
@@ -95,6 +96,18 @@ public class Dashboard extends HttpServlet {
 
 		doGet(request, response);
 	}
+	private void Search(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		ServiceComputer a = new ServiceComputer();
+		List<ComputerDTO> list = new ArrayList<>();
+		list = a.Search_Computer(request.getParameter("search"));
+		request.setAttribute("currentplace", 1);
+		request.setAttribute("recordsPerPage", 200);
+		request.setAttribute("max_button", 0);
+		request.setAttribute("Computer_list", list);
+		request.setAttribute("min_button", 1);
+		request.getRequestDispatcher("/WEB-INF/views/dashboard.jsp").forward(request, response);
+	}
+	
 	
 	private void Pagination(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int page = 1;

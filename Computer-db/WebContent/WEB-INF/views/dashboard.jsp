@@ -21,7 +21,7 @@
     <section id="main">
         <div class="container">
             <h1 id="homeTitle">
-                <% out.println("There are  " + (String)request.getAttribute("computer") + "Computer");%>
+                <% out.println("There are  " + (String)request.getAttribute("computer") + " Computers.");%>
             </h1>
 
 
