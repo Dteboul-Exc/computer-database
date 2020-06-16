@@ -13,7 +13,9 @@ import java.util.Optional;
 import main.java.exc.model.Company;
 
 public class DAOCompany {
-	
+	private final String GET_ALL_COMPANY = "SELECT name,id FROM company";
+	private final String GET_SPECIFIC_COMPANY = "SELECT computer.name ,computer.id,introduced,discontinued,company_id ,company.name AS "
+			+ "company from computer LEFT JOIN company ON computer.company_id = company.id where computer.id = ?";
 	private final String DELETE_COMPANY = "DELETE FROM company WHERE id = ?";
 	private final String DELETE_COMPANY_FROM_COMPUTER = "DELETE FROM computer WHERE company_id = ?";
 	/*
@@ -24,23 +26,28 @@ public class DAOCompany {
 	 *@throws SQLException
 	 * @throws ClassNotFoundException 
 	 */
-	public Optional<List<Company>> getAllCompany() throws SQLException{
+	public Optional<List<Company>> getAllCompany(){
 
-		Connection conn = DataSource.getConn();
+		Connection conn;
 		List<Company> company = new ArrayList();
-		//Optional<List<Company>> company = Optional.of(new ArrayList());
-		Statement statement = conn.createStatement();
-		ResultSet rs = statement.executeQuery("select name,id from company");
-        while ( rs.next() ) {
-        	Company tcompany = Company.Builder.newInstance().build();
-            String name = rs.getString("name");
-            int id = rs.getInt("id");
-            tcompany.setId(id);
-            tcompany.setName(name);
-            company.add(tcompany);
-            
-        }
-        conn.close();
+		try {
+			conn = DataSource.getConn();
+			PreparedStatement statement = conn.prepareStatement(GET_ALL_COMPANY);
+			ResultSet rs = statement.executeQuery();
+	        while ( rs.next() ) {
+	        	Company tcompany = Company.Builder.newInstance()
+	        			.setId(rs.getInt("id"))
+	        			.setName(rs.getString("name"))
+	        			.build();
+	            company.add(tcompany);      
+	        }
+	        conn.close();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
         Optional<List<Company>> result = Optional.ofNullable(company);
 		return result;
 	}
@@ -49,8 +56,11 @@ public class DAOCompany {
 			return Optional.empty();
 		Connection conn = DataSource.getConn();
 		Company company = Company.Builder.newInstance().build();
-		Statement statement = conn.createStatement();
-		ResultSet resset = statement.executeQuery("select computer.name ,computer.id,introduced,discontinued,company_id ,company.name as company from computer LEFT JOIN company ON computer.company_id = company.id where computer.id =" + id);
+		//Statement statement = conn.createStatement();
+		PreparedStatement statement = conn.prepareStatement(GET_ALL_COMPANY);
+		statement.setLong(1, id);
+		ResultSet resset = statement.executeQuery();
+		//ResultSet resset = statement.executeQuery("select computer.name ,computer.id,introduced,discontinued,company_id ,company.name as company from computer LEFT JOIN company ON computer.company_id = company.id where computer.id =" + id);
 		if (resset.next())
 		{
 
@@ -69,6 +79,7 @@ public class DAOCompany {
 			company = null;
 		}
 		conn.close();
+
 		return Optional.ofNullable(company);
 	}
 	
@@ -87,9 +98,12 @@ public class DAOCompany {
 			statement.executeUpdate();
 			conn.commit();
 			conn.setAutoCommit(true);
+			conn.close();
+
 			return 1;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 

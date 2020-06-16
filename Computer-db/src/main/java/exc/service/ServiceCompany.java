@@ -31,18 +31,11 @@ public class ServiceCompany {
 	BasicConfigurator.configure();
 	Logger logger = LoggerFactory.getLogger(DAOCompany.class);
     logger.debug("getAllCompany start");
-    try {
-    	
-		Optional<List<Company>> dataset = DAOCompany.getAllCompany();
-		List<CompanyDTO> result = new ArrayList<>();
-		for(Company company : dataset.get())
-			result.add(CompanyMapper.companyToDTO(company));
-		return Optional.of(result);
-	} catch (SQLException e) {
-		logger.error("error while getting all Company : "+ e);
-		e.printStackTrace();
-		return  Optional.empty();
-	}
+    Optional<List<Company>> dataset = DAOCompany.getAllCompany();
+	List<CompanyDTO> result = new ArrayList<>();
+	for(Company company : dataset.get())
+		result.add(CompanyMapper.companyToDTO(company));
+	return Optional.of(result);
 	}
 	
 	public Optional<CompanyDTO> getSpecificCompany(int id) 

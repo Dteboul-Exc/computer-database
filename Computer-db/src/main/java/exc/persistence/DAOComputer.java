@@ -19,12 +19,16 @@ public class DAOComputer {
 	private static final String ORDER_BY_COMPANY= "select computer.name ,computer.id,introduced,discontinued,company_id ,company.name as company from computer LEFT JOIN company ON computer.company_id = company.id ORDER BY company.name ";
 	private static final String ORDER_BY_COMPUTER= "select computer.name ,computer.id,introduced,discontinued,company_id ,company.name as company from computer LEFT JOIN company ON computer.company_id = company.id ORDER BY computer.name ";
 	private static final String SEARCH_COMPUTER="select computer.name ,computer.id,introduced,discontinued,company_id ,company.name as company from computer LEFT JOIN company ON computer.company_id = company.id WHERE LOWER(computer.name) LIKE  ? ;";
+	private static final String GET_ALL_COMPUTER = "select computer.name ,computer.id,introduced,discontinued,company_id ,company.name as company from computer LEFT JOIN company ON computer.company_id = company.id";
+	private static final String SEARCH_COMPUTER_BY_ID = "SELECT computer.name ,computer.id,introduced,discontinued,company_id ,company.name as company from computer LEFT JOIN company ON computer.company_id = company.id where computer.id = ? ";
+	private static final String DELETE_COMPUTER = "DELETE FROM computer WHERE id = ?";
+	private static final String ADD_COMPUTER = "INSERT INTO computer (name,introduced, discontinued, company_id) values( ? , ? , ?,(select company.id from company where company.id = ?))";
 	
 	public Optional<List<Computer>> getAllComputer() throws SQLException, ParseException{
 		Connection conn = DataSource.getConn();
 		List<Computer> computer = new ArrayList();
-		Statement statement = conn.createStatement();
-		ResultSet resset = statement.executeQuery("select computer.name ,computer.id,introduced,discontinued,company_id ,company.name as company from computer LEFT JOIN company ON computer.company_id = company.id");
+		PreparedStatement statement = conn.prepareStatement(GET_ALL_COMPUTER);
+		ResultSet resset = statement.executeQuery();
         while ( resset.next() ) {
         	Computer tcomputer = Computer.Builder.newInstance().build();
             String name = resset.getString("name");
@@ -53,6 +57,7 @@ public class DAOComputer {
         }
         Optional<List<Computer>> result = Optional.ofNullable(computer);
         conn.close();
+
 		return result;
 	}
 	
@@ -105,6 +110,7 @@ public class DAOComputer {
             
         }
         conn.close();
+
 		return computer;
 	}
 	public List<Computer> Search_Computer(String name) throws SQLException, ParseException{
@@ -125,7 +131,8 @@ public class DAOComputer {
 				System.out.println(tcomputer.getName());
 				computer.add(tcomputer);
 		}
-		conn.close();
+        conn.close();
+
 		return computer;
 	}
 	/**
@@ -143,8 +150,9 @@ public class DAOComputer {
 			return Optional.empty();
 		Connection conn = DataSource.getConn();
 		Computer computer = Computer.Builder.newInstance().build();
-		Statement statement = conn.createStatement();
-		ResultSet resset = statement.executeQuery("select computer.name ,computer.id,introduced,discontinued,company_id ,company.name as company from computer LEFT JOIN company ON computer.company_id = company.id where computer.id =" + id);
+		PreparedStatement statement = conn.prepareStatement(SEARCH_COMPUTER_BY_ID);
+		statement.setLong(1, id);
+		ResultSet resset = statement.executeQuery();
 		if (resset.next())
 		{
 
@@ -168,7 +176,8 @@ public class DAOComputer {
 		{
 			computer = null;
 		}
-		conn.close();
+        conn.close();
+
 		return Optional.ofNullable(computer);
 	}
 	
@@ -181,45 +190,57 @@ public class DAOComputer {
 	 * @throws SQLException
 	 * @throws ClassNotFoundException 
 	 */
-	public int deleteSpecificComputer(int id) throws SQLException {
+	public int deleteSpecificComputer(int id)  {
 
 
-		Connection conn = DataSource.getConn();
-		Statement statement = conn.createStatement();
-		int resset = statement.executeUpdate("DELETE FROM computer WHERE id =" + id);
-		if (resset == 1)
-		{
+		Connection conn;
+		try {
+			conn = DataSource.getConn();
+			Computer computer = Computer.Builder.newInstance().build();
+			PreparedStatement statement = conn.prepareStatement(DELETE_COMPUTER);
+			statement.setLong(1, id);
+			ResultSet resset = statement.executeQuery();
 
-			System.out.println(" Computer successfully deleted");
-
+	        conn.close();
+	        return 1;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		else
-		{ //TODO Error System
-			System.out.println("Error while deleting");
-		}
-		return resset;
+		return 0;
+
+		
 	}
-	public static int addComputer(String name,String introduced,String discontinued, long l) throws SQLException 
+	public static int addComputer(String name,String introduced,String discontinued, long id_company) 
 	{
 		System.out.print(name);
-		Connection conn = DataSource.getConn();
-		int computer_id = 2;
-		int resset=0;
-		String tname = "NULL";
-		String tintroduced = "NULL";
-		String tdiscontinued = "NULL";
-		if (name !=null ) tname = name;
-		if (introduced !=null ) tintroduced = name;
-		if (discontinued !=null ) tdiscontinued = name;
-		Statement statement;
+		Connection conn;
+		try {
+			conn = DataSource.getConn();
+			PreparedStatement statement = conn.prepareStatement(ADD_COMPUTER);
+			String tintroduced = "NULL";
+			String tdiscontinued = "NULL";
+			if (introduced ==null ) statement.setNull(2, java.sql.Types.TIMESTAMP);
+			if (discontinued ==null ) statement.setNull(3, java.sql.Types.TIMESTAMP);
+			statement.setString(1, name);
+			statement.setLong(4, id_company);
+			System.out.println(statement);
+			int resset = statement.executeUpdate();
+	/*			statement = conn.createStatement();
+				System.out.println("insert into computer (name,introduced, discontinued, company_id) values('"+tname+"',"+introduced+" ,"+discontinued+",(select company.id from company where company.id = "+id_company+"))");
+			    resset = statement.executeUpdate("insert into computer (name,introduced, discontinued, company_id) values('"+tname+"',"+introduced+" ,"+discontinued+",(select company.id from company where company.id = "+id_company+"))");
+				System.out.println(resset);
+	*/
+		        conn.close();
+		        return 1;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
-			statement = conn.createStatement();
-			System.out.println("insert into computer (name,introduced, discontinued, company_id) values('"+tname+"',"+introduced+" ,"+discontinued+",(select company.id from company where company.id = "+l+"))");
-		    resset = statement.executeUpdate("insert into computer (name,introduced, discontinued, company_id) values('"+tname+"',"+introduced+" ,"+discontinued+",(select company.id from company where company.id = "+l+"))");
-			System.out.println(resset);
 
-			conn.close();
-		return 1;
+
+		return 0;
 		
 	}
 	
@@ -247,8 +268,8 @@ public class DAOComputer {
 			System.out.println("UPDATE computer SET name = '"+name+"', introduced = "+introduced+", discontinued = "+discontinued+", company_id = "+l+" WHERE id = " +id);
 		    resset = statement.executeUpdate("UPDATE computer SET name = '"+name+"', introduced = "+introduced+", discontinued = "+discontinued+", company_id = "+l+" WHERE id = " +id);
 				System.out.println(resset);
-
-				conn.close();
+				
+		        conn.close();
 		return 1;
 		
 	}

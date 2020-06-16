@@ -202,7 +202,7 @@ public class SecondaryMenus {
 				System.out.println(" name : " +computer.getName() +" start :" + computer.getIntroduced() + " end :" + computer.getDiscontinued() + " C_id " + computer.getCompany().getId());
 				try {
 					DAOComputer.addComputer(computer.getName(),DateMapper.DateConverter(computer.getIntroduced()).get(),DateMapper.DateConverter(computer.getDiscontinued()).get(), computer.getCompany().getId());
-				} catch (SQLException | ParseException e) {
+				} catch (ParseException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
