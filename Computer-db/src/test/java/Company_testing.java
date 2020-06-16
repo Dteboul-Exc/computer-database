@@ -48,7 +48,7 @@ public class Company_testing {
 			expected.add(CompanyMapper.companyToDTO(element));
 		}
 		//Optional<List<CompanyDTO>> expected = Optional.of(list);
-		Mockito.when(mockDAO.getAllCompany()).thenReturn(Optional.of(list));
+		Mockito.when(mockDAO.getAllCompany()).thenReturn(list);
 		List<CompanyDTO> obtained= this.service.getAllCompany().get();
 		boolean check = expected.equals(obtained);
 		assertEquals(true,check);

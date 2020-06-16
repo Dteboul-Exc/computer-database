@@ -44,16 +44,12 @@ public class ServiceComputer {
 
 	    lOG.debug("getAllComputer start");
 	   
-	    Optional<List<Computer>> dataset;
+	    List<Computer> dataset;
 	    List<ComputerDTO> result = new ArrayList<>();
 	    try {
 			dataset = DAOComputer.getAllComputer();
-			for(Computer computer : dataset.get())
+			for(Computer computer : dataset)
 				result.add(ComputerMapper.computerToDTO(computer).get());
-			return result;
-		} catch (SQLException e) {
-			lOG.error("SQLerror while getting all Computer : "+ e);
-			e.printStackTrace();
 			return result;
 		} catch (ParseException e) {
 			lOG.error("ParseException while getting all Computer : "+ e);
@@ -69,10 +65,6 @@ public class ServiceComputer {
 	    try {
 			result = ComputerMapper.computerToDTO(DAOComputer.get_Computer_By_Id(id).get());
 			return result;
-		} catch (SQLException e) {
-			lOG.error("SQLerror while getting Computer with id "+id+"error: "+ e);
-			e.printStackTrace();
-			return result = Optional.empty();
 		} catch (ParseException e) {
 			lOG.error("ParseException while getting  Computer id " + id+ "error : "+ e);
 			e.printStackTrace();
@@ -90,10 +82,6 @@ public class ServiceComputer {
 			dataset = DAOComputer.Search_Computer("%" +name+"%");
 			for(Computer computer : dataset)
 				result.add(ComputerMapper.computerToDTO(computer).get());
-			return result;
-		} catch (SQLException e) {
-			lOG.error("SQLerror while Searching for the Computers : "+ e);
-			e.printStackTrace();
 			return result;
 		} catch (ParseException e) {
 			lOG.error("ParseException Searching for the Computers : "+ e);
@@ -130,7 +118,7 @@ public class ServiceComputer {
 		}
 		if (computer.getIntroduced().equals(""))
 		{
-			tintroduced = "NULL";
+			tintroduced = null;
 		}
 		else
 		{
@@ -138,7 +126,7 @@ public class ServiceComputer {
 		}
 		if (computer.getDiscontinued().equals(""))
 		{
-			tdiscontinued = "NULL";
+			tdiscontinued = null;
 		}
 		else
 		{
@@ -158,39 +146,32 @@ public class ServiceComputer {
 		String tdiscontinued = "NULL";
 
 		Statement statement;
-		try {
-			if (computer.getName() == null)
-			{
-				tname = "NULL";
-			}
-			else
-			{
-				tname = computer.getName();
-			}
-			if (computer.getIntroduced().equals(""))
-			{
-				tintroduced = "NULL";
-			}
-			else
-			{
-				tintroduced = "DATE " + "'"+computer.getIntroduced().equals("")+"'";
-			}
-			if (computer.getDiscontinued().equals(""))
-			{
-				tdiscontinued = "NULL";
-			}
-			else
-			{
-				tdiscontinued = "DATE " + "'"+computer.getDiscontinued()+"'";;
-			}
-			int result  = DAOComputer.updateComputer(tname,tintroduced,tdiscontinued,Long.parseLong(computer.getCompany().getId()),Integer.parseInt(computer.getId()));
-			return result;
-	
-		} catch (SQLException exc) {
-			 lOG.error("SQL Error while creating a new computer : " + exc);
-			exc.printStackTrace();
-			return 1;
+		if (computer.getName() == null)
+		{
+			tname = "NULL";
 		}
+		else
+		{
+			tname = computer.getName();
+		}
+		if (computer.getIntroduced().equals(""))
+		{
+			tintroduced = "NULL";
+		}
+		else
+		{
+			tintroduced = "DATE " + "'"+computer.getIntroduced().equals("")+"'";
+		}
+		if (computer.getDiscontinued().equals(""))
+		{
+			tdiscontinued = "NULL";
+		}
+		else
+		{
+			tdiscontinued = "DATE " + "'"+computer.getDiscontinued()+"'";;
+		}
+		int result  = DAOComputer.updateComputer(tname,tintroduced,tdiscontinued,Long.parseLong(computer.getCompany().getId()),Integer.parseInt(computer.getId()));
+		return result;
 	}
 	
 	
@@ -202,7 +183,7 @@ public class ServiceComputer {
 	    List<Computer> dataset = null;
 	    try {
 			dataset = DAOComputer.getAllComputerOrderBY(state);
-		} catch (SQLException | ParseException e1) {
+		} catch (ParseException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}

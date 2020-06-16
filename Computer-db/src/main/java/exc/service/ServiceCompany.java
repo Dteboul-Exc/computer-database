@@ -31,9 +31,9 @@ public class ServiceCompany {
 	BasicConfigurator.configure();
 	Logger logger = LoggerFactory.getLogger(DAOCompany.class);
     logger.debug("getAllCompany start");
-    Optional<List<Company>> dataset = DAOCompany.getAllCompany();
+    List<Company> dataset = DAOCompany.getAllCompany();
 	List<CompanyDTO> result = new ArrayList<>();
-	for(Company company : dataset.get())
+	for(Company company : dataset)
 		result.add(CompanyMapper.companyToDTO(company));
 	return Optional.of(result);
 	}
@@ -48,10 +48,6 @@ public class ServiceCompany {
 	    try {
 			result = CompanyMapper.companyToDTO(DAOCompany.getSpecificCompany(id).get());
 			return Optional.of(result);
-		} catch (SQLException e) {
-			logger.error("error while getting all Computers : "+ e);
-			e.printStackTrace();
-			return Optional.empty();
 		} catch (ParseException e) {
 			logger.error("error while getting all Computers : "+ e);
 			return Optional.empty();

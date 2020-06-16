@@ -26,7 +26,7 @@ public class DataSource {
  
     private DataSource() {}
  
-    public static Connection getConn() throws SQLException {
+    public static synchronized Connection getConn() throws SQLException {
         return ds.getConnection();
     }
 	public static void close() throws SQLException
