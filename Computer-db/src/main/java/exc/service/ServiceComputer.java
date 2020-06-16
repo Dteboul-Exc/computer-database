@@ -106,14 +106,8 @@ public class ServiceComputer {
 		BasicConfigurator.configure();
 	    lOG.debug("getSpecificComputer start using computer id : "+id);
 	    int result;
-	    try {
-			result = DAOComputer.deleteSpecificComputer(id);
-			return result;
-		} catch (SQLException e) {
-			lOG.error("SQL error while deleting Computer with id "+id+"error: "+ e);
-			e.printStackTrace();
-			return result = 0;
-		}  
+	    result = DAOComputer.deleteSpecificComputer(id);
+		return result;  
 	}
 	public int addComputer(ComputerDTO computer)  
 	{
@@ -126,39 +120,32 @@ public class ServiceComputer {
 		String tdiscontinued = "NULL";
 
 		Statement statement;
-		try {
-			if (computer.getName() == null)
-			{
-				tname = "NULL";
-			}
-			else
-			{
-				tname = computer.getName();
-			}
-			if (computer.getIntroduced().equals(""))
-			{
-				tintroduced = "NULL";
-			}
-			else
-			{
-				tintroduced = "DATE " + "'"+computer.getIntroduced()+"'";
-			}
-			if (computer.getDiscontinued().equals(""))
-			{
-				tdiscontinued = "NULL";
-			}
-			else
-			{
-				tdiscontinued = "DATE " + "'"+computer.getDiscontinued()+"'";;
-			}
-			int result  = DAOComputer.addComputer(tname,tintroduced,tdiscontinued,Integer.parseInt(computer.getCompany().getId()));
-			return result;
-	
-		} catch (SQLException exc) {
-			 lOG.error("SQL Error while creating a new computer : " + exc);
-			exc.printStackTrace();
-			return 1;
-		}		
+		if (computer.getName() == null)
+		{
+			tname = "NULL";
+		}
+		else
+		{
+			tname = computer.getName();
+		}
+		if (computer.getIntroduced().equals(""))
+		{
+			tintroduced = "NULL";
+		}
+		else
+		{
+			tintroduced = "DATE " + "'"+computer.getIntroduced()+"'";
+		}
+		if (computer.getDiscontinued().equals(""))
+		{
+			tdiscontinued = "NULL";
+		}
+		else
+		{
+			tdiscontinued = "DATE " + "'"+computer.getDiscontinued()+"'";;
+		}
+		int result  = DAOComputer.addComputer(tname,tintroduced,tdiscontinued,Integer.parseInt(computer.getCompany().getId()));
+		return result;		
 	}
 	public int updateComputer(ComputerDTO computer) throws NumberFormatException 
 	{

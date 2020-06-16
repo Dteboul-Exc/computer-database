@@ -20,6 +20,7 @@ public class DataSource {
         config.addDataSourceProperty( "prepStmtCacheSqlLimit" , "2048" );
         config.addDataSourceProperty("maximumPoolSize", "1");
         config.addDataSourceProperty("minimumIdle", "1");
+        config.addDataSourceProperty("idleTimeout", "20");
         ds = new HikariDataSource( config );
     }
  
@@ -28,7 +29,7 @@ public class DataSource {
     public static Connection getConn() throws SQLException {
         return ds.getConnection();
     }
-	public void close() throws SQLException
+	public static void close() throws SQLException
 	{
 		ds.close();
 	}
