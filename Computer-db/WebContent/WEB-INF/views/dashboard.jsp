@@ -90,10 +90,10 @@
                     <tr>
                         
                         <td class="editMode">
-                            <input type="checkbox" name="cb" class="cb" value="${cc.id }">
+                            <input type="checkbox" name="cb" class="cb" value="${cc.id}">
                         </td>
                         <td>
-                            <a href="#" onclick="GoTO(${cc.id})"><c:out value = "${cc.name }" /></a>
+                            <a href="#" onclick="GoTO(${cc.id})"><c:out value = "${cc.name}" /></a>
                         </td>
 						<td><c:out value = "${cc.introduced}" /></td>
 						<td><c:out value = "${cc.discontinued}" /></td>

@@ -68,13 +68,12 @@ public class Dashboard extends HttpServlet {
 			}
 	        }
 		 else if (request.getParameter("Edit") != null) {
-			 System.out.print("Adoration");
 			 String name = request.getParameter("name");
 			 String id = request.getParameter("id");
 			 String introduced = request.getParameter("introduced");
 			 String discontinued = request.getParameter("discontinued");
 			 CompanyDTO company = CompanyDTO.Builder.newInstance().setId(request.getParameter("company")).build();
-			 ComputerDTO newComputer = ComputerDTO.Builder.newInstance().setName(name).setCompany(company).setIntroduced(introduced).setDiscontinued(discontinued).build();
+			 ComputerDTO newComputer = ComputerDTO.Builder.newInstance().setName(name).setCompany(company).setIntroduced(introduced).setDiscontinued(discontinued).setId(id).build();
 			 ServiceComputer service = new ServiceComputer();
 			 try {
 				service.updateComputer(newComputer);
@@ -96,6 +95,7 @@ public class Dashboard extends HttpServlet {
 
 		doGet(request, response);
 	}
+	
 	private void Search(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ServiceComputer a = new ServiceComputer();
 		List<ComputerDTO> list = new ArrayList<>();

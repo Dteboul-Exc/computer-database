@@ -22,7 +22,7 @@ public class DAOComputer {
 	private static final String GET_ALL_COMPUTER = "select computer.name ,computer.id,introduced,discontinued,company_id ,company.name as company from computer LEFT JOIN company ON computer.company_id = company.id";
 	private static final String SEARCH_COMPUTER_BY_ID = "SELECT computer.name ,computer.id,introduced,discontinued,company_id ,company.name as company from computer LEFT JOIN company ON computer.company_id = company.id where computer.id = ? ";
 	private static final String DELETE_COMPUTER = "DELETE FROM computer WHERE id = ?";
-	private static final String ADD_COMPUTER = "INSERT INTO computer (name,introduced, discontinued, company_id) values( ? , ? , ?,(select company.id from company where company.id = ?))";
+	private static final String ADD_COMPUTER = "INSERT INTO computer (name,introduced, discontinued, company_id) values( ? , DATE ? , DATE ? ,(select company.id from company where company.id = ?))";
 
 	public List<Computer> getAllComputer() throws  ParseException {
 		List<Computer> result = new ArrayList<>();
@@ -64,15 +64,12 @@ public class DAOComputer {
 			switch (Order) {
 			case COMPANY:
 				resset = stmt.executeQuery(ORDER_BY_COMPANY);
-				System.out.println("company");
 				break;
 			case COMPUTER:
 				resset = stmt.executeQuery(ORDER_BY_COMPUTER);
-				System.out.println("computer");
 				break;
 			default:
 				resset = stmt.executeQuery(ORDER_BY_COMPUTER);
-				System.out.println("default");
 				break;
 			}
 
@@ -114,7 +111,7 @@ public class DAOComputer {
 			while (resset.next()) {
 				Computer tcomputer = Computer.Builder.newInstance().setName(resset.getString("name"))
 						.setCompany(
-								Company.Builder.newInstance().setId(resset.getInt("company_id")).setName("company").build())
+								Company.Builder.newInstance().setId(resset.getInt("company_id")).setName(resset.getString("company")).build())
 						.build();
 				if (resset.getString("introduced") != null)
 					tcomputer.setIntroduced(DateMapper.StringConverter(resset.getString("introduced")).get());
@@ -204,16 +201,18 @@ public class DAOComputer {
 
 	}
 
-	public static int addComputer(String name, String introduced, String discontinued, long id_company) {
+	public int addComputer(String name, String introduced, String discontinued, long id_company) {
 		System.out.print(name);
 		try (Connection conn = DataSource.getConn()){
 			PreparedStatement statement = conn.prepareStatement(ADD_COMPUTER);
-			String tintroduced = "NULL";
-			String tdiscontinued = "NULL";
 			if (introduced == null)
 				statement.setNull(2, java.sql.Types.TIMESTAMP);
+			else
+				statement.setString(2, introduced);
 			if (discontinued == null)
 				statement.setNull(3, java.sql.Types.TIMESTAMP);
+			else
+				statement.setString(3, discontinued);
 			statement.setString(1, name);
 			statement.setLong(4, id_company);
 			System.out.println(statement);
