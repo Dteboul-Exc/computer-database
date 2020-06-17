@@ -18,7 +18,9 @@ import javax.servlet.http.HttpServletResponse;
 import main.java.exc.model.CompanyDTO;
 import main.java.exc.model.ComputerDTO;
 import main.java.exc.persistence.OrderByState;
+import main.java.exc.service.ComputerValidator;
 import main.java.exc.service.ServiceComputer;
+import main.java.exc.service.ServiceComputerException;
 
 /**
  * Servlet implementation class Starter
@@ -46,26 +48,54 @@ public class Dashboard extends HttpServlet {
 
 
 	}
+	
+	protected Optional<String> AddValidator(String name,String introduced,String discontinued)
+	{
+		try {
+			ComputerValidator.isName(name);
+			ComputerValidator.isDate(introduced, discontinued);
+			ComputerValidator.isDateValid(introduced, discontinued);
+		} catch (ServiceComputerException e) {
+			e.printStackTrace();
+			return Optional.of(e.toString());
+		}
+		catch (StringIndexOutOfBoundsException e)
+		{
+			e.printStackTrace();
+			return Optional.of(e.toString());
+		}
+		return Optional.of("clear");
+	}
+	
+	protected void Add(HttpServletRequest request, HttpServletResponse response)
+	{
+		 String name = request.getParameter("name");
+		 String introduced = request.getParameter("introduced");
+		 String discontinued = request.getParameter("discontinued");
+		 CompanyDTO company = CompanyDTO.Builder.newInstance().setId(request.getParameter("company")).build();
+		 ComputerDTO newComputer = ComputerDTO.Builder.newInstance().setName(name).setCompany(company).setIntroduced(introduced).setDiscontinued(discontinued).setCompany(company).build();
+		 ServiceComputer service = new ServiceComputer();
+		 System.out.print("companyID is"  + request.getParameter("company"));
+		 try {
+			service.addComputer(newComputer);
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		request.setAttribute("errormsg","all clear");
 		 if (request.getParameter("Add") != null) {
-			 String name = request.getParameter("name");
-			 String introduced = request.getParameter("introduced");
-			 String discontinued = request.getParameter("discontinued");
-			 CompanyDTO company = CompanyDTO.Builder.newInstance().setId(request.getParameter("company")).build();
-			 ComputerDTO newComputer = ComputerDTO.Builder.newInstance().setName(name).setCompany(company).setIntroduced(introduced).setDiscontinued(discontinued).setCompany(company).build();
-			 ServiceComputer service = new ServiceComputer();
-			 System.out.print("companyID is"  + request.getParameter("company"));
-			 try {
-				service.addComputer(newComputer);
-			} catch (NumberFormatException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			 String check  =AddValidator(request.getParameter("name"),request.getParameter("introduced"),request.getParameter("discontinued")).get();
+			 	if (check.equals("clear"))
+			 		Add(request,response);
+			 	else
+			 		request.setAttribute("errormsg", check);
+			 		
 	        }
 		 else if (request.getParameter("Edit") != null) {
 			 String name = request.getParameter("name");
