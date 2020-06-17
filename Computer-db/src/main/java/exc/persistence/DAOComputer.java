@@ -16,20 +16,44 @@ import main.java.exc.model.Computer;
 
 public class DAOComputer {
 
-	private static final String ORDER_BY_COMPANY = "select computer.name ,computer.id,introduced,discontinued,company_id ,company.name as company from computer LEFT JOIN company ON computer.company_id = company.id ORDER BY company.name ";
-	private static final String ORDER_BY_COMPUTER = "select computer.name ,computer.id,introduced,discontinued,company_id ,company.name as company from computer LEFT JOIN company ON computer.company_id = company.id ORDER BY computer.name ";
-	private static final String SEARCH_COMPUTER = "select computer.name ,computer.id,introduced,discontinued,company_id ,company.name as company from computer LEFT JOIN company ON computer.company_id = company.id WHERE LOWER(computer.name) LIKE  ? ;";
-	private static final String GET_ALL_COMPUTER = "select computer.name ,computer.id,introduced,discontinued,company_id ,company.name as company from computer LEFT JOIN company ON computer.company_id = company.id";
+	private static final String ORDER_BY_COMPANY = "SELECT computer.name ,computer.id,introduced,discontinued,company_id ,company.name as company from computer LEFT JOIN company ON computer.company_id = company.id ORDER BY company.name LIMIT ? OFFSET ? ";
+	private static final String ORDER_BY_COMPUTER = "SELECT computer.name ,computer.id,introduced,discontinued,company_id ,company.name as company from computer LEFT JOIN company ON computer.company_id = company.id ORDER BY computer.name  LIMIT ? OFFSET ? ";
+	private static final String SEARCH_COMPUTER = "SELECT computer.name ,computer.id,introduced,discontinued,company_id ,company.name as company from computer LEFT JOIN company ON computer.company_id = company.id WHERE LOWER(computer.name) LIKE  ? ;";
+	private static final String GET_ALL_COMPUTER = "SELECT computer.name ,computer.id,introduced,discontinued,company_id ,company.name as company from computer LEFT JOIN company ON computer.company_id = company.id LIMIT ? OFFSET ?";
 	private static final String SEARCH_COMPUTER_BY_ID = "SELECT computer.name ,computer.id,introduced,discontinued,company_id ,company.name as company from computer LEFT JOIN company ON computer.company_id = company.id where computer.id = ? ";
 	private static final String DELETE_COMPUTER = "DELETE FROM computer WHERE id = ?";
 	private static final String ADD_COMPUTER = "INSERT INTO computer (name,introduced, discontinued, company_id) values( ? , DATE ? , DATE ? ,(select company.id from company where company.id = ?))";
 	private static final String ADD_COMPUTER_NO_DISC = "INSERT INTO computer (name,introduced, discontinued, company_id) values( ? , DATE ? , null ,(select company.id from company where company.id = ?))";
 	private static final String ADD_COMPUTER_NO_DATE = "INSERT INTO computer (name,introduced, discontinued, company_id) values( ? , null , null ,(select company.id from company where company.id = ?))";
-	public List<Computer> getAllComputer() throws  ParseException {
+	private static final String LIST_SIZE  ="SELECT count(id) AS rowcount FROM computer";
+	
+	public int getCountComputer()
+	{
+		try(Connection conn = DataSource.getConn())
+		{
+			PreparedStatement statement = conn.prepareStatement(LIST_SIZE);
+			ResultSet resset = statement.executeQuery();
+			if (resset.next())
+			{
+				return resset.getInt("rowcount");
+			}
+			
+		}
+		catch (SQLException e) {
+		e.printStackTrace();
+		return 0;
+		}
+		return 0;
+	}
+	
+	public List<Computer> getAllComputer( long offset, long limit) throws  ParseException {
 		List<Computer> result = new ArrayList<>();
 		try (Connection conn = DataSource.getConn()){
 			List<Computer> computer = new ArrayList<>();
 			PreparedStatement statement = conn.prepareStatement(GET_ALL_COMPUTER);
+			statement.setLong(1, limit);
+			statement.setLong(2, offset);
+			System.out.println(statement);
 			ResultSet resset = statement.executeQuery();
 			while (resset.next()) {
 				Computer tcomputer = Computer.Builder.newInstance().setId(resset.getInt("id")).setName(resset.getString("name")).build();
@@ -56,24 +80,34 @@ public class DAOComputer {
 		return result;
 	}
 
-	public List<Computer> getAllComputerOrderBY(OrderByState Order) throws ParseException {
+	public List<Computer> getAllComputerOrderBY(OrderByState Order,long offset, long limit) throws ParseException {
 		List<Computer> computer = new ArrayList<>();
 		try(Connection conn = DataSource.getConn()) {
 			
-			Statement stmt = conn.createStatement();
+			//Statement stmt = conn.createStatement();
+			PreparedStatement statement;
 			ResultSet resset;
 			switch (Order) {
 			case COMPANY:
-				resset = stmt.executeQuery(ORDER_BY_COMPANY);
+				statement = conn.prepareStatement(ORDER_BY_COMPANY);
+				statement.setLong(1, limit);
+				statement.setLong(2, offset);
+				resset = statement.executeQuery();
 				break;
 			case COMPUTER:
-				resset = stmt.executeQuery(ORDER_BY_COMPUTER);
+				statement = conn.prepareStatement(ORDER_BY_COMPUTER);
+				statement.setLong(1, limit);
+				statement.setLong(2, offset);
+				resset = statement.executeQuery();
 				break;
 			default:
-				resset = stmt.executeQuery(ORDER_BY_COMPUTER);
+				statement = conn.prepareStatement(ORDER_BY_COMPUTER);
+				statement.setLong(1, limit);
+				statement.setLong(2, offset);
+				resset = statement.executeQuery();
 				break;
 			}
-
+			
 			while (resset.next()) {
 				Computer tcomputer = Computer.Builder.newInstance().setId(resset.getInt("id")).setName(resset.getString("name")).build();
 				if (resset.getString("introduced") != null)

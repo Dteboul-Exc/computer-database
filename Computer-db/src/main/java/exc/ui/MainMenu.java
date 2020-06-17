@@ -110,7 +110,7 @@ public class MainMenu {
 				break;
 			case LComputer :
 				sta = state.Main;
-				List<ComputerDTO> optcomputer = DAOComputer.getAllComputer();
+				List<ComputerDTO> optcomputer = DAOComputer.getAllComputer(0,5);
 				
 				if (!optcomputer.isEmpty())
 				{
