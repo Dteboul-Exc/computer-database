@@ -138,49 +138,58 @@ public class Dashboard extends HttpServlet {
 		request.getRequestDispatcher("/WEB-INF/views/dashboard.jsp").forward(request, response);
 	}
 	
+	private List<ComputerDTO> SetOrder(HttpServletRequest request, HttpServletResponse response,long start, long end)
+	{
+		List<ComputerDTO> list = new ArrayList<>();
+		ServiceComputer serviceComputer = new ServiceComputer();
+		if ((request.getParameter("Order") != null)&& ((request.getParameter("Order").equals("computer"))))
+			list = serviceComputer.getAllComputerOrderBy(OrderByState.COMPUTER,start,end);
+		else if ((request.getParameter("Order") != null)&& ((request.getParameter("Order").equals("company"))))
+			list = serviceComputer.getAllComputerOrderBy(OrderByState.COMPANY,start,end);
+		else 
+			list = serviceComputer.getAllComputer(start,end);
+		return list;
+	}
 	
 	private void Pagination(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int page = 1;
+		long page = 1;
         int recordsPerPage = 10;
         int currentplace = 1;
-        int records = 10;
         if(request.getParameter("page") != null)
             page = Integer.parseInt(request.getParameter("page"));
         if(request.getParameter("recordsPerPage") != null)
         	recordsPerPage = Integer.parseInt(request.getParameter("recordsPerPage"));
         if(request.getParameter("page") != null)
         	currentplace = Integer.parseInt(request.getParameter("page"));
-       
-		ServiceComputer a = new ServiceComputer();
+        String Order = null;
+        if (request.getParameter("Order") != null)
+        	Order = request.getParameter("Order");
+        
+		ServiceComputer serviceComputer = new ServiceComputer();
 		List<ComputerDTO> list = new ArrayList<>();
-		if ((request.getParameter("Order") != null)&& ((request.getParameter("Order").equals("computer"))))
-			list = a.getAllComputerOrderBy(OrderByState.COMPUTER);
-		else if ((request.getParameter("Order") != null)&& ((request.getParameter("Order").equals("company"))))
-			list = a.getAllComputerOrderBy(OrderByState.COMPANY);
-		else 
-			list = a.getAllComputer();
-		request.setAttribute("computer", Integer.toString(list.size()));
+		long size = serviceComputer.getCountComputer();
+		request.setAttribute("computer", Long.toString(size));
 		long max_button=1;
 		if (page != 1)
 		{
-		if ((page*recordsPerPage  + recordsPerPage) < list.size())
+		if ((page*recordsPerPage  + recordsPerPage) < size)
 		{
-			list = list.subList(page*recordsPerPage, page*recordsPerPage + recordsPerPage);
+			list = SetOrder(request,response,(currentplace-1)*recordsPerPage,recordsPerPage);
 			page-=1;
 			max_button = page +2;
 		}
 		else
 		{
-			list = list.subList(page*recordsPerPage, list.size());
+			list = SetOrder(request,response,currentplace*recordsPerPage,size-currentplace*recordsPerPage);
 			max_button = page;
 			page = page-1;	
 		}
 		}
 		else {
-			//list = list.subList(page, recordsPerPage );
+			list = SetOrder(request,response,0,recordsPerPage);
 			max_button = page+1;
 		}
-		
+		request.setAttribute("Order",Order);
 		request.setAttribute("currentplace", currentplace);
 		request.setAttribute("recordsPerPage", recordsPerPage);
 		request.setAttribute("max_button", max_button);

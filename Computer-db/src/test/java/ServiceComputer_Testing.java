@@ -59,8 +59,8 @@ public class ServiceComputer_Testing {
 			expected.add(ComputerMapper.computerToDTO(element).get());
 		}
 		//Optional<List<CompanyDTO>> expected = Optional.of(list);
-		Mockito.when(mockDAO.getAllComputer()).thenReturn(list);
-		List<ComputerDTO> obtained= this.service.getAllComputer();
+		Mockito.when(mockDAO.getAllComputer(0,1)).thenReturn(list);
+		List<ComputerDTO> obtained= this.service.getAllComputer(0,1);
 		boolean check = expected.equals(obtained);
 		assertEquals(true,check);
 

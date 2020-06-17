@@ -117,7 +117,7 @@
  				<c:if test="${min_button >1}">     
               <li>   
                 <li>
-                    <a href="http://localhost:8080/Computer-db/dashboard?page=${currentplace-1}&recordsPerPage=${recordsPerPage}"aria-label="Previous">
+                    <a href="http://localhost:8080/Computer-db/dashboard?page=${currentplace-1}&recordsPerPage=${recordsPerPage}&Order=computer"aria-label="Previous">
                       <span  aria-hidden="true">&laquo;</span>
                   </a>
               </li>
@@ -128,7 +128,7 @@
               
               <c:if test="${max_button != min_button + 1}">     
               <li>    
-                <a href="http://localhost:8080/Computer-db/dashboard?page=${currentplace+1}&recordsPerPage=${recordsPerPage}" aria-label="Next">
+                <a href="http://localhost:8080/Computer-db/dashboard?page=${currentplace+1}&recordsPerPage=${recordsPerPage}&Order=computer" aria-label="Next">
                     <span  aria-hidden="true">&raquo;</span>
                 </a>
                  </li>

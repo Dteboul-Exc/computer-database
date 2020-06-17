@@ -1,8 +1,5 @@
 package main.java.exc.service;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -13,17 +10,11 @@ import org.apache.log4j.BasicConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import main.java.exc.mapper.CompanyMapper;
 import main.java.exc.mapper.ComputerMapper;
-import main.java.exc.mapper.DateMapper;
-import main.java.exc.model.Company;
-import main.java.exc.model.CompanyDTO;
 import main.java.exc.model.Computer;
 import main.java.exc.model.ComputerDTO;
-import main.java.exc.persistence.DAOCompany;
 import main.java.exc.persistence.DAOComputer;
 import main.java.exc.persistence.OrderByState;
-import main.java.exc.persistence.SQLConnect;
 
 public class ServiceComputer {
 	private static final Logger lOG =
@@ -39,7 +30,12 @@ public class ServiceComputer {
 	{
 		this.DAOComputer = DAO;
 	}
-	public List<ComputerDTO> getAllComputer()  {
+	public int getCountComputer()
+	{
+		lOG.debug("Getting rowcount of the computer db");
+		return DAOComputer.getCountComputer();
+	}
+	public List<ComputerDTO> getAllComputer(long offset, long limit)  {
 		BasicConfigurator.configure();
 
 	    lOG.debug("getAllComputer start");
@@ -47,7 +43,7 @@ public class ServiceComputer {
 	    List<Computer> dataset;
 	    List<ComputerDTO> result = new ArrayList<>();
 	    try {
-			dataset = DAOComputer.getAllComputer();
+			dataset = DAOComputer.getAllComputer(offset,limit);
 			for(Computer computer : dataset)
 				result.add(ComputerMapper.computerToDTO(computer).get());
 			return result;
@@ -177,16 +173,15 @@ public class ServiceComputer {
 	}
 	
 	
-	public List<ComputerDTO> getAllComputerOrderBy(OrderByState state)  {
+	public List<ComputerDTO> getAllComputerOrderBy(OrderByState state,long offset, long limit)  {
 		BasicConfigurator.configure();
 
 	    lOG.debug("getAllComputer start");
 	    List<ComputerDTO> result = new ArrayList<>();
 	    List<Computer> dataset = null;
 	    try {
-			dataset = DAOComputer.getAllComputerOrderBY(state);
+			dataset = DAOComputer.getAllComputerOrderBY(state,offset,limit);
 		} catch (ParseException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 	    
