@@ -110,7 +110,8 @@ public class ServiceComputer {
 		Statement statement;
 		if (computer.getName() == null)
 		{
-			tname = "NULL";
+			lOG.error("Error, name was null");
+			return -1;
 		}
 		else
 		{
@@ -122,7 +123,7 @@ public class ServiceComputer {
 		}
 		else
 		{
-			tintroduced = "DATE " + "'"+computer.getIntroduced()+"'";
+			tintroduced =  computer.getIntroduced();
 		}
 		if (computer.getDiscontinued().equals(""))
 		{
@@ -130,17 +131,15 @@ public class ServiceComputer {
 		}
 		else
 		{
-			tdiscontinued = "DATE " + "'"+computer.getDiscontinued()+"'";;
+			tdiscontinued =  computer.getDiscontinued();
 		}
 		int result  = DAOComputer.addComputer(tname,tintroduced,tdiscontinued,Integer.parseInt(computer.getCompany().getId()));
 		return result;		
 	}
-	public int updateComputer(ComputerDTO computer) throws NumberFormatException 
+	public int updateComputer(ComputerDTO computer)  
 	{
 		BasicConfigurator.configure();
 	    lOG.debug("updateComputer start using computer");
-		int computer_id = 2;
-		int resset=0;
 		String tname = "NULL";
 		String tintroduced = "NULL";
 		String tdiscontinued = "NULL";
@@ -148,7 +147,8 @@ public class ServiceComputer {
 		Statement statement;
 		if (computer.getName() == null)
 		{
-			tname = "NULL";
+			lOG.error("Error, name was null");
+			return -1;
 		}
 		else
 		{
@@ -160,7 +160,7 @@ public class ServiceComputer {
 		}
 		else
 		{
-			tintroduced = "DATE " + "'"+computer.getIntroduced().equals("")+"'";
+			tintroduced = "DATE " + "'"+computer.getIntroduced()+"'";
 		}
 		if (computer.getDiscontinued().equals(""))
 		{

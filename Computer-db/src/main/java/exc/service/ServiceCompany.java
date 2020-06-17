@@ -33,6 +33,7 @@ public class ServiceCompany {
     logger.debug("getAllCompany start");
     List<Company> dataset = DAOCompany.getAllCompany();
 	List<CompanyDTO> result = new ArrayList<>();
+	result.add(CompanyDTO.Builder.newInstance().setId("0").setName("none").build());
 	for(Company company : dataset)
 		result.add(CompanyMapper.companyToDTO(company));
 	return Optional.of(result);
