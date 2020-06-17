@@ -23,7 +23,8 @@ public class DAOComputer {
 	private static final String SEARCH_COMPUTER_BY_ID = "SELECT computer.name ,computer.id,introduced,discontinued,company_id ,company.name as company from computer LEFT JOIN company ON computer.company_id = company.id where computer.id = ? ";
 	private static final String DELETE_COMPUTER = "DELETE FROM computer WHERE id = ?";
 	private static final String ADD_COMPUTER = "INSERT INTO computer (name,introduced, discontinued, company_id) values( ? , DATE ? , DATE ? ,(select company.id from company where company.id = ?))";
-
+	private static final String ADD_COMPUTER_NO_DISC = "INSERT INTO computer (name,introduced, discontinued, company_id) values( ? , DATE ? , null ,(select company.id from company where company.id = ?))";
+	private static final String ADD_COMPUTER_NO_DATE = "INSERT INTO computer (name,introduced, discontinued, company_id) values( ? , null , null ,(select company.id from company where company.id = ?))";
 	public List<Computer> getAllComputer() throws  ParseException {
 		List<Computer> result = new ArrayList<>();
 		try (Connection conn = DataSource.getConn()){
@@ -205,22 +206,26 @@ public class DAOComputer {
 		System.out.print(name);
 		try (Connection conn = DataSource.getConn()){
 			PreparedStatement statement = conn.prepareStatement(ADD_COMPUTER);
-			if (introduced == null)
-				statement.setNull(2, java.sql.Types.TIMESTAMP);
-			else
-				statement.setString(2, introduced);
-			if (discontinued == null)
-				statement.setNull(3, java.sql.Types.TIMESTAMP);
-			else
-				statement.setString(3, discontinued);
+			if ((introduced == null) && (discontinued == null))
+			{	statement = conn.prepareStatement(ADD_COMPUTER_NO_DATE);
+				statement.setString(1, name);
+				statement.setLong(2, id_company);}
+			else if (discontinued == null)
+			{	statement = conn.prepareStatement(ADD_COMPUTER_NO_DISC);
 			statement.setString(1, name);
-			statement.setLong(4, id_company);
-			System.out.println(statement);
+			statement.setString(2, introduced);
+			statement.setLong(3, id_company);}
+			else
+			{
+				statement.setString(1, name);
+				statement.setString(2, introduced);
+				statement.setLong(4, id_company);
+				statement.setString(3, discontinued);
+			}	
 			int resset = statement.executeUpdate();
 			conn.close();
-			return 1;
+			return resset;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return 0;

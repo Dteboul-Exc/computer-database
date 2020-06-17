@@ -59,9 +59,15 @@ public class ServiceComputer {
 	}
 	public  Optional<ComputerDTO> getSpecificComputer(int id)  {
 		BasicConfigurator.configure();
-
 	    lOG.debug("getSpecificComputer start using computer id : "+id);
 	    Optional<ComputerDTO> result;
+	    
+	    try {
+			ComputerValidator.isComputerId(id);
+		} catch (ServiceComputerException e1) {
+			e1.printStackTrace();
+			return result = Optional.empty();
+		}
 	    try {
 			result = ComputerMapper.computerToDTO(DAOComputer.get_Computer_By_Id(id).get());
 			return result;
@@ -101,13 +107,9 @@ public class ServiceComputer {
 	{
 		BasicConfigurator.configure();
 	    lOG.debug("addComputer start using computer");
-		int computer_id = 2;
-		int resset=0;
 		String tname = "NULL";
 		String tintroduced = "NULL";
 		String tdiscontinued = "NULL";
-
-		Statement statement;
 		if (computer.getName() == null)
 		{
 			lOG.error("Error, name was null");
@@ -117,7 +119,7 @@ public class ServiceComputer {
 		{
 			tname = computer.getName();
 		}
-		if (computer.getIntroduced().equals(""))
+		if (computer.getIntroduced().equals("") || computer.getIntroduced().equals(null) )
 		{
 			tintroduced = null;
 		}
@@ -125,7 +127,7 @@ public class ServiceComputer {
 		{
 			tintroduced =  computer.getIntroduced();
 		}
-		if (computer.getDiscontinued().equals(""))
+		if (computer.getDiscontinued().equals("") || computer.getDiscontinued().equals(null))
 		{
 			tdiscontinued = null;
 		}

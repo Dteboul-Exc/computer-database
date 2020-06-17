@@ -23,7 +23,9 @@
             <h1 id="homeTitle">
                 <% out.println("There are  " + (String)request.getAttribute("computer") + " Computers.");%>
             </h1>
-
+			        <div class="alert alert-danger" id="error">
+ 					 ${errormsg}
+ 					</div>
 
 
             <div id="actions" class="form-horizontal">
