@@ -22,10 +22,10 @@ import main.java.exc.model.ComputerDTO;
 import main.java.exc.persistence.DAOCompany;
 import main.java.exc.persistence.DAOComputer;
 import main.java.exc.persistence.SQLConnect;
-import main.java.exc.service.Page;
+import main.java.exc.ui.Page;
 import main.java.exc.service.ServiceCompany;
 import main.java.exc.service.ServiceComputer;
-import main.java.exc.service.state;
+import main.java.exc.ui.state;
 import main.java.exc.ui.SecondaryMenus;
 
 
@@ -72,40 +72,21 @@ public class MainMenu {
 				System.out.println("4  Add Computer");
 				System.out.println("5  Modify Computer");
 				System.out.println("6  Remove Computer");
-				System.out.println("7  Exit \n");
+				System.out.println("7  Remove Computer");
+				System.out.println("8  Exit \n");
 				BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
 				
 				int s = reader.nextInt();
 				//reader.close();
 				System.out.println(s);
-				if (s == 1)
-				{
-					sta = state.LComputer; 
-				}
-				else if (s == 2)
-				{
-					sta = state.LCompany; 
-				}
-				else if (s== 3)
-				{
-					sta = state.DComputer; 					
-				}
-				else if (s==4)
-				{
-					sta =state.CreateComputer;
-				}
-				else if (s==5)
-				{
-					sta = state.UpdateComputer;
-				}
-				else if (s==6)
-				{
-					sta = state.DeleteComputer;
-				}
-				else if (s==7)
-				{
-					sta = state.Exit;
-				}
+				if (s==1) sta = state.LComputer; 
+				else if (s==2) sta = state.LCompany; 
+				else if (s==3) sta = state.DComputer; 					
+				else if (s==4) sta =state.CreateComputer;
+				else if (s==5) sta = state.UpdateComputer;
+				else if (s==6) sta = state.DeleteComputer;
+				else if (s==7) sta = state.DeleteCompany;		
+				else if (s==8) sta = state.Exit;
 				logger.debug("user is going to the menu " + sta);
 				break;
 			case LComputer :
@@ -200,6 +181,14 @@ public class MainMenu {
 				s = reader.nextInt();
 				ServiceComputer t = new ServiceComputer();
 				t.deleteSpecificComputer(s);
+				break;
+			case DeleteCompany:
+				logger.debug("User tries to delete a specific company and all its associated computers");
+				sta = state.Main;
+				System.out.println("Enter the id of the compay you wish to delete");
+				s = reader.nextInt();
+				ServiceCompany comp = new ServiceCompany();
+				comp.deleteCompany(s);
 				break;
 			case Exit:
 				System.exit(0); 

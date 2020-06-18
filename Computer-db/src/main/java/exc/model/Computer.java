@@ -14,19 +14,7 @@ public class Computer {
 	private Company company;
 	private LocalDate introduced;
 	private LocalDate discontinued;
-	public Computer(Builder builder)
-	{
-		this.id = builder.id;
-		this.name =builder.name;
-		this.company = builder.company;
-		this.discontinued = builder.discontinued;
-		this.introduced = builder.introduced;
-	}
 	
-	public Computer() {
-		// TODO Auto-generated constructor stub
-	}
-
 	public int getId() {
 		return id;
 	}
@@ -77,6 +65,20 @@ public class Computer {
         if (other instanceof Computer)  return equals((Computer) other);
         return false;
     }
+	public Computer(Builder builder)
+	{
+		this.id = builder.id;
+		this.name =builder.name;
+		this.company = builder.company;
+		this.discontinued = builder.discontinued;
+		this.introduced = builder.introduced;
+	}
+	
+	public Computer() {
+		// TODO Auto-generated constructor stub
+	}
+
+
 	public static class Builder
 	{
 		

@@ -6,14 +6,14 @@ import java.util.Objects;
 import main.java.exc.model.Computer.Builder;
 
 public class ComputerDTO {
-	public ComputerDTO(Builder builder)
-	{
-		this.id = builder.id;
-		this.name =builder.name;
-		this.company = builder.company;
-		this.discontinued = builder.discontinued;
-		this.introduced = builder.introduced;
-	}
+
+	private String id;
+	private String name;
+	private String Computer_company;
+	private CompanyDTO company;
+	private String introduced;
+	private String discontinued;
+	
 	public String getId() {
 		return id;
 	}
@@ -64,12 +64,16 @@ public class ComputerDTO {
         if (other instanceof ComputerDTO)  return equals((ComputerDTO) other);
         return false;
     }
-	private String id;
-	private String name;
-	private String Computer_company;
-	private CompanyDTO company;
-	private String introduced;
-	private String discontinued;
+
+	
+	public ComputerDTO(Builder builder)
+	{
+		this.id = builder.id;
+		this.name =builder.name;
+		this.company = builder.company;
+		this.discontinued = builder.discontinued;
+		this.introduced = builder.introduced;
+	}
 	public static class Builder
 	{
 		private String id;

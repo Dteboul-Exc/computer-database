@@ -12,7 +12,7 @@ import main.java.exc.model.Computer;
 import main.java.exc.model.ComputerDTO;
 import main.java.exc.persistence.DAOComputer;
 import main.java.exc.persistence.SQLConnect;
-import main.java.exc.service.MenuComputerInterface;
+import main.java.exc.ui.MenuComputerInterface;
 import main.java.exc.service.ServiceComputer;
 
 public class SecondaryMenus {

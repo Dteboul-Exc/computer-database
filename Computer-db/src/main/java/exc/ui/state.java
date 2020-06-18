@@ -1,4 +1,4 @@
-package main.java.exc.service;
+package main.java.exc.ui;
 
 public enum state {
 	Main,
@@ -8,6 +8,7 @@ public enum state {
 	CreateComputer,
 	UpdateComputer,
 	DeleteComputer,
+	DeleteCompany,
 	Exit,
 	
 }

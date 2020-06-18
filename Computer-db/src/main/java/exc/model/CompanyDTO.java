@@ -5,6 +5,8 @@ import java.util.Objects;
 import main.java.exc.model.Company.Builder;
 
 public class CompanyDTO {
+	private String id;
+	private String name;
 
 		public String getId() {
 		return id;
@@ -14,6 +16,9 @@ public class CompanyDTO {
 	}
 	public String getName() {
 		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
 	}
 	public CompanyDTO(Builder builder)
 	{
@@ -37,11 +42,8 @@ public class CompanyDTO {
         if (other instanceof CompanyDTO)  return equals((CompanyDTO) other);
         return false;
     }
-	public void setName(String name) {
-		this.name = name;
-	}
-		private String id;
-		private String name;
+
+
 		public static class Builder
 		{
 			private String id;

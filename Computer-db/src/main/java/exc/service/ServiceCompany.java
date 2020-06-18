@@ -59,5 +59,9 @@ public class ServiceCompany {
 	{
 		this.DAOCompany = tDAOCompany;
 	}
+	public int deleteCompany(int id) {
+		DAOCompany.deleteCompany(id);
+		return 0;
+	}
 
 }
