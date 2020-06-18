@@ -28,29 +28,28 @@ import main.java.exc.service.ServiceComputerException;
 @WebServlet("/dashboard")
 public class Dashboard extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public Dashboard() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		if (request.getParameter("search") != null) 
-			Search(request,response);
-		else	
-			Pagination(request,response);
+	public Dashboard() {
+		super();
+	}
 
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		if (request.getParameter("search") != null)
+			Search(request, response);
+		else
+			Pagination(request, response);
 
 	}
-	
-	protected Optional<String> AddValidator(String name,String introduced,String discontinued)
-	{
+
+	protected Optional<String> AddValidator(String name, String introduced, String discontinued) {
 		try {
 			ComputerValidator.isName(name);
 			ComputerValidator.isDate(introduced, discontinued);
@@ -58,25 +57,23 @@ public class Dashboard extends HttpServlet {
 		} catch (ServiceComputerException e) {
 			e.printStackTrace();
 			return Optional.of(e.toString());
-		}
-		catch (StringIndexOutOfBoundsException e)
-		{
+		} catch (StringIndexOutOfBoundsException e) {
 			e.printStackTrace();
 			return Optional.of(e.toString());
 		}
 		return Optional.of("clear");
 	}
-	
-	protected void Add(HttpServletRequest request, HttpServletResponse response)
-	{
-		 String name = request.getParameter("name");
-		 String introduced = request.getParameter("introduced");
-		 String discontinued = request.getParameter("discontinued");
-		 CompanyDTO company = CompanyDTO.Builder.newInstance().setId(request.getParameter("company")).build();
-		 ComputerDTO newComputer = ComputerDTO.Builder.newInstance().setName(name).setCompany(company).setIntroduced(introduced).setDiscontinued(discontinued).setCompany(company).build();
-		 ServiceComputer service = new ServiceComputer();
-		 System.out.print("companyID is"  + request.getParameter("company"));
-		 try {
+
+	protected void Add(HttpServletRequest request, HttpServletResponse response) {
+		String name = request.getParameter("name");
+		String introduced = request.getParameter("introduced");
+		String discontinued = request.getParameter("discontinued");
+		CompanyDTO company = CompanyDTO.Builder.newInstance().setId(request.getParameter("company")).build();
+		ComputerDTO newComputer = ComputerDTO.Builder.newInstance().setName(name).setCompany(company)
+				.setIntroduced(introduced).setDiscontinued(discontinued).setCompany(company).build();
+		ServiceComputer service = new ServiceComputer();
+		System.out.print("companyID is" + request.getParameter("company"));
+		try {
 			service.addComputer(newComputer);
 		} catch (NumberFormatException e) {
 			// TODO Auto-generated catch block
@@ -85,47 +82,103 @@ public class Dashboard extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setAttribute("errormsg","all clear");
-		 if (request.getParameter("Add") != null) {
-			 String check  =AddValidator(request.getParameter("name"),request.getParameter("introduced"),request.getParameter("discontinued")).get();
-			 	if (check.equals("clear"))
-			 		Add(request,response);
-			 	else
-			 		request.setAttribute("errormsg", check);
-			 		
-	        }
-		 else if (request.getParameter("Edit") != null) {
-			 String name = request.getParameter("name");
-			 String id = request.getParameter("id");
-			 String introduced = request.getParameter("introduced");
-			 String discontinued = request.getParameter("discontinued");
-			 CompanyDTO company = CompanyDTO.Builder.newInstance().setId(request.getParameter("company")).build();
-			 ComputerDTO newComputer = ComputerDTO.Builder.newInstance().setName(name).setCompany(company).setIntroduced(introduced).setDiscontinued(discontinued).setId(id).build();
-			 ServiceComputer service = new ServiceComputer();
-			 try {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		request.setAttribute("errormsg", "all clear");
+		if (request.getParameter("Add") != null) {
+			String check = AddValidator(request.getParameter("name"), request.getParameter("introduced"),
+					request.getParameter("discontinued")).get();
+			if (check.equals("clear"))
+				Add(request, response);
+			else
+				request.setAttribute("errormsg", check);
+
+		} else if (request.getParameter("Edit") != null) {
+			String name = request.getParameter("name");
+			String id = request.getParameter("id");
+			String introduced = request.getParameter("introduced");
+			String discontinued = request.getParameter("discontinued");
+			CompanyDTO company = CompanyDTO.Builder.newInstance().setId(request.getParameter("company")).build();
+			ComputerDTO newComputer = ComputerDTO.Builder.newInstance().setName(name).setCompany(company)
+					.setIntroduced(introduced).setDiscontinued(discontinued).setId(id).build();
+			ServiceComputer service = new ServiceComputer();
+			try {
 				service.updateComputer(newComputer);
 			} catch (NumberFormatException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			} }
-			 else if (request.getParameter("selection") != null)
-				{
-					System.out.println(request.getParameter("selection"));
-					String[] List_ID_computer=request.getParameter("selection").split(",");
-					ServiceComputer service = new ServiceComputer();
-					
-					for(String id : List_ID_computer) {
-						service.deleteSpecificComputer(Integer.parseInt(id));
-					}
-				}
-	        
+			}
+		} else if (request.getParameter("selection") != null) {
+			System.out.println(request.getParameter("selection"));
+			String[] List_ID_computer = request.getParameter("selection").split(",");
+			ServiceComputer service = new ServiceComputer();
+
+			for (String id : List_ID_computer) {
+				service.deleteSpecificComputer(Integer.parseInt(id));
+			}
+		}
 
 		doGet(request, response);
 	}
-	
+
+
+	private void Pagination(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		HashMap<String, Integer> values = get_Page_Parameters(request);
+		long page = values.get("page");
+		int recordsPerPage = values.get("recordsPerPage");
+		int currentplace = values.get("currentplace");
+		String Order = "Computer";
+		if (request.getParameter("Order") != null)
+			Order = request.getParameter("Order");
+		ServiceComputer serviceComputer = new ServiceComputer();
+		List<ComputerDTO> list = new ArrayList<>();
+		long size = serviceComputer.getCountComputer();
+		request.setAttribute("computer", Long.toString(size));
+		long max_button = 1;
+		if (page != 1) {
+			if ((page * recordsPerPage + recordsPerPage) < size) {
+				list = SetOrder(request, (currentplace - 1) * recordsPerPage, recordsPerPage);
+				page -= 1;
+				max_button = page + 2;
+			} else {
+				list = SetOrder(request, currentplace * recordsPerPage, size - currentplace * recordsPerPage);
+				max_button = page;
+				page = page - 1;
+			}
+		} else {
+			list = SetOrder(request, 0, recordsPerPage);
+			max_button = page + 1;
+		}
+		request.setAttribute("Order", Order);
+		request.setAttribute("currentplace", currentplace);
+		request.setAttribute("recordsPerPage", recordsPerPage);
+		request.setAttribute("max_button", max_button);
+		request.setAttribute("Computer_list", list);
+		request.setAttribute("min_button", page);
+		request.getRequestDispatcher("/WEB-INF/views/dashboard.jsp").forward(request, response);
+	}
+
+	public HashMap<String,Integer> get_Page_Parameters(HttpServletRequest request) throws ServletException, IOException {
+		int page = 1;
+		int recordsPerPage = 10;
+		int currentplace = 1;
+		if (request.getParameter("page") != null)
+			page = Integer.parseInt(request.getParameter("page"));
+		if (request.getParameter("recordsPerPage") != null)
+			recordsPerPage = Integer.parseInt(request.getParameter("recordsPerPage"));
+		if (request.getParameter("page") != null)
+			currentplace = Integer.parseInt(request.getParameter("page"));
+		 HashMap<String, Integer> values = new HashMap<String, Integer>();
+		 values.put("page", page);
+		 values.put("recordsPerPage", recordsPerPage);
+		 values.put("currentplace", currentplace);
+		 return values;
+	}
+
 	private void Search(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ServiceComputer a = new ServiceComputer();
 		List<ComputerDTO> list = new ArrayList<>();
@@ -138,94 +191,15 @@ public class Dashboard extends HttpServlet {
 		request.getRequestDispatcher("/WEB-INF/views/dashboard.jsp").forward(request, response);
 	}
 	
-	private List<ComputerDTO> SetOrder(HttpServletRequest request, HttpServletResponse response,long start, long end)
-	{
+	private List<ComputerDTO> SetOrder(HttpServletRequest request, long start, long end) {
 		List<ComputerDTO> list = new ArrayList<>();
 		ServiceComputer serviceComputer = new ServiceComputer();
-		if ((request.getParameter("Order") != null)&& ((request.getParameter("Order").equals("computer"))))
-			list = serviceComputer.getAllComputerOrderBy(OrderByState.COMPUTER,start,end);
-		else if ((request.getParameter("Order") != null)&& ((request.getParameter("Order").equals("company"))))
-			list = serviceComputer.getAllComputerOrderBy(OrderByState.COMPANY,start,end);
-		else 
-			list = serviceComputer.getAllComputer(start,end);
+		if ((request.getParameter("Order") != null) && ((request.getParameter("Order").equals("computer"))))
+			list = serviceComputer.getAllComputerOrderBy(OrderByState.COMPUTER, start, end);
+		else if ((request.getParameter("Order") != null) && ((request.getParameter("Order").equals("company"))))
+			list = serviceComputer.getAllComputerOrderBy(OrderByState.COMPANY, start, end);
+		else
+			list = serviceComputer.getAllComputer(start, end);
 		return list;
 	}
-	
-	private void Pagination(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		long page = 1;
-        int recordsPerPage = 10;
-        int currentplace = 1;
-        if(request.getParameter("page") != null)
-            page = Integer.parseInt(request.getParameter("page"));
-        if(request.getParameter("recordsPerPage") != null)
-        	recordsPerPage = Integer.parseInt(request.getParameter("recordsPerPage"));
-        if(request.getParameter("page") != null)
-        	currentplace = Integer.parseInt(request.getParameter("page"));
-        String Order = "Computer";
-        if (request.getParameter("Order") != null)
-        	Order = request.getParameter("Order");
-        
-		ServiceComputer serviceComputer = new ServiceComputer();
-		List<ComputerDTO> list = new ArrayList<>();
-		long size = serviceComputer.getCountComputer();
-		request.setAttribute("computer", Long.toString(size));
-		long max_button=1;
-		if (page != 1)
-		{
-		if ((page*recordsPerPage  + recordsPerPage) < size)
-		{
-			list = SetOrder(request,response,(currentplace-1)*recordsPerPage,recordsPerPage);
-			page-=1;
-			max_button = page +2;
-		}
-		else
-		{
-			list = SetOrder(request,response,currentplace*recordsPerPage,size-currentplace*recordsPerPage);
-			max_button = page;
-			page = page-1;	
-		}
-		}
-		else {
-			list = SetOrder(request,response,0,recordsPerPage);
-			max_button = page+1;
-		}
-		request.setAttribute("Order",Order);
-		request.setAttribute("currentplace", currentplace);
-		request.setAttribute("recordsPerPage", recordsPerPage);
-		request.setAttribute("max_button", max_button);
-		request.setAttribute("Computer_list", list);
-		request.setAttribute("min_button", page);
-		request.getRequestDispatcher("/WEB-INF/views/dashboard.jsp").forward(request, response);
-	}
-	
-	
-	public void OrderBy(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-	}
-	
-	/*
-	 * @Deprecated
-	private Map<Integer,Integer> DefinePaginationList(int page,int recordsPerPage,List<ComputerDTO> list )
-	{
-		Map<Integer,Integer> result = new HashMap<>();
-		if ((page*recordsPerPage  + recordsPerPage) < list.size())
-		{
-			list = list.subList(page*recordsPerPage, page*recordsPerPage + recordsPerPage);
-			page-=1;
-			max_button = page +2;
-			result.put(page-1, page+2);
-		}
-		else
-		{
-			list = list.subList(page*recordsPerPage, list.size());
-			max_button = page;
-			page = page-1;	
-		}
-		else {
-			max_button = page+1;
-		}
-		return result;
-	}
-	*/
-
 }
