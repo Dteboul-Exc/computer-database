@@ -164,7 +164,7 @@ public class Dashboard extends HttpServlet {
 
 	public HashMap<String,Integer> get_Page_Parameters(HttpServletRequest request) throws ServletException, IOException {
 		int page = 1;
-		int recordsPerPage = 10;
+		int recordsPerPage = 10;//
 		int currentplace = 1;
 		if (request.getParameter("page") != null)
 			page = Integer.parseInt(request.getParameter("page"));
