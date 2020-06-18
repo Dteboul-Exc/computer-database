@@ -1,4 +1,4 @@
-package main.java.exc.service;
+package main.java.exc.ui;
 
 public enum MenuComputerInterface {
 	Name,
@@ -7,6 +7,7 @@ public enum MenuComputerInterface {
 	Company_id,
 	Main,
 	Validate,
+	Delete,
 	End
 	
 }
