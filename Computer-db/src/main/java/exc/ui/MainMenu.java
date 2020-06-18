@@ -104,7 +104,7 @@ public class MainMenu {
 			case LCompany :
 				sta = state.Main;
 				Optional<List<CompanyDTO>> optcompany = DAOCompany.getAllCompany();
-				if (!optcompany.isEmpty())
+				if (optcompany.get().size() != 0)
 				{
 					logger.debug("user is being shown a list of the companies in the database");
 					List<CompanyDTO> lcny = optcompany.get();

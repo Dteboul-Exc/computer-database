@@ -161,7 +161,7 @@ public class Dashboard extends HttpServlet {
         	recordsPerPage = Integer.parseInt(request.getParameter("recordsPerPage"));
         if(request.getParameter("page") != null)
         	currentplace = Integer.parseInt(request.getParameter("page"));
-        String Order = null;
+        String Order = "Computer";
         if (request.getParameter("Order") != null)
         	Order = request.getParameter("Order");
         

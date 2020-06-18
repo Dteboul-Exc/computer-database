@@ -117,18 +117,18 @@
  				<c:if test="${min_button >1}">     
               <li>   
                 <li>
-                    <a href="http://localhost:8080/Computer-db/dashboard?page=${currentplace-1}&recordsPerPage=${recordsPerPage}&Order=computer"aria-label="Previous">
+                    <a href="http://localhost:8080/Computer-db/dashboard?page=${currentplace-1}&recordsPerPage=${recordsPerPage}&Order=${Order}"aria-label="Previous">
                       <span  aria-hidden="true">&laquo;</span>
                   </a>
               </li>
               </c:if>
               <c:forEach var="i" end="${max_button}" begin="${min_button}" varStatus="loop">
-              <li><a href="http://localhost:8080/Computer-db/dashboard?page=${i}&recordsPerPage=${recordsPerPage}">${i} </a></li>
+              <li><a href="http://localhost:8080/Computer-db/dashboard?page=${i}&recordsPerPage=${recordsPerPage}&Order=${Order}">${i} </a></li>
               </c:forEach>
               
               <c:if test="${max_button != min_button + 1}">     
               <li>    
-                <a href="http://localhost:8080/Computer-db/dashboard?page=${currentplace+1}&recordsPerPage=${recordsPerPage}&Order=computer" aria-label="Next">
+                <a href="http://localhost:8080/Computer-db/dashboard?page=${currentplace+1}&recordsPerPage=${recordsPerPage}&Order=${Order}" aria-label="Next">
                     <span  aria-hidden="true">&raquo;</span>
                 </a>
                  </li>
