@@ -17,16 +17,16 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import main.java.exc.dto.CompanyDTO;
-import main.java.exc.dto.ComputerDTO;
-import main.java.exc.mapper.CompanyMapper;
-import main.java.exc.mapper.ComputerMapper;
-import main.java.exc.model.Company;
-import main.java.exc.model.Computer;
-import main.java.exc.persistence.DAOCompany;
-import main.java.exc.persistence.DAOComputer;
-import main.java.exc.service.ServiceCompany;
-import main.java.exc.service.ServiceComputer;
+import main.java.excilys.dto.CompanyDTO;
+import main.java.excilys.dto.ComputerDTO;
+import main.java.excilys.mapper.CompanyMapper;
+import main.java.excilys.mapper.ComputerMapper;
+import main.java.excilys.model.Company;
+import main.java.excilys.model.Computer;
+import main.java.excilys.persistence.DAOCompany;
+import main.java.excilys.persistence.DAOComputer;
+import main.java.excilys.service.ServiceCompany;
+import main.java.excilys.service.ServiceComputer;
 
 public class ServiceComputer_Testing {
 	private static  List<Computer> list = new ArrayList<>();

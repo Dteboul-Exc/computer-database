@@ -14,7 +14,7 @@ import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-import main.java.exc.mapper.DateMapper;
+import main.java.excilys.mapper.DateMapper;
 
 
 class DateMapperTest {

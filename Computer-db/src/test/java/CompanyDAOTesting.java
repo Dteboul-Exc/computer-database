@@ -24,8 +24,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runners.JUnit4;
 
-import main.java.exc.model.Company;
-import main.java.exc.persistence.DAOCompany;
+import main.java.excilys.model.Company;
+import main.java.excilys.persistence.DAOCompany;
 
 public class CompanyDAOTesting extends DatabaseTestCase{
 

@@ -14,11 +14,11 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import main.java.exc.dto.CompanyDTO;
-import main.java.exc.mapper.CompanyMapper;
-import main.java.exc.model.Company;
-import main.java.exc.persistence.DAOCompany;
-import main.java.exc.service.ServiceCompany;
+import main.java.excilys.dto.CompanyDTO;
+import main.java.excilys.mapper.CompanyMapper;
+import main.java.excilys.model.Company;
+import main.java.excilys.persistence.DAOCompany;
+import main.java.excilys.service.ServiceCompany;
 
 public class Company_testing {
 

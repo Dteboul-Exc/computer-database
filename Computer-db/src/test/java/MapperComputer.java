@@ -7,10 +7,10 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 
-import main.java.exc.dto.ComputerDTO;
-import main.java.exc.mapper.ComputerMapper;
-import main.java.exc.model.Company;
-import main.java.exc.model.Computer;
+import main.java.excilys.dto.ComputerDTO;
+import main.java.excilys.mapper.ComputerMapper;
+import main.java.excilys.model.Company;
+import main.java.excilys.model.Computer;
 
 class MapperComputer {
 
