@@ -1,4 +1,4 @@
-package exc.service;
+package main.java.exc.service;
 
 public enum state {
 	Main,

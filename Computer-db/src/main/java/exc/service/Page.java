@@ -1,11 +1,15 @@
-package exc.service;
+package main.java.exc.service;
 
 import java.text.ParseException;
 import java.util.List;
 import java.util.Scanner;
 
-import exc.mapper.DateMapper;
-import exc.model.Computer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import main.java.exc.mapper.DateMapper;
+import main.java.exc.model.Computer;
+import main.java.exc.ui.MainMenu;
 
 public class Page {
 	enum selector {
@@ -14,7 +18,7 @@ public class Page {
 		Stop
 		
 	}
-	private int nb_Pages=10;
+	private int nb_Pages=30;
 	
 	/**
 	 * Method for a Pager class that allow the user to parse the list of Computer 
@@ -23,6 +27,8 @@ public class Page {
 	 */
 	public void Following(List<Computer> lcomp) 
 	{
+		Logger logger = LoggerFactory.getLogger(MainMenu.class);
+	    logger.debug("Pager initialized");
 		int read_count  = 0 ;
 		int listCount = lcomp.size();
 		for(Computer i :  lcomp)
@@ -33,14 +39,17 @@ public class Page {
 				if (read_count == nb_Pages)
 					if(Scrolling_Menu())
 					{
+						logger.debug("User decides to continue using the pager");
 						read_count=0;
 					}
 					else
 					{
+						logger.debug("Pager stopped by the user");
 						return;
 					}
 			} catch (ParseException e2) {
 				e2.printStackTrace();
+				logger.error("Parser error in parsing : "  + e2);
 				
 			}
 		}
