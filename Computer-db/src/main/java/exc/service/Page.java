@@ -27,7 +27,7 @@ public class Page {
 	 */
 	public void Following(List<Computer> lcomp) 
 	{
-		Logger logger = LoggerFactory.getLogger(MainMenu.class);
+
 	    logger.debug("Pager initialized");
 		int read_count  = 0 ;
 		int listCount = lcomp.size();
