@@ -6,23 +6,33 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.apache.log4j.BasicConfigurator;
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
+import main.java.exc.dto.ComputerDTO;
 import main.java.exc.mapper.ComputerMapper;
 import main.java.exc.model.Computer;
-import main.java.exc.model.ComputerDTO;
 import main.java.exc.persistence.DAOComputer;
 import main.java.exc.persistence.OrderByState;
 
+
+@Service
 public class ServiceComputer {
 	private static final Logger lOG =
             LoggerFactory.getLogger(ServiceComputer.class);
-	private DAOComputer DAOComputer = new DAOComputer();
+	
+	
+	@Autowired
+	private DAOComputer DAOComputer;
+	
 	public ServiceComputer() {
-		DAOComputer = new DAOComputer();
 	}
+	
 	public ServiceComputer(DAOComputer c) {
 		this.DAOComputer = c;
 	}
@@ -36,7 +46,8 @@ public class ServiceComputer {
 		return DAOComputer.getCountComputer();
 	}
 	public List<ComputerDTO> getAllComputer(long offset, long limit)  {
-		BasicConfigurator.configure();
+
+
 
 	    lOG.debug("getAllComputer start");
 	   
@@ -54,7 +65,7 @@ public class ServiceComputer {
 		}
 	}
 	public  Optional<ComputerDTO> getSpecificComputer(int id)  {
-		BasicConfigurator.configure();
+
 	    lOG.debug("getSpecificComputer start using computer id : "+id);
 	    Optional<ComputerDTO> result;
 	    
@@ -75,7 +86,7 @@ public class ServiceComputer {
 	}
 	
 	public  List<ComputerDTO> Search_Computer(String name)  {
-		BasicConfigurator.configure(); 
+
 
 	    lOG.debug("Search_Computer start using computer name : "+name);
 	    List<Computer> dataset;
@@ -93,7 +104,6 @@ public class ServiceComputer {
 	}
 	public int deleteSpecificComputer(int id) 
 	{
-		BasicConfigurator.configure();
 	    lOG.debug("getSpecificComputer start using computer id : "+id);
 	    int result;
 	    result = DAOComputer.deleteSpecificComputer(id);
@@ -101,7 +111,7 @@ public class ServiceComputer {
 	}
 	public int addComputer(ComputerDTO computer)  
 	{
-		BasicConfigurator.configure();
+
 	    lOG.debug("addComputer start using computer");
 		String tname = "NULL";
 		String tintroduced = "NULL";
@@ -136,7 +146,6 @@ public class ServiceComputer {
 	}
 	public int updateComputer(ComputerDTO computer)  
 	{
-		BasicConfigurator.configure();
 	    lOG.debug("updateComputer start using computer");
 		String tname = "NULL";
 		String tintroduced = "NULL";
@@ -174,7 +183,6 @@ public class ServiceComputer {
 	
 	
 	public List<ComputerDTO> getAllComputerOrderBy(OrderByState state,long offset, long limit)  {
-		BasicConfigurator.configure();
 
 	    lOG.debug("getAllComputer start");
 	    List<ComputerDTO> result = new ArrayList<>();

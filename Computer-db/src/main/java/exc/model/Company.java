@@ -2,6 +2,9 @@ package main.java.exc.model;
 
 import java.util.Objects;
 
+import org.springframework.stereotype.Component;
+
+
 public final class Company {
 	private long id=0;
 	private String name="none";

@@ -10,14 +10,18 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import main.java.exc.model.CompanyDTO;
-import main.java.exc.model.ComputerDTO;
+import org.springframework.stereotype.Component;
+
+import main.java.exc.dto.CompanyDTO;
+import main.java.exc.dto.ComputerDTO;
 import main.java.exc.service.ServiceCompany;
 import main.java.exc.service.ServiceComputer;
+import main.java.exc.spring.SpringConfiguration;
 
 /**
  * Servlet implementation class AddComputer
  */
+
 @WebServlet("/addComputer")
 public class AddComputer extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -35,7 +39,7 @@ public class AddComputer extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		ServiceCompany c = new ServiceCompany();
+		ServiceCompany c = SpringConfiguration.getContext().getBean(ServiceCompany.class);
 		Optional<List<CompanyDTO>> list_company = c.getAllCompany();
 		request.setAttribute("company", list_company.get());
 		request.getRequestDispatcher("/WEB-INF/views/addComputer.jsp").forward(request, response);

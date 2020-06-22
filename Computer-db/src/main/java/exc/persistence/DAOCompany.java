@@ -10,8 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.stereotype.Component;
+
 import main.java.exc.model.Company;
 
+
+@Component
 public class DAOCompany {
 	private final String GET_ALL_COMPANY = "SELECT name,id FROM company";
 	private final String GET_SPECIFIC_COMPANY = "SELECT computer.name ,computer.id,introduced,discontinued,company_id ,company.name AS "

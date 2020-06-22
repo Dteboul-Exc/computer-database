@@ -10,15 +10,14 @@ import java.util.Scanner;
 
 
 import org.slf4j.LoggerFactory;
-import org.apache.log4j.BasicConfigurator;
+import org.springframework.stereotype.Component;
 import org.slf4j.Logger;
 
-
+import main.java.exc.dto.CompanyDTO;
+import main.java.exc.dto.ComputerDTO;
 import main.java.exc.mapper.DateMapper;
 import main.java.exc.model.Company;
-import main.java.exc.model.CompanyDTO;
 import main.java.exc.model.Computer;
-import main.java.exc.model.ComputerDTO;
 import main.java.exc.persistence.DAOCompany;
 import main.java.exc.persistence.DAOComputer;
 import main.java.exc.persistence.SQLConnect;
@@ -44,7 +43,7 @@ public class MainMenu {
 		ServiceComputer DAOComputer = new ServiceComputer();
 		ServiceCompany DAOCompany = new ServiceCompany();
 		
-		BasicConfigurator.configure();
+
 		Logger logger = LoggerFactory.getLogger(MainMenu.class);
 	    logger.debug("Main Menu Initialized");
 

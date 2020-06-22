@@ -10,10 +10,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
+
 import main.java.exc.mapper.DateMapper;
 import main.java.exc.model.Company;
 import main.java.exc.model.Computer;
 
+@Repository
 public class DAOComputer {
 
 	private static final String ORDER_BY_COMPANY = "SELECT computer.name ,computer.id,introduced,discontinued,company_id ,company.name as company from computer LEFT JOIN company ON computer.company_id = company.id ORDER BY company.name LIMIT ? OFFSET ? ";

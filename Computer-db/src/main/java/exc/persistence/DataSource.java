@@ -3,26 +3,19 @@ package main.java.exc.persistence;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
+
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
+import main.java.exc.spring.SpringConfiguration;
+
+
+
 public class DataSource {
-    private static HikariConfig config = new HikariConfig();
-    private static HikariDataSource ds;
- 
-    static {
-    	config.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        config.setJdbcUrl( "jdbc:mysql://localhost:3306/computer-database-db" );
-        config.setUsername( "admincdb" );
-        config.setPassword( "qwerty1234" );
-        config.addDataSourceProperty( "cachePrepStmts" , "true" );
-        config.addDataSourceProperty( "prepStmtCacheSize" , "250" );
-        config.addDataSourceProperty( "prepStmtCacheSqlLimit" , "2048" );
-        config.addDataSourceProperty("maximumPoolSize", "1");
-        config.addDataSourceProperty("minimumIdle", "1");
-        config.addDataSourceProperty("idleTimeout", "20");
-        ds = new HikariDataSource( config );
-    }
+    private static HikariDataSource ds = SpringConfiguration.getContext().getBean(HikariDataSource.class);
+
  
     private DataSource() {}
  

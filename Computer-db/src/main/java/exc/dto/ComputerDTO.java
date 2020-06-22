@@ -1,9 +1,12 @@
-package main.java.exc.model;
+package main.java.exc.dto;
 
 import java.time.LocalDate;
 import java.util.Objects;
 
+import org.springframework.stereotype.Service;
+
 import main.java.exc.model.Computer.Builder;
+
 
 public class ComputerDTO {
 

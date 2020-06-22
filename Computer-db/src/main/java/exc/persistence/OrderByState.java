@@ -1,5 +1,8 @@
 package main.java.exc.persistence;
 
+import org.springframework.stereotype.Component;
+
+
 public enum OrderByState {
 	COMPANY("company.name"),
 	COMPUTER("computer.name");

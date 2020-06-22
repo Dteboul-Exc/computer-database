@@ -4,15 +4,16 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
+import main.java.exc.dto.CompanyDTO;
 import main.java.exc.model.Company;
-import main.java.exc.model.CompanyDTO;
 
 public class CompanyMapper {
 
     private static final Logger LOG = LoggerFactory.getLogger(CompanyMapper.class);
 
-
+    
     public static Optional<Company> companyDTOToCompany(CompanyDTO cDTO) {
     	LOG.debug("Starting converting DTOcompany id " + cDTO.getId() +" to company");
         if (cDTO == null) {

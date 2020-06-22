@@ -5,16 +5,19 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Objects;
 
+import org.springframework.stereotype.Component;
+
 import main.java.exc.model.Company.Builder;
 
-public class Computer {
+
+public final class Computer {
 	private int id;
 	private String name;
 	private Company Computer_company;
 	private Company company;
 	private LocalDate introduced;
 	private LocalDate discontinued;
-	
+
 	public int getId() {
 		return id;
 	}
@@ -78,7 +81,7 @@ public class Computer {
 		// TODO Auto-generated constructor stub
 	}
 
-
+	
 	public static class Builder
 	{
 		

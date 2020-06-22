@@ -2,10 +2,12 @@ package main.java.exc.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import main.java.exc.mapper.DateMapper;
 import main.java.exc.model.Company;
 
+@Component
 public class ComputerValidator  {
 	private static final Logger lOG =
             LoggerFactory.getLogger(ComputerValidator.class);

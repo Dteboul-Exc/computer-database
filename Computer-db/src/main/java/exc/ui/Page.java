@@ -6,12 +6,13 @@ import java.util.Scanner;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
+import main.java.exc.dto.ComputerDTO;
 import main.java.exc.mapper.DateMapper;
 import main.java.exc.model.Computer;
-import main.java.exc.model.ComputerDTO;
 import main.java.exc.ui.MainMenu;
-
+@Component
 public class Page {
 	enum selector {
 		Main,

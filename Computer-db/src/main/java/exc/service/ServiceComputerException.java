@@ -1,5 +1,7 @@
 package main.java.exc.service;
 
+import org.springframework.stereotype.Component;
+
 public class ServiceComputerException extends Exception{
 	/**
 	 * 

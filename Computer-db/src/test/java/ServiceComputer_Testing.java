@@ -17,12 +17,12 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import main.java.exc.dto.CompanyDTO;
+import main.java.exc.dto.ComputerDTO;
 import main.java.exc.mapper.CompanyMapper;
 import main.java.exc.mapper.ComputerMapper;
 import main.java.exc.model.Company;
-import main.java.exc.model.CompanyDTO;
 import main.java.exc.model.Computer;
-import main.java.exc.model.ComputerDTO;
 import main.java.exc.persistence.DAOCompany;
 import main.java.exc.persistence.DAOComputer;
 import main.java.exc.service.ServiceCompany;

@@ -4,16 +4,19 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.Scanner;
 
+import org.springframework.stereotype.Component;
+
+import main.java.exc.dto.CompanyDTO;
+import main.java.exc.dto.ComputerDTO;
 import main.java.exc.mapper.CompanyMapper;
 import main.java.exc.mapper.DateMapper;
 import main.java.exc.model.Company;
-import main.java.exc.model.CompanyDTO;
 import main.java.exc.model.Computer;
-import main.java.exc.model.ComputerDTO;
 import main.java.exc.persistence.DAOComputer;
 import main.java.exc.persistence.SQLConnect;
 import main.java.exc.ui.MenuComputerInterface;
 import main.java.exc.service.ServiceComputer;
+
 
 public class SecondaryMenus {
 	/**

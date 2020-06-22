@@ -4,13 +4,15 @@ import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.Optional;
 
-import org.apache.log4j.Logger;
-import org.slf4j.LoggerFactory;
 
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
+import main.java.exc.dto.CompanyDTO;
+import main.java.exc.dto.ComputerDTO;
 import main.java.exc.model.Company;
-import main.java.exc.model.CompanyDTO;
 import main.java.exc.model.Computer;
-import main.java.exc.model.ComputerDTO;
+
 
 public class ComputerMapper {
     private static final org.slf4j.Logger LOG = LoggerFactory.getLogger(ComputerMapper.class);

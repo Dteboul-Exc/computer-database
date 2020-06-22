@@ -15,16 +15,22 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import main.java.exc.model.CompanyDTO;
-import main.java.exc.model.ComputerDTO;
+import org.springframework.stereotype.Component;
+
+import com.zaxxer.hikari.HikariDataSource;
+
+import main.java.exc.dto.CompanyDTO;
+import main.java.exc.dto.ComputerDTO;
 import main.java.exc.persistence.OrderByState;
 import main.java.exc.service.ComputerValidator;
 import main.java.exc.service.ServiceComputer;
 import main.java.exc.service.ServiceComputerException;
+import main.java.exc.spring.SpringConfiguration;
 
 /**
  * Servlet implementation class Starter
  */
+
 @WebServlet("/dashboard")
 public class Dashboard extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -71,7 +77,7 @@ public class Dashboard extends HttpServlet {
 		CompanyDTO company = CompanyDTO.Builder.newInstance().setId(request.getParameter("company")).build();
 		ComputerDTO newComputer = ComputerDTO.Builder.newInstance().setName(name).setCompany(company)
 				.setIntroduced(introduced).setDiscontinued(discontinued).setCompany(company).build();
-		ServiceComputer service = new ServiceComputer();
+		ServiceComputer service =  SpringConfiguration.getContext().getBean(ServiceComputer.class);
 		System.out.print("companyID is" + request.getParameter("company"));
 		try {
 			service.addComputer(newComputer);
@@ -104,7 +110,7 @@ public class Dashboard extends HttpServlet {
 			CompanyDTO company = CompanyDTO.Builder.newInstance().setId(request.getParameter("company")).build();
 			ComputerDTO newComputer = ComputerDTO.Builder.newInstance().setName(name).setCompany(company)
 					.setIntroduced(introduced).setDiscontinued(discontinued).setId(id).build();
-			ServiceComputer service = new ServiceComputer();
+			ServiceComputer service =  SpringConfiguration.getContext().getBean(ServiceComputer.class);
 			try {
 				service.updateComputer(newComputer);
 			} catch (NumberFormatException e) {
@@ -114,7 +120,7 @@ public class Dashboard extends HttpServlet {
 		} else if (request.getParameter("selection") != null) {
 			System.out.println(request.getParameter("selection"));
 			String[] List_ID_computer = request.getParameter("selection").split(",");
-			ServiceComputer service = new ServiceComputer();
+			ServiceComputer service =  SpringConfiguration.getContext().getBean(ServiceComputer.class);
 
 			for (String id : List_ID_computer) {
 				service.deleteSpecificComputer(Integer.parseInt(id));
@@ -134,7 +140,7 @@ public class Dashboard extends HttpServlet {
 		String Order = "Computer";
 		if (request.getParameter("Order") != null)
 			Order = request.getParameter("Order");
-		ServiceComputer serviceComputer = new ServiceComputer();
+		ServiceComputer serviceComputer = SpringConfiguration.getContext().getBean(ServiceComputer.class);
 		List<ComputerDTO> list = new ArrayList<>();
 		long size = serviceComputer.getCountComputer();
 		request.setAttribute("computer", Long.toString(size));
@@ -180,7 +186,7 @@ public class Dashboard extends HttpServlet {
 	}
 
 	private void Search(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ServiceComputer a = new ServiceComputer();
+		ServiceComputer a =  SpringConfiguration.getContext().getBean(ServiceComputer.class);
 		List<ComputerDTO> list = new ArrayList<>();
 		list = a.Search_Computer(request.getParameter("search"));
 		request.setAttribute("currentplace", 1);
@@ -193,7 +199,7 @@ public class Dashboard extends HttpServlet {
 	
 	private List<ComputerDTO> SetOrder(HttpServletRequest request, long start, long end) {
 		List<ComputerDTO> list = new ArrayList<>();
-		ServiceComputer serviceComputer = new ServiceComputer();
+		ServiceComputer serviceComputer =  SpringConfiguration.getContext().getBean(ServiceComputer.class);
 		if ((request.getParameter("Order") != null) && ((request.getParameter("Order").equals("computer"))))
 			list = serviceComputer.getAllComputerOrderBy(OrderByState.COMPUTER, start, end);
 		else if ((request.getParameter("Order") != null) && ((request.getParameter("Order").equals("company"))))

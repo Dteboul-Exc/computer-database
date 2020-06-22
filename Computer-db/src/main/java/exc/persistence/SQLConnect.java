@@ -4,6 +4,10 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import org.springframework.stereotype.Component;
+
+
+
 public  final class SQLConnect {
 	private static SQLConnect instance = new SQLConnect();
 	private static   Connection conn;

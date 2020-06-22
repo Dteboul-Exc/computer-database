@@ -6,21 +6,26 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.apache.log4j.BasicConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
+import main.java.exc.dto.CompanyDTO;
 import main.java.exc.mapper.CompanyMapper;
 import main.java.exc.model.Company;
-import main.java.exc.model.CompanyDTO;
 import main.java.exc.persistence.DAOCompany;
 
+
+@Service
 public class ServiceCompany {
+	
+	@Autowired
 	private DAOCompany DAOCompany;
 	
 	public ServiceCompany()
 	{
-		DAOCompany = new DAOCompany();
 	}
 	
 	public void set_DAOCompany(DAOCompany DAO)
@@ -28,7 +33,8 @@ public class ServiceCompany {
 		this.DAOCompany = DAO;
 	}
 	public  Optional<List<CompanyDTO>> getAllCompany() {
-	BasicConfigurator.configure();
+
+
 	Logger logger = LoggerFactory.getLogger(DAOCompany.class);
     logger.debug("getAllCompany start");
     List<Company> dataset = DAOCompany.getAllCompany();
@@ -41,7 +47,7 @@ public class ServiceCompany {
 	
 	public Optional<CompanyDTO> getSpecificCompany(int id) 
 	{
-		BasicConfigurator.configure();
+
 		Logger logger = LoggerFactory.getLogger(DAOCompany.class);
 	    logger.debug("getA Company start");
 	    CompanyDTO result;

@@ -1,8 +1,11 @@
-package main.java.exc.model;
+package main.java.exc.dto;
 
 import java.util.Objects;
 
+import org.springframework.stereotype.Service;
+
 import main.java.exc.model.Company.Builder;
+
 
 public class CompanyDTO {
 	private String id;

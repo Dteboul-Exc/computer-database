@@ -10,14 +10,18 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import main.java.exc.model.CompanyDTO;
-import main.java.exc.model.ComputerDTO;
+import org.springframework.stereotype.Component;
+
+import main.java.exc.dto.CompanyDTO;
+import main.java.exc.dto.ComputerDTO;
 import main.java.exc.service.ServiceCompany;
 import main.java.exc.service.ServiceComputer;
+import main.java.exc.spring.SpringConfiguration;
 
 /**
  * Servlet implementation class EditComputer
  */
+
 @WebServlet("/editComputer")
 public class EditComputer extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -36,8 +40,8 @@ public class EditComputer extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		if (request.getParameter("id") != null) {
-			ServiceComputer comp = new ServiceComputer();
-			ServiceCompany c = new ServiceCompany();
+			ServiceComputer comp =  SpringConfiguration.getContext().getBean(ServiceComputer.class);
+			ServiceCompany c = SpringConfiguration.getContext().getBean(ServiceCompany.class);
 			System.out.print("everybo");
 			try {
 				Optional<List<CompanyDTO>> list_company = c.getAllCompany();
