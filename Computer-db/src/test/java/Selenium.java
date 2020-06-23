@@ -120,7 +120,7 @@ public class Selenium {
 	        WebElement validate = driver.findElement(By.id("Add"));
 	        computerName.sendKeys("Political lemon");
 	        discontinued.clear();
-	        discontinued.sendKeys("20-Aug-1985");
+	        discontinued.sendKeys("20-02-1985");
 	        validate.click();
 
 	        WebElement error = driver.findElement(By.id("error")); 

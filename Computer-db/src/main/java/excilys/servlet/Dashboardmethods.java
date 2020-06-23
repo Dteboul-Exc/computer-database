@@ -76,7 +76,7 @@ public class Dashboardmethods {
 		int page = 1;
 		int recordsPerPage = 10;//
 		int currentplace = 1;
-		if ((request.getParameter("page") != null) ||( Integer.parseInt(request.getParameter("page") )>0 ))
+		if (request.getParameter("page") != null)
 			page = Integer.parseInt(request.getParameter("page"));
 		if (request.getParameter("recordsPerPage") != null)
 			recordsPerPage = Integer.parseInt(request.getParameter("recordsPerPage"));

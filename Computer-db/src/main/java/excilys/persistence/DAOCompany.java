@@ -11,6 +11,14 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
+
+import com.zaxxer.hikari.HikariDataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import main.java.excilys.model.Company;
 
@@ -19,14 +27,27 @@ import main.java.excilys.model.Company;
  * @author dteboul
  *Class that allows CBD to access the Database and acces information concerning companies in the db
  */
-@Component
+@Repository
 public class DAOCompany {
 	private final String GET_ALL_COMPANY = "SELECT name,id FROM company";
 	private final String GET_SPECIFIC_COMPANY = "SELECT computer.name ,computer.id,introduced,discontinued,company_id ,company.name AS "
-			+ "company from computer LEFT JOIN company ON computer.company_id = company.id where computer.id = ?";
-	private final String DELETE_COMPANY = "DELETE FROM company WHERE id = ?";
-	private final String DELETE_COMPANY_FROM_COMPUTER = "DELETE FROM computer WHERE company_id = ?";
-
+			+ "company from computer LEFT JOIN company ON computer.company_id = company.id where computer.id = :id";
+	private final String DELETE_COMPANY = "DELETE FROM company WHERE id = :id";
+	private final String DELETE_COMPANY_FROM_COMPUTER = "DELETE FROM computer WHERE company_id = :id";
+	
+	@Autowired
+	private HikariDataSource dataSource;
+	
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
+	
+	
+	private Company toCompany(ResultSet rs) throws SQLException
+	{
+		Company tCompany = Company.Builder.newInstance().setId(rs.getInt("id")).setName(rs.getString("name"))
+				.build();
+		return tCompany;
+	}
 	/*
 	 * Return the list of all companies present in the SQL database. Will throw
 	 * SQLException in case it cannot access the database
@@ -40,26 +61,11 @@ public class DAOCompany {
 	 */
 	public List<Company> getAllCompany() {
 
-
-		List<Company> company = new ArrayList<>();
-		try (Connection conn = DataSource.getConn()){
-			
-			PreparedStatement statement = conn.prepareStatement(GET_ALL_COMPANY);
-			ResultSet rs = statement.executeQuery();
-			while (rs.next()) {
-				Company tcompany = Company.Builder.newInstance().setId(rs.getInt("id")).setName(rs.getString("name"))
-						.build();
-				company.add(tcompany);
-			}
-			conn.close();
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		List<Company> result = company;
-		return result;
+		List<Company> company = jdbcTemplate.query(GET_ALL_COMPANY,(resultSet,i) ->
+		{
+			return toCompany(resultSet);
+		});
+		return company;
 	}
 
 	/**
@@ -71,29 +77,8 @@ public class DAOCompany {
 	public Optional<Company> getSpecificCompany(int id) throws ParseException {
 		if (id == 0)
 			return Optional.empty();
-		Connection conn;
-		try {
-			conn = DataSource.getConn();
-			Company company = Company.Builder.newInstance().build();
-			PreparedStatement statement = conn.prepareStatement(GET_ALL_COMPANY);
-			statement.setLong(1, id);
-			ResultSet resset = statement.executeQuery();
-			if (resset.next()) {
-
-				String name = resset.getString("name");
-				company.setId(id);
-				company.setName(name);
-			} else {
-				company = null;
-			}
-			conn.close();
-			return Optional.ofNullable(company);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		return Optional.empty();
+		Company company = jdbcTemplate.queryForObject(GET_SPECIFIC_COMPANY,new MapSqlParameterSource().addValue("id", id));
+		return Optional.of(company);
 	}
 
 	/**
