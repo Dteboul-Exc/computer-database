@@ -1,7 +1,10 @@
 package main.java.excilys.exception;
 
-import org.springframework.stereotype.Component;
-
+/**
+ * @author dteboul
+ * Class used by service company in case of an exception.
+ *
+ */
 public class ServiceComputerException extends Exception{
 	/**
 	 * 

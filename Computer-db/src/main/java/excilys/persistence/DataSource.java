@@ -13,6 +13,11 @@ import main.java.excilys.spring.SpringConfiguration;
 
 
 
+/**
+ * Hikari datasource, allowing CDB to access the Database.
+ * @author dteboul
+ *
+ */
 public class DataSource {
     private static HikariDataSource ds = SpringConfiguration.getContext().getBean(HikariDataSource.class);
 

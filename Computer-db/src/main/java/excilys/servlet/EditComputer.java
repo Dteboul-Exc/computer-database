@@ -31,14 +31,12 @@ public class EditComputer extends HttpServlet {
      */
     public EditComputer() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		if (request.getParameter("id") != null) {
 			ServiceComputer comp =  SpringConfiguration.getContext().getBean(ServiceComputer.class);
 			ServiceCompany c = SpringConfiguration.getContext().getBean(ServiceCompany.class);
@@ -51,9 +49,7 @@ public class EditComputer extends HttpServlet {
 				request.setAttribute("introduced", target.get().getIntroduced());
 				request.setAttribute("discontinued", target.get().getDiscontinued());
 				request.setAttribute("id", request.getParameter("id"));
-
 			} catch (NumberFormatException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
@@ -66,8 +62,6 @@ public class EditComputer extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-
 		doGet(request, response);
 	}
 

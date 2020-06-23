@@ -17,6 +17,10 @@ import main.java.excilys.mapper.DateMapper;
 import main.java.excilys.model.Company;
 import main.java.excilys.model.Computer;
 
+/**
+ * @author dteboul
+ *Class that allows CBD to access the Database and acces information concerning computer in the db
+ */
 @Repository
 public class DAOComputer {
 
@@ -31,6 +35,10 @@ public class DAOComputer {
 	private static final String ADD_COMPUTER_NO_DATE = "INSERT INTO computer (name,introduced, discontinued, company_id) values( ? , null , null ,(select company.id from company where company.id = ?))";
 	private static final String LIST_SIZE  ="SELECT count(id) AS rowcount FROM computer";
 	
+	/**
+	 * Get the number of computers object that are currently in the database.
+	 * @return
+	 */
 	public int getCountComputer()
 	{
 		try(Connection conn = DataSource.getConn())
@@ -50,6 +58,14 @@ public class DAOComputer {
 		return 0;
 	}
 	
+	/**
+	 * 
+	 * Get a set number of computers, limited by the offset and the limit to allow pagination servlet side, and to prevent an overload of the server
+	 * @param offset
+	 * @param limit
+	 * @return
+	 * @throws ParseException
+	 */
 	public List<Computer> getAllComputer( long offset, long limit) throws  ParseException {
 		List<Computer> result = new ArrayList<>();
 		try (Connection conn = DataSource.getConn()){
@@ -84,11 +100,20 @@ public class DAOComputer {
 		return result;
 	}
 
+	/**
+	 * 
+	 * Get a set number of computers, limited by the offset and the limit to allow pagination servlet side, and to prevent an overload of the server, using an order by 
+	 * to sort the output
+	 * @param Order
+	 * @param offset
+	 * @param limit
+	 * @return
+	 * @throws ParseException
+	 */
 	public List<Computer> getAllComputerOrderBY(OrderByState Order,long offset, long limit) throws ParseException {
 		List<Computer> computer = new ArrayList<>();
 		try(Connection conn = DataSource.getConn()) {
 			
-			//Statement stmt = conn.createStatement();
 			PreparedStatement statement;
 			ResultSet resset;
 			switch (Order) {
@@ -131,7 +156,6 @@ public class DAOComputer {
 			}
 			conn.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -139,6 +163,12 @@ public class DAOComputer {
 		return computer;
 	}
 
+	/**
+	 * return a list of computer that matches the input
+	 * @param name
+	 * @return
+	 * @throws ParseException
+	 */
 	public List<Computer> Search_Computer(String name) throws  ParseException {
 		List<Computer> computer = new ArrayList<>();
 		try (Connection conn = DataSource.getConn()){
@@ -240,6 +270,15 @@ public class DAOComputer {
 
 	}
 
+	/**
+	 * Try to add a new computer to the database 
+	 * 
+	 * @param name
+	 * @param introduced
+	 * @param discontinued
+	 * @param id_company
+	 * @return
+	 */
 	public int addComputer(String name, String introduced, String discontinued, long id_company) {
 		System.out.print(name);
 		try (Connection conn = DataSource.getConn()){

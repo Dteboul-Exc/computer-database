@@ -1,8 +1,11 @@
 package main.java.excilys.persistence;
 
-import org.springframework.stereotype.Component;
 
-
+/**
+ * Enum  used for the OrderBy feature
+ * @author dteboul
+ *
+ */
 public enum OrderByState {
 	COMPANY("company.name"),
 	COMPUTER("computer.name");

@@ -14,9 +14,18 @@ import main.java.excilys.model.Company;
 import main.java.excilys.model.Computer;
 
 
+/**
+ * @author dteboul
+ *Mapper that transform a Computer Object into a ComputerDTO object or vice versa
+ */
 public class ComputerMapper {
     private static final org.slf4j.Logger LOG = LoggerFactory.getLogger(ComputerMapper.class);
 
+    /**
+     * Mapper that transform a ComputerDTO Object into a Computer
+     * @param computer
+     * @return
+     */
     public static Optional<Computer> CDTOToComputer(final ComputerDTO computer) {
         Company company = Company.Builder.newInstance().setId(Integer.parseInt(computer.getCompany().getId())).setName(computer.getCompany().getName()).build();
         int id = Integer.parseInt(computer.getId());
@@ -34,6 +43,12 @@ public class ComputerMapper {
 
 
     
+    /**
+     * Mapper that transform a Computer Object into a ComputerDTO 
+     * @param computer
+     * @return
+     * @throws ParseException
+     */
     public static Optional<ComputerDTO> computerToDTO(final Computer computer) throws ParseException {
 
         String name = computer.getName();

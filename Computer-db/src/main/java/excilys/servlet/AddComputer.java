@@ -30,15 +30,13 @@ public class AddComputer extends HttpServlet {
      * @see HttpServlet#HttpServlet()
      */
     public AddComputer() {
-        super();
-        // TODO Auto-generated constructor stub
+        super();     
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		ServiceCompany c = SpringConfiguration.getContext().getBean(ServiceCompany.class);
 		Optional<List<CompanyDTO>> list_company = c.getAllCompany();
 		request.setAttribute("company", list_company.get());

@@ -8,27 +8,61 @@ import main.java.excilys.exception.ServiceComputerException;
 import main.java.excilys.mapper.DateMapper;
 import main.java.excilys.model.Company;
 
+/**
+ * @author dteboul
+ *Backend validator for Servlet and ServiceComputer, throwing a custom esception in case of an unexpected value
+ */
 @Component
 public class ComputerValidator  {
 	private static final Logger lOG =
             LoggerFactory.getLogger(ComputerValidator.class);
 
+	/**
+	 * Check if the computer id is corrected
+	 * @param id
+	 * @return
+	 * @throws ServiceComputerException
+	 */
 	public static boolean isComputerId(int id) throws ServiceComputerException
 	{
-		if (id <= 0) throw new ServiceComputerException("Id from computer isn't set correctly");
+		if (id < 0) throw new ServiceComputerException("Id from computer isn't set correctly");
 		return true;
 	}
 	
+	/**
+	 * Check if the company id is valid 
+	 * 
+	 * @param id
+	 * @return
+	 * @throws ServiceComputerException
+	 */
 	public static boolean isCompanyId(int id) throws ServiceComputerException
 	{
-		if (id < 0) throw new ServiceComputerException("Id from company isn't set correctly");
+		if (id <= 0) throw new ServiceComputerException("Id from company isn't set correctly");
 		return true;
 	}
+	
+	/**
+	 * Check if the name is set
+	 * 
+	 * @param name
+	 * @return
+	 * @throws ServiceComputerException
+	 */
 	public static boolean isName(String name) throws ServiceComputerException
 	{
 		if (name.equals("") || (name.equals(null))) throw new ServiceComputerException("Name isn't set");
 		return true;
 	}
+	
+	
+	/**
+	 * Checks if introduced isn't set while discontinued is set and if introduced is set after discontinued 
+	 * @param introduced
+	 * @param discontinued
+	 * @return
+	 * @throws ServiceComputerException
+	 */
 	public static boolean isDate(String introduced, String discontinued) throws ServiceComputerException
 	{
 		if ((DateMapper.StringConverter(introduced).get().isAfter(DateMapper.StringConverter(discontinued).get()))) {
@@ -40,6 +74,14 @@ public class ComputerValidator  {
 		return true;
 		
 	}
+	
+	
+	/**
+	 * Check if company is a null item
+	 * @param company
+	 * @return
+	 * @throws ServiceComputerException
+	 */
 	public static boolean isCompany(Company company) throws ServiceComputerException
 	{
 		if (company.equals(null)) {
@@ -48,6 +90,16 @@ public class ComputerValidator  {
 		return true;
 		
 	}
+	
+	
+	/**
+	 * 
+	 * Various checks to very if the format of both dates are correct if they are set
+	 * @param introduced
+	 * @param discontinued
+	 * @return
+	 * @throws ServiceComputerException
+	 */
 	public static boolean isDateValid(String introduced, String discontinued) throws ServiceComputerException
 	{
 		lOG.debug("introduced and discontinued size : "+introduced.length() + " : " + discontinued.length());

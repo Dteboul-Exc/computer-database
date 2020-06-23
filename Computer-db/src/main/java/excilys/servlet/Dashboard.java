@@ -114,7 +114,6 @@ public class Dashboard extends HttpServlet {
 			try {
 				service.updateComputer(newComputer);
 			} catch (NumberFormatException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		} else if (request.getParameter("selection") != null) {

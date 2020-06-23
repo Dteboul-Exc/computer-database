@@ -18,23 +18,24 @@ import main.java.excilys.model.Company;
 import main.java.excilys.persistence.DAOCompany;
 
 
+/**
+ * @author dteboul
+ *Assure the link between the servlet and the DAO
+ */
 @Service
 public class ServiceCompany {
 	
 	@Autowired
 	private DAOCompany DAOCompany;
 	
-	public ServiceCompany()
-	{
-	}
 	
 	public void set_DAOCompany(DAOCompany DAO)
 	{
 		this.DAOCompany = DAO;
 	}
+	
+	
 	public  Optional<List<CompanyDTO>> getAllCompany() {
-
-
 	Logger logger = LoggerFactory.getLogger(DAOCompany.class);
     logger.debug("getAllCompany start");
     List<Company> dataset = DAOCompany.getAllCompany();
@@ -47,24 +48,28 @@ public class ServiceCompany {
 	
 	public Optional<CompanyDTO> getSpecificCompany(int id) 
 	{
-
 		Logger logger = LoggerFactory.getLogger(DAOCompany.class);
-	    logger.debug("getA Company start");
+	    logger.debug("get a specific Company start");
 	    CompanyDTO result;
 	    if (id == 0) return Optional.empty();
 	    try {
 			result = CompanyMapper.companyToDTO(DAOCompany.getSpecificCompany(id).get());
 			return Optional.of(result);
 		} catch (ParseException e) {
-			logger.error("error while getting all Computers : "+ e);
+			logger.error("error while getting the specific Computers : "+ e);
 			return Optional.empty();
 		}
 	}
 	
+	/**
+	 * Used for mockito testing 
+	 * @param tDAOCompany
+	 */
 	public void setDAOCompany(final DAOCompany tDAOCompany)
 	{
 		this.DAOCompany = tDAOCompany;
 	}
+	
 	public int deleteCompany(int id) {
 		DAOCompany.deleteCompany(id);
 		return 0;

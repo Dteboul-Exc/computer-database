@@ -22,6 +22,10 @@ import main.java.excilys.persistence.DAOComputer;
 import main.java.excilys.persistence.OrderByState;
 
 
+/**
+ * @author dteboul
+ *Assure the link between the servlet and the DAO.
+ */
 @Service
 public class ServiceComputer {
 	private static final Logger lOG =

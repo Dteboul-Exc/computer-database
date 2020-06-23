@@ -15,6 +15,10 @@ import org.springframework.stereotype.Component;
 import main.java.excilys.model.Company;
 
 
+/**
+ * @author dteboul
+ *Class that allows CBD to access the Database and acces information concerning companies in the db
+ */
 @Component
 public class DAOCompany {
 	private final String GET_ALL_COMPANY = "SELECT name,id FROM company";
@@ -58,6 +62,12 @@ public class DAOCompany {
 		return result;
 	}
 
+	/**
+	 * Return a company that was fetched from the database 
+	 * @param id
+	 * @return
+	 * @throws ParseException
+	 */
 	public Optional<Company> getSpecificCompany(int id) throws ParseException {
 		if (id == 0)
 			return Optional.empty();
@@ -86,6 +96,12 @@ public class DAOCompany {
 		return Optional.empty();
 	}
 
+	/**
+	 * Delete a company from the database, including every computer that was connected to it. The autocommit is set to false to prevent manipulation that would
+	 * make the database unusable
+	 * @param id
+	 * @return
+	 */
 	public int deleteCompany(int id) {
 		try (Connection conn = DataSource.getConn()){
 			conn.setAutoCommit(false);

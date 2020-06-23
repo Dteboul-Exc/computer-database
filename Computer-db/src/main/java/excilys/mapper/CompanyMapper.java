@@ -9,16 +9,22 @@ import org.springframework.stereotype.Component;
 import main.java.excilys.dto.CompanyDTO;
 import main.java.excilys.model.Company;
 
+/**
+ * @author dteboul
+ *Mapper that transform a Company Object into a CompanyDTO object or vice versa
+ */
 public class CompanyMapper {
 
     private static final Logger LOG = LoggerFactory.getLogger(CompanyMapper.class);
 
     
+    /**
+     * Convert a CompanyDTO into a Company
+     * @param cDTO
+     * @return
+     */
     public static Optional<Company> companyDTOToCompany(CompanyDTO cDTO) {
     	LOG.debug("Starting converting DTOcompany id " + cDTO.getId() +" to company");
-        if (cDTO == null) {
-            return Optional.empty();
-        }
         String name = null;
         if (cDTO.getName() != null && !"".equals(cDTO.getName().trim())) {
             name = cDTO.getName();
@@ -36,6 +42,10 @@ public class CompanyMapper {
     }
 
 
+    /**Convert a Company into a CompanyDTO
+     * @param company
+     * @return
+     */
     public static CompanyDTO companyToDTO(final Company company) {
     	LOG.debug("Starting converting company id " + company.getId() +" to DTO");
         String id = company.getId() == 0 ? "" : String.valueOf(company.getId());
