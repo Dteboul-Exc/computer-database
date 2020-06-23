@@ -19,7 +19,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 
+import main.java.excilys.mapper.RSCompanyMapper;
 import main.java.excilys.model.Company;
 
 
@@ -42,12 +44,7 @@ public class DAOCompany {
 	private JdbcTemplate jdbcTemplate;
 	
 	
-	private Company toCompany(ResultSet rs) throws SQLException
-	{
-		Company tCompany = Company.Builder.newInstance().setId(rs.getInt("id")).setName(rs.getString("name"))
-				.build();
-		return tCompany;
-	}
+	private RSCompanyMapper mapper = new RSCompanyMapper();
 	/*
 	 * Return the list of all companies present in the SQL database. Will throw
 	 * SQLException in case it cannot access the database
@@ -60,11 +57,7 @@ public class DAOCompany {
 	 * @throws ClassNotFoundException
 	 */
 	public List<Company> getAllCompany() {
-
-		List<Company> company = jdbcTemplate.query(GET_ALL_COMPANY,(resultSet,i) ->
-		{
-			return toCompany(resultSet);
-		});
+		List<Company> company = jdbcTemplate.query(GET_ALL_COMPANY,this.mapper);
 		return company;
 	}
 
@@ -77,7 +70,8 @@ public class DAOCompany {
 	public Optional<Company> getSpecificCompany(int id) throws ParseException {
 		if (id == 0)
 			return Optional.empty();
-		Company company = jdbcTemplate.queryForObject(GET_SPECIFIC_COMPANY,new MapSqlParameterSource().addValue("id", id));
+		SqlParameterSource params = new MapSqlParameterSource().addValue("id", id);
+		Company company = jdbcTemplate.queryForObject(GET_SPECIFIC_COMPANY, this.mapper,params);
 		return Optional.of(company);
 	}
 
@@ -88,21 +82,9 @@ public class DAOCompany {
 	 * @return
 	 */
 	public int deleteCompany(int id) {
-		try (Connection conn = DataSource.getConn()){
-			conn.setAutoCommit(false);
-			PreparedStatement statement = conn.prepareStatement(DELETE_COMPANY_FROM_COMPUTER);
-			statement.setLong(1, id);
-			statement.executeUpdate();
-			statement = conn.prepareStatement(DELETE_COMPANY);
-			statement.setLong(1, id);
-			statement.executeUpdate();
-			conn.commit();
-			conn.setAutoCommit(true);
-			conn.close();
-			return 1;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return 0;
+		SqlParameterSource params = new MapSqlParameterSource().addValue("id", id);
+		jdbcTemplate.update(DELETE_COMPANY_FROM_COMPUTER, this.mapper,params);
+		jdbcTemplate.update(DELETE_COMPANY, this.mapper,params);
+		return 1;
 	}
 }
