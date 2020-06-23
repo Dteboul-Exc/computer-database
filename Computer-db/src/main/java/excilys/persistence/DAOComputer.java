@@ -10,10 +10,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
+import com.zaxxer.hikari.HikariDataSource;
+
 import main.java.excilys.mapper.DateMapper;
+import main.java.excilys.mapper.RSCompanyMapper;
+import main.java.excilys.mapper.RSComputerMapper;
 import main.java.excilys.model.Company;
 import main.java.excilys.model.Computer;
 
@@ -24,38 +32,33 @@ import main.java.excilys.model.Computer;
 @Repository
 public class DAOComputer {
 
-	private static final String ORDER_BY_COMPANY = "SELECT computer.name ,computer.id,introduced,discontinued,company_id ,company.name as company from computer LEFT JOIN company ON computer.company_id = company.id ORDER BY company.name LIMIT ? OFFSET ? ";
-	private static final String ORDER_BY_COMPUTER = "SELECT computer.name ,computer.id,introduced,discontinued,company_id ,company.name as company from computer LEFT JOIN company ON computer.company_id = company.id ORDER BY computer.name  LIMIT ? OFFSET ? ";
-	private static final String SEARCH_COMPUTER = "SELECT computer.name ,computer.id,introduced,discontinued,company_id ,company.name as company from computer LEFT JOIN company ON computer.company_id = company.id WHERE LOWER(computer.name) LIKE  ? ;";
-	private static final String GET_ALL_COMPUTER = "SELECT computer.name ,computer.id,introduced,discontinued,company_id ,company.name as company from computer LEFT JOIN company ON computer.company_id = company.id LIMIT ? OFFSET ?";
-	private static final String SEARCH_COMPUTER_BY_ID = "SELECT computer.name ,computer.id,introduced,discontinued,company_id ,company.name as company from computer LEFT JOIN company ON computer.company_id = company.id where computer.id = ? ";
+	private static final String ORDER_BY_COMPANY = "SELECT computer.name ,computer.id,introduced,discontinued,company_id ,company.name as company from computer LEFT JOIN company ON computer.company_id = company.id ORDER BY company.name LIMIT :limit OFFSET :offset ";
+	private static final String ORDER_BY_COMPUTER = "SELECT computer.name ,computer.id,introduced,discontinued,company_id ,company.name as company from computer LEFT JOIN company ON computer.company_id = company.id ORDER BY computer.name  LIMIT :limit OFFSET :offset ";
+	private static final String SEARCH_COMPUTER = "SELECT computer.name ,computer.id,introduced,discontinued,company_id ,company.name as company from computer LEFT JOIN company ON computer.company_id = company.id WHERE LOWER(computer.name) LIKE  :like ;";
+	private static final String GET_ALL_COMPUTER = "SELECT computer.name ,computer.id,introduced,discontinued,company_id ,company.name as company from computer LEFT JOIN company ON computer.company_id = company.id LIMIT :limit OFFSET :offset ";
+	private static final String SEARCH_COMPUTER_BY_ID = "SELECT computer.name ,computer.id,introduced,discontinued,company_id ,company.name as company from computer LEFT JOIN company ON computer.company_id = company.id where computer.id = :id ";
 	private static final String DELETE_COMPUTER = "DELETE FROM computer WHERE id = ?";
-	private static final String ADD_COMPUTER = "INSERT INTO computer (name,introduced, discontinued, company_id) values( ? , DATE ? , DATE ? ,(select company.id from company where company.id = ?))";
-	private static final String ADD_COMPUTER_NO_DISC = "INSERT INTO computer (name,introduced, discontinued, company_id) values( ? , DATE ? , null ,(select company.id from company where company.id = ?))";
-	private static final String ADD_COMPUTER_NO_DATE = "INSERT INTO computer (name,introduced, discontinued, company_id) values( ? , null , null ,(select company.id from company where company.id = ?))";
+	private static final String ADD_COMPUTER = "INSERT INTO computer (name,introduced, discontinued, company_id) values( ? , DATE ? , DATE ? ,(select company.id from company where company.id = :id))";
+	private static final String ADD_COMPUTER_NO_DISC = "INSERT INTO computer (name,introduced, discontinued, company_id) values( ? , DATE ? , null ,(select company.id from company where company.id = :id))";
+	private static final String ADD_COMPUTER_NO_DATE = "INSERT INTO computer (name,introduced, discontinued, company_id) values( ? , null , null ,(select company.id from company where company.id = :id))";
 	private static final String LIST_SIZE  ="SELECT count(id) AS rowcount FROM computer";
 	
+	
+	@Autowired
+	private HikariDataSource dataSource;
+	
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
+	
+	
+	private RSComputerMapper mapper = new RSComputerMapper();
 	/**
 	 * Get the number of computers object that are currently in the database.
 	 * @return
 	 */
 	public int getCountComputer()
 	{
-		try(Connection conn = DataSource.getConn())
-		{
-			PreparedStatement statement = conn.prepareStatement(LIST_SIZE);
-			ResultSet resset = statement.executeQuery();
-			if (resset.next())
-			{
-				return resset.getInt("rowcount");
-			}
-			
-		}
-		catch (SQLException e) {
-		e.printStackTrace();
-		return 0;
-		}
-		return 0;
+		return jdbcTemplate.queryForObject(LIST_SIZE,Integer.class);
 	}
 	
 	/**
@@ -67,37 +70,8 @@ public class DAOComputer {
 	 * @throws ParseException
 	 */
 	public List<Computer> getAllComputer( long offset, long limit) throws  ParseException {
-		List<Computer> result = new ArrayList<>();
-		try (Connection conn = DataSource.getConn()){
-			List<Computer> computer = new ArrayList<>();
-			PreparedStatement statement = conn.prepareStatement(GET_ALL_COMPUTER);
-			statement.setLong(1, limit);
-			statement.setLong(2, offset);
-			System.out.println(statement);
-			ResultSet resset = statement.executeQuery();
-			while (resset.next()) {
-				Computer tcomputer = Computer.Builder.newInstance().setId(resset.getInt("id")).setName(resset.getString("name")).build();
-				if (resset.getString("introduced") != null)
-					tcomputer.setIntroduced(DateMapper.StringConverter(resset.getString("introduced")).get());
-				if (resset.getString("discontinued") != null)
-					tcomputer.setDiscontinued(DateMapper.StringConverter(resset.getString("discontinued")).get());
-				if (resset.getInt("company_id") != 0) {
-
-					Company comp = Company.Builder.newInstance().setId(resset.getInt("company_id"))
-							.setName(resset.getString("company")).build();
-					tcomputer.setCompany(comp);
-				} else {
-					Company comp = Company.Builder.newInstance().setId(0).setName("none").build();
-					tcomputer.setCompany(comp);
-				}
-				computer.add(tcomputer);
-			}
-			 result = computer;
-			conn.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return result;
+		SqlParameterSource params = new MapSqlParameterSource().addValue("offset", offset).addValue("limit", limit);
+		return jdbcTemplate.query(GET_ALL_COMPUTER,this.mapper,params);
 	}
 
 	/**
@@ -111,56 +85,16 @@ public class DAOComputer {
 	 * @throws ParseException
 	 */
 	public List<Computer> getAllComputerOrderBY(OrderByState Order,long offset, long limit) throws ParseException {
-		List<Computer> computer = new ArrayList<>();
-		try(Connection conn = DataSource.getConn()) {
-			
-			PreparedStatement statement;
-			ResultSet resset;
-			switch (Order) {
+		SqlParameterSource params = new MapSqlParameterSource().addValue("offset", offset).addValue("limit", limit);
+		switch (Order)
+		{
 			case COMPANY:
-				statement = conn.prepareStatement(ORDER_BY_COMPANY);
-				statement.setLong(1, limit);
-				statement.setLong(2, offset);
-				resset = statement.executeQuery();
-				break;
+				return jdbcTemplate.query(ORDER_BY_COMPANY,this.mapper,params);
 			case COMPUTER:
-				statement = conn.prepareStatement(ORDER_BY_COMPUTER);
-				statement.setLong(1, limit);
-				statement.setLong(2, offset);
-				resset = statement.executeQuery();
-				break;
+				return jdbcTemplate.query(ORDER_BY_COMPUTER,this.mapper,params);
 			default:
-				statement = conn.prepareStatement(ORDER_BY_COMPUTER);
-				statement.setLong(1, limit);
-				statement.setLong(2, offset);
-				resset = statement.executeQuery();
-				break;
-			}
-			
-			while (resset.next()) {
-				Computer tcomputer = Computer.Builder.newInstance().setId(resset.getInt("id")).setName(resset.getString("name")).build();
-				if (resset.getString("introduced") != null)
-					tcomputer.setIntroduced(DateMapper.StringConverter(resset.getString("introduced")).get());
-				if (resset.getString("discontinued") != null)
-					tcomputer.setDiscontinued(DateMapper.StringConverter(resset.getString("discontinued")).get());
-				if (resset.getInt("company_id") != 0) {
-
-					Company comp = Company.Builder.newInstance().setId(resset.getInt("company_id"))
-							.setName(resset.getString("company")).build();
-					tcomputer.setCompany(comp);
-				} else {
-					Company comp = Company.Builder.newInstance().setId(0).setName("none").build();
-					tcomputer.setCompany(comp);
-				}
-				computer.add(tcomputer);
-			}
-			conn.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
+				return jdbcTemplate.query(ORDER_BY_COMPUTER,this.mapper,params);
 		}
-
-
-		return computer;
 	}
 
 	/**
@@ -170,32 +104,8 @@ public class DAOComputer {
 	 * @throws ParseException
 	 */
 	public List<Computer> Search_Computer(String name) throws  ParseException {
-		List<Computer> computer = new ArrayList<>();
-		try (Connection conn = DataSource.getConn()){
-			
-			PreparedStatement statement = conn.prepareStatement(SEARCH_COMPUTER);
-			statement.setString(1, name);
-			
-			ResultSet resset = statement.executeQuery();
-			while (resset.next()) {
-				Computer tcomputer = Computer.Builder.newInstance().setName(resset.getString("name"))
-						.setCompany(
-								Company.Builder.newInstance().setId(resset.getInt("company_id")).setName(resset.getString("company")).build())
-						.build();
-				if (resset.getString("introduced") != null)
-					tcomputer.setIntroduced(DateMapper.StringConverter(resset.getString("introduced")).get());
-				if (resset.getString("discontinued") != null)
-					tcomputer.setDiscontinued(DateMapper.StringConverter(resset.getString("discontinued")).get());
-				System.out.println(tcomputer.getName());
-				computer.add(tcomputer);
-			}
-			conn.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		return computer;
+		SqlParameterSource params = new MapSqlParameterSource().addValue("like", name);
+		return jdbcTemplate.query(SEARCH_COMPUTER,this.mapper,params);
 	}
 
 	/**
@@ -211,39 +121,8 @@ public class DAOComputer {
 
 		if (id == 0)
 			return Optional.empty();
-		try( Connection conn = DataSource.getConn()) {
-			
-			Computer computer = Computer.Builder.newInstance().build();
-			PreparedStatement statement = conn.prepareStatement(SEARCH_COMPUTER_BY_ID);
-			statement.setLong(1, id);
-			ResultSet resset = statement.executeQuery();
-			if (resset.next()) {
-				computer = Computer.Builder.newInstance().setId(resset.getInt("id")).setName(resset.getString("name")).build();
-				if (resset.getString("introduced") != null)
-					computer.setIntroduced(DateMapper.StringConverter(resset.getString("introduced")).get());
-				if (resset.getString("discontinued") != null)
-					computer.setDiscontinued(DateMapper.StringConverter(resset.getString("discontinued")).get());
-				if (resset.getInt("company_id") != 0) {
-
-					Company comp = Company.Builder.newInstance().setId(resset.getInt("company_id"))
-							.setName(resset.getString("company")).build();
-					computer.setCompany(comp);
-				} else {
-					Company comp = Company.Builder.newInstance().setId(0).setName("none").build();
-					computer.setCompany(comp);}
-				}
-			 else {
-				 return Optional.ofNullable(computer);
-			}
-			conn.close();
-			return Optional.ofNullable(computer);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return Optional.empty();
-
-
+		SqlParameterSource params = new MapSqlParameterSource().addValue("id", id);
+		return Optional.ofNullable(jdbcTemplate.queryForObject(SEARCH_COMPUTER_BY_ID,this.mapper,params));
 	}
 
 	/**
