@@ -11,7 +11,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.context.annotation.Bean;
 
 @Configuration
-@ComponentScan(basePackages = "main.java.exc")
+@ComponentScan(basePackages = "main.java.excilys")
 public class SpringConfiguration {
 		
 	private static AnnotationConfigApplicationContext appContext = new AnnotationConfigApplicationContext (SpringConfiguration.class);
