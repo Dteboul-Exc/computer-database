@@ -8,7 +8,7 @@ import main.java.excilys.exception.ServiceComputerException;
 import main.java.excilys.mapper.DateMapper;
 import main.java.excilys.model.Company;
 
-@Component
+
 public class ComputerValidator  {
 	private static final Logger lOG =
             LoggerFactory.getLogger(ComputerValidator.class);
