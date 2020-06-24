@@ -13,6 +13,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
@@ -32,23 +33,24 @@ import main.java.excilys.model.Computer;
 @Repository
 public class DAOComputer {
 
-	private static final String ORDER_BY_COMPANY = "SELECT computer.name ,computer.id,introduced,discontinued,company_id ,company.name as company from computer LEFT JOIN company ON computer.company_id = company.id ORDER BY company.name LIMIT :limit OFFSET :offset ";
-	private static final String ORDER_BY_COMPUTER = "SELECT computer.name ,computer.id,introduced,discontinued,company_id ,company.name as company from computer LEFT JOIN company ON computer.company_id = company.id ORDER BY computer.name  LIMIT :limit OFFSET :offset ";
+	private static final String ORDER_BY_COMPANY = "SELECT computer.name ,computer.id,introduced,discontinued,company_id ,company.name as company from computer LEFT JOIN company ON computer.company_id = company.id ORDER BY company.name LIMIT :limit OFFSET :offset ;";
+	private static final String ORDER_BY_COMPUTER = "SELECT computer.name ,computer.id,introduced,discontinued,company_id ,company.name as company from computer LEFT JOIN company ON computer.company_id = company.id ORDER BY computer.name  LIMIT :limit OFFSET :offset ;";
 	private static final String SEARCH_COMPUTER = "SELECT computer.name ,computer.id,introduced,discontinued,company_id ,company.name as company from computer LEFT JOIN company ON computer.company_id = company.id WHERE LOWER(computer.name) LIKE  :like ;";
-	private static final String GET_ALL_COMPUTER = "SELECT computer.name ,computer.id,introduced,discontinued,company_id ,company.name as company from computer LEFT JOIN company ON computer.company_id = company.id LIMIT :limit OFFSET :offset ";
-	private static final String SEARCH_COMPUTER_BY_ID = "SELECT computer.name ,computer.id,introduced,discontinued,company_id ,company.name as company from computer LEFT JOIN company ON computer.company_id = company.id where computer.id = :id ";
-	private static final String DELETE_COMPUTER = "DELETE FROM computer WHERE id = ?";
-	private static final String ADD_COMPUTER = "INSERT INTO computer (name,introduced, discontinued, company_id) values( ? , DATE ? , DATE ? ,(select company.id from company where company.id = :id))";
-	private static final String ADD_COMPUTER_NO_DISC = "INSERT INTO computer (name,introduced, discontinued, company_id) values( ? , DATE ? , null ,(select company.id from company where company.id = :id))";
-	private static final String ADD_COMPUTER_NO_DATE = "INSERT INTO computer (name,introduced, discontinued, company_id) values( ? , null , null ,(select company.id from company where company.id = :id))";
-	private static final String LIST_SIZE  ="SELECT count(id) AS rowcount FROM computer";
+	private static final String GET_ALL_COMPUTER = "SELECT computer.name ,computer.id,introduced,discontinued,company_id ,company.name as company from computer LEFT JOIN company ON computer.company_id = company.id LIMIT :limit OFFSET :offset ;";
+	private static final String SEARCH_COMPUTER_BY_ID = "SELECT computer.name ,computer.id,introduced,discontinued,company_id ,company.name as company from computer LEFT JOIN company ON computer.company_id = company.id where computer.id = :id ;";
+	private static final String DELETE_COMPUTER = "DELETE FROM computer WHERE id = :id;";
+	private static final String ADD_COMPUTER = "INSERT INTO computer (name,introduced, discontinued, company_id) values( :name , DATE :introduced , DATE :discontinued ,(select company.id from company where company.id = :id))";
+	private static final String ADD_COMPUTER_NO_DISC = "INSERT INTO computer (name,introduced, discontinued, company_id) values( ? , DATE ? , null ,(select company.id from company where company.id = :id));";
+	private static final String ADD_COMPUTER_NO_DATE = "INSERT INTO computer (name,introduced, discontinued, company_id) values( ? , null , null ,(select company.id from company where company.id = :id));";
+	private static final String LIST_SIZE  ="SELECT count(id) AS rowcount FROM computer LIKE :count;";
+	private static final String UPDATE_COMPUTER ="UPDATE computer SET name = :name , introduced = :introduced , discontinued = :discontinued , company_id = :company_id WHERE id = id;";
 	
 	
 	@Autowired
 	private HikariDataSource dataSource;
 	
 	@Autowired
-	private JdbcTemplate jdbcTemplate;
+	private NamedParameterJdbcTemplate jdbcTemplate;
 	
 	
 	private RSComputerMapper mapper = new RSComputerMapper();
@@ -58,7 +60,8 @@ public class DAOComputer {
 	 */
 	public int getCountComputer()
 	{
-		return jdbcTemplate.queryForObject(LIST_SIZE,Integer.class);
+		MapSqlParameterSource params = new MapSqlParameterSource().addValue("like", "*");
+		return jdbcTemplate.queryForObject(LIST_SIZE, params, Integer.class);
 	}
 	
 	/**
@@ -70,8 +73,10 @@ public class DAOComputer {
 	 * @throws ParseException
 	 */
 	public List<Computer> getAllComputer( long offset, long limit) throws  ParseException {
-		SqlParameterSource params = new MapSqlParameterSource().addValue("offset", offset).addValue("limit", limit);
-		return jdbcTemplate.query(GET_ALL_COMPUTER,this.mapper,params);
+		System.out.println("offset = " + offset + ".  limit = " + limit );
+		MapSqlParameterSource params = new MapSqlParameterSource().addValue("offset", offset).addValue("limit", limit);
+		Object[] args = new Object[] {offset,limit };
+		return jdbcTemplate.query(GET_ALL_COMPUTER,params,this.mapper);
 	}
 
 	/**
@@ -89,11 +94,11 @@ public class DAOComputer {
 		switch (Order)
 		{
 			case COMPANY:
-				return jdbcTemplate.query(ORDER_BY_COMPANY,this.mapper,params);
+				return jdbcTemplate.query(ORDER_BY_COMPANY,params,this.mapper);
 			case COMPUTER:
-				return jdbcTemplate.query(ORDER_BY_COMPUTER,this.mapper,params);
+				return jdbcTemplate.query(ORDER_BY_COMPUTER,params,this.mapper);
 			default:
-				return jdbcTemplate.query(ORDER_BY_COMPUTER,this.mapper,params);
+				return jdbcTemplate.query(ORDER_BY_COMPUTER,params,this.mapper);
 		}
 	}
 
@@ -105,7 +110,7 @@ public class DAOComputer {
 	 */
 	public List<Computer> Search_Computer(String name) throws  ParseException {
 		SqlParameterSource params = new MapSqlParameterSource().addValue("like", name);
-		return jdbcTemplate.query(SEARCH_COMPUTER,this.mapper,params);
+		return jdbcTemplate.query(SEARCH_COMPUTER,params,this.mapper);
 	}
 
 	/**
@@ -122,7 +127,7 @@ public class DAOComputer {
 		if (id == 0)
 			return Optional.empty();
 		SqlParameterSource params = new MapSqlParameterSource().addValue("id", id);
-		return Optional.ofNullable(jdbcTemplate.queryForObject(SEARCH_COMPUTER_BY_ID,this.mapper,params));
+		return Optional.ofNullable(jdbcTemplate.queryForObject(SEARCH_COMPUTER_BY_ID,params,this.mapper));
 	}
 
 	/**
@@ -134,18 +139,9 @@ public class DAOComputer {
 	 * @throws ClassNotFoundException
 	 */
 	public int deleteSpecificComputer(int id) {
+		SqlParameterSource params = new MapSqlParameterSource().addValue("id", id);
+		return jdbcTemplate.update(DELETE_COMPUTER,params);
 
-		try (Connection conn = DataSource.getConn();){
-			PreparedStatement statement = conn.prepareStatement(DELETE_COMPUTER);
-			statement.setLong(1, id);
-			ResultSet resset = statement.executeQuery();
-			conn.close();
-			return 1;
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return 0;
 
 	}
 
@@ -159,32 +155,8 @@ public class DAOComputer {
 	 * @return
 	 */
 	public int addComputer(String name, String introduced, String discontinued, long id_company) {
-		System.out.print(name);
-		try (Connection conn = DataSource.getConn()){
-			PreparedStatement statement = conn.prepareStatement(ADD_COMPUTER);
-			if ((introduced == null) && (discontinued == null))
-			{	statement = conn.prepareStatement(ADD_COMPUTER_NO_DATE);
-				statement.setString(1, name);
-				statement.setLong(2, id_company);}
-			else if (discontinued == null)
-			{	statement = conn.prepareStatement(ADD_COMPUTER_NO_DISC);
-			statement.setString(1, name);
-			statement.setString(2, introduced);
-			statement.setLong(3, id_company);}
-			else
-			{
-				statement.setString(1, name);
-				statement.setString(2, introduced);
-				statement.setLong(4, id_company);
-				statement.setString(3, discontinued);
-			}	
-			int resset = statement.executeUpdate();
-			conn.close();
-			return resset;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return 0;
+		SqlParameterSource params = new MapSqlParameterSource().addValue("name", name).addValue("id", id_company).addValue("introduced", introduced).addValue("discontinued", discontinued);
+		return jdbcTemplate.update(ADD_COMPUTER,params);
 	}
 
 	/**
@@ -199,27 +171,9 @@ public class DAOComputer {
 	 * @throws SQLException
 	 * @throws ClassNotFoundException
 	 */
-	public int updateComputer(String name, String introduced, String discontinued, long l, int id)  {
-		
-		int resset = 0;
-
-		Statement statement;
-
-		try(Connection conn = DataSource.getConn()) {
-			statement = conn.createStatement();
-			System.out.println("UPDATE computer SET name = '" + name + "', introduced = " + introduced + ", discontinued = "
-					+ discontinued + ", company_id = " + l + " WHERE id = " + id);
-			resset = statement.executeUpdate("UPDATE computer SET name = '" + name + "', introduced = " + introduced
-					+ ", discontinued = " + discontinued + ", company_id = " + l + " WHERE id = " + id);
-			System.out.println(resset);
-
-			conn.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		return 1;
+	public int updateComputer(String name, String introduced, String discontinued, long id_company, int id)  {
+		SqlParameterSource params = new MapSqlParameterSource().addValue("name", name).addValue("company_id", id_company).addValue("introduced", introduced).addValue("discontinued", discontinued).addValue("id", id);
+		return jdbcTemplate.update(ADD_COMPUTER,params);
 
 	}
 }
