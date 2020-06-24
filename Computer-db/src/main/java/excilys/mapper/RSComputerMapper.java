@@ -18,11 +18,10 @@ public class RSComputerMapper  implements RowMapper<Computer>{
 			tcomputer.setIntroduced(DateMapper.StringConverter(rs.getString("introduced")).get());
 		if (rs.getString("discontinued") != null)
 			tcomputer.setDiscontinued(DateMapper.StringConverter(rs.getString("discontinued")).get());
-		if (rs.getInt("company_id") != 0) {
-			Company comp = Company.Builder.newInstance().setId(rs.getInt("company_id"))
-					.setName(rs.getString("company")).build();
+		//if (rs.getInt("company_id") != 0) {
+		Company comp = Company.Builder.newInstance().setId(rs.getInt("company_id")).setName(rs.getString("company")).build();
 			tcomputer.setCompany(comp);
-		}
+		
 		
 		return Optional.ofNullable(tcomputer);
 	}

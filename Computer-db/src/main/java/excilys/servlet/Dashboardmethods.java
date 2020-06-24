@@ -124,7 +124,7 @@ public class Dashboardmethods {
 		else if ((request.getParameter("Order") != null) && ((request.getParameter("Order").equals("company"))))
 			list = serviceComputer.getAllComputerOrderBy(OrderByState.COMPANY, start, end);
 		else
-			list = serviceComputer.getAllComputer(start, end);
+			list = serviceComputer.getAllComputer(Math.abs(start), Math.abs(end));
 		return list;
 	}
 	

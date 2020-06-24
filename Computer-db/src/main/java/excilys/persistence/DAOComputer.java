@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,7 +43,7 @@ public class DAOComputer {
 	private static final String ADD_COMPUTER = "INSERT INTO computer (name,introduced, discontinued, company_id) values( :name , DATE :introduced , DATE :discontinued ,(select company.id from company where company.id = :id))";
 	private static final String ADD_COMPUTER_NO_DISC = "INSERT INTO computer (name,introduced, discontinued, company_id) values( ? , DATE ? , null ,(select company.id from company where company.id = :id));";
 	private static final String ADD_COMPUTER_NO_DATE = "INSERT INTO computer (name,introduced, discontinued, company_id) values( ? , null , null ,(select company.id from company where company.id = :id));";
-	private static final String LIST_SIZE  ="SELECT count(id) AS rowcount FROM computer LIKE :count;";
+	private static final String LIST_SIZE  ="SELECT count(id) AS rowcount FROM computer";
 	private static final String UPDATE_COMPUTER ="UPDATE computer SET name = :name , introduced = :introduced , discontinued = :discontinued , company_id = :company_id WHERE id = id;";
 	
 	
@@ -60,8 +61,9 @@ public class DAOComputer {
 	 */
 	public int getCountComputer()
 	{
-		MapSqlParameterSource params = new MapSqlParameterSource().addValue("like", "*");
-		return jdbcTemplate.queryForObject(LIST_SIZE, params, Integer.class);
+		MapSqlParameterSource params = new MapSqlParameterSource().addValue("count", "");
+		return jdbcTemplate.queryForObject(LIST_SIZE, Collections.emptyMap(),(res, rowNum) -> res.getInt(1));
+
 	}
 	
 	/**
@@ -75,7 +77,6 @@ public class DAOComputer {
 	public List<Computer> getAllComputer( long offset, long limit) throws  ParseException {
 		System.out.println("offset = " + offset + ".  limit = " + limit );
 		MapSqlParameterSource params = new MapSqlParameterSource().addValue("offset", offset).addValue("limit", limit);
-		Object[] args = new Object[] {offset,limit };
 		return jdbcTemplate.query(GET_ALL_COMPUTER,params,this.mapper);
 	}
 
