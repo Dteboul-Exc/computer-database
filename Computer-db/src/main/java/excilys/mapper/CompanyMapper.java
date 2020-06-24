@@ -17,7 +17,7 @@ public class CompanyMapper {
     public static Optional<Company> companyDTOToCompany(CompanyDTO cDTO) {
     	LOG.debug("Starting converting DTOcompany id " + cDTO.getId() +" to company");
         if (cDTO == null) {
-            return Optional.empty();
+            return Optional.empty(); 
         }
         String name = null;
         if (cDTO.getName() != null && !"".equals(cDTO.getName().trim())) {
