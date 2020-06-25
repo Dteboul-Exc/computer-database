@@ -1,0 +1,68 @@
+package com.excilys.servlet;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.stereotype.Component;
+
+import com.excilys.dto.CompanyDTO;
+import com.excilys.dto.ComputerDTO;
+import com.excilys.service.ServiceCompany;
+import com.excilys.service.ServiceComputer;
+import com.excilys.spring.SpringConfiguration;
+
+/**
+ * Servlet implementation class EditComputer
+ */
+
+@WebServlet("/editComputer")
+public class EditComputer extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public EditComputer() {
+        super();
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		if (request.getParameter("id") != null) {
+			ServiceComputer comp =  SpringConfiguration.getContext().getBean(ServiceComputer.class);
+			ServiceCompany c = SpringConfiguration.getContext().getBean(ServiceCompany.class);
+			System.out.print("everybo");
+			try {
+				Optional<List<CompanyDTO>> list_company = c.getAllCompany();
+				request.setAttribute("company", list_company.get());
+				Optional<ComputerDTO> target = comp.getSpecificComputer(Integer.parseInt(request.getParameter("id")));
+				request.setAttribute("computerName", target.get().getName());
+				request.setAttribute("introduced", target.get().getIntroduced());
+				request.setAttribute("discontinued", target.get().getDiscontinued());
+				request.setAttribute("id", request.getParameter("id"));
+			} catch (NumberFormatException e) {
+				e.printStackTrace();
+			}
+			
+		}
+		request.getRequestDispatcher("/WEB-INF/views/editComputer.jsp").forward(request, response);
+		
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doGet(request, response);
+	}
+
+}
