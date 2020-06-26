@@ -73,7 +73,7 @@ public class DAOComputer {
 	 * @return
 	 * @throws ParseException
 	 */
-	public List<Computer> getAllComputer( long offset, long limit) throws  ParseException {
+	public List<Computer> getAllComputer( int  offset, int limit) throws  ParseException {
 		System.out.println("offset = " + offset + ".  limit = " + limit );
 		MapSqlParameterSource params = new MapSqlParameterSource().addValue("offset", offset).addValue("limit", limit);
 		return jdbcTemplate.query(GET_ALL_COMPUTER,params,this.mapper);

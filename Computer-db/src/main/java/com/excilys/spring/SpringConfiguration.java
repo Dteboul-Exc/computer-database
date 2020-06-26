@@ -5,6 +5,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -15,11 +17,17 @@ import org.springframework.context.annotation.Bean;
 @Configuration
 @ComponentScan({"com.excilys.service","com.excilys.persistence","com.excilys.servlet","com.excilys.spring"})
 public class SpringConfiguration {
-		
-	private static AnnotationConfigApplicationContext appContext = new AnnotationConfigApplicationContext (SpringConfiguration.class);
 	
-	public static AnnotationConfigApplicationContext getContext() {
-		return appContext;
+	private  static AnnotationConfigWebApplicationContext context;
+	public static AnnotationConfigWebApplicationContext getContext() {
+		if (context == null)
+		{
+			context = new AnnotationConfigWebApplicationContext();
+			context.register(SpringConfiguration.class);
+			context.register(MvcConfiguraiton.class);
+			context.refresh();
+		}
+		return context;
 	}
 	
 	@Bean

@@ -50,10 +50,10 @@ public class ServiceComputer {
 		lOG.debug("Getting rowcount of the computer db");
 		return DAOComputer.getCountComputer();
 	}
-	public List<ComputerDTO> getAllComputer(long offset, long limit)  {
+	public List<ComputerDTO> getAllComputer(int offset, int limit)  {
 
 
-
+		System.out.println("getALLcomputer accessed :" +offset + limit);
 	    lOG.debug("getAllComputer start");
 	   
 	    List<Computer> dataset;

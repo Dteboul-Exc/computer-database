@@ -116,7 +116,7 @@ public class Dashboardmethods {
 	 * @param end
 	 * @return
 	 */
-	protected static List<ComputerDTO> SetOrder(HttpServletRequest request, long start, long end) {
+	protected static List<ComputerDTO> SetOrder(HttpServletRequest request, int start, int end) {
 		List<ComputerDTO> list = new ArrayList<>();
 		ServiceComputer serviceComputer =  SpringConfiguration.getContext().getBean(ServiceComputer.class);
 		if ((request.getParameter("Order") != null) && ((request.getParameter("Order").equals("computer"))))
@@ -157,7 +157,7 @@ public class Dashboardmethods {
 				page -= 1;
 				max_button = page + 2;
 			} else {
-				list = SetOrder(request, currentplace * recordsPerPage, size - currentplace * recordsPerPage);
+				list = SetOrder(request, currentplace * recordsPerPage, (int) (size - currentplace * recordsPerPage));
 				max_button = page;
 				page = page - 1;
 			}

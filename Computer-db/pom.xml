@@ -61,6 +61,12 @@
 			<version>${logback_version}</version>
 		</dependency>
 		<dependency>
+    <groupId>org.slf4j</groupId>
+    <artifactId>slf4j-api</artifactId>
+    <version>1.7.30</version>
+
+</dependency>
+		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-all</artifactId>
 			<version>${mockito_version}</version>
@@ -127,6 +133,12 @@
     	<artifactId>spring-jdbc</artifactId>
     	<version>5.2.3.RELEASE</version>
 	</dependency>
+	<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-webmvc</artifactId>
+    <version>5.2.3.RELEASE</version>
+</dependency>
+	
 	</dependencies>
 
 	<build>

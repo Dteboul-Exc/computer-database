@@ -65,14 +65,14 @@
 							</a>
 						</span></th>
 						<th><a
-							href="http://localhost:8080/Computer-db/dashboard?page=${currentplace}&recordsPerPage=${recordsPerPage}&Order=computer">
+							href="http://localhost:8080/excilys/dashboard?page=${currentplace}&recordsPerPage=${recordsPerPage}&Order=computer&currentplace=${currentplace}">
 								Computer name &#8595; </a></th>
 						<th>Introduced date</th>
 						<!-- Table header for Discontinued Date -->
 						<th>Discontinued date</th>
 						<!-- Table header for Company -->
 						<th><a
-							href="http://localhost:8080/Computer-db/dashboard?page=${currentplace}&recordsPerPage=${recordsPerPage}&Order=company">
+							href="http://localhost:8080/excilys/dashboard?page=${currentplace}&recordsPerPage=${recordsPerPage}&Order=company&currentplace=${currentplace}">
 								Company </a></th>
 
 					</tr>
@@ -107,20 +107,20 @@
 				<c:if test="${min_button >1}">
 					<li>
 					<li><a
-						href="http://localhost:8080/Computer-db/dashboard?page=${currentplace-1}&recordsPerPage=${recordsPerPage}&Order=${Order}"
+						href="http://localhost:8080/excilys/dashboard?page=${currentplace-1}&recordsPerPage=${recordsPerPage}&Order=${Order}&currentplace=${currentplace-1}"
 						aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
 					</a></li>
 				</c:if>
 				<c:forEach var="i" end="${max_button}" begin="${min_button}"
 					varStatus="loop">
 					<li><a
-						href="http://localhost:8080/Computer-db/dashboard?page=${i}&recordsPerPage=${recordsPerPage}&Order=${Order}">${i}
+						href="http://localhost:8080/excilys/dashboard?page=${i}&recordsPerPage=${recordsPerPage}&Order=${Order}&currentplace=${i}">${i}
 					</a></li>
 				</c:forEach>
 
 				<c:if test="${max_button != min_button + 1}">
 					<li><a
-						href="http://localhost:8080/Computer-db/dashboard?page=${currentplace+1}&recordsPerPage=${recordsPerPage}&Order=${Order}"
+						href="http://localhost:8080/excilys/dashboard?page=${currentplace+1}&recordsPerPage=${recordsPerPage}&Order=${Order}&currentplace=${currentplace+1}"
 						aria-label="Next"> <span aria-hidden="true">&raquo;</span>
 						</a></li>
 				</c:if>
