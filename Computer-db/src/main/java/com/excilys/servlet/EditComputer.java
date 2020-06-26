@@ -4,13 +4,15 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.excilys.dto.CompanyDTO;
 import com.excilys.dto.ComputerDTO;
@@ -21,48 +23,38 @@ import com.excilys.spring.SpringConfiguration;
 /**
  * Servlet implementation class EditComputer
  */
-
-@WebServlet("/editComputer")
-public class EditComputer extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+@Controller
+@RequestMapping(value = "/editComputer")
+public class EditComputer {
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public EditComputer() {
-        super();
-    }
+	@Autowired
+	ServiceComputer serviceComputer;
+	
+	@Autowired
+	ServiceCompany serviceCompany;
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		if (request.getParameter("id") != null) {
-			ServiceComputer comp =  SpringConfiguration.getContext().getBean(ServiceComputer.class);
-			ServiceCompany c = SpringConfiguration.getContext().getBean(ServiceCompany.class);
-			System.out.print("everybo");
-			try {
-				Optional<List<CompanyDTO>> list_company = c.getAllCompany();
-				request.setAttribute("company", list_company.get());
-				Optional<ComputerDTO> target = comp.getSpecificComputer(Integer.parseInt(request.getParameter("id")));
-				request.setAttribute("computerName", target.get().getName());
-				request.setAttribute("introduced", target.get().getIntroduced());
-				request.setAttribute("discontinued", target.get().getDiscontinued());
-				request.setAttribute("id", request.getParameter("id"));
-			} catch (NumberFormatException e) {
-				e.printStackTrace();
-			}
+	
+	
+	@RequestMapping(method = RequestMethod.GET)
+	public ModelAndView EditC(@RequestParam(required = false, value = "name") String name,
+			   @RequestParam(required = false, value = "discontinued") String discontinued,@RequestParam(required = false, value = "introduced") String introduced,
+			   @RequestParam(required = false, value = "company") String company,@RequestParam(required = false, value = "id") String id)
+	{
+		ModelAndView model = new ModelAndView("addComputer");
+		try {
+			Optional<List<CompanyDTO>> list_company = serviceCompany.getAllCompany();
 			
+			model.addObject("company", list_company.get());
+			Optional<ComputerDTO> target = serviceComputer.getSpecificComputer(Integer.parseInt(id));
+			model.addObject("computerName", target.get().getName());
+			model.addObject("introduced", target.get().getIntroduced());
+			model.addObject("discontinued", target.get().getDiscontinued());
+			model.addObject("id", id);
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
 		}
-		request.getRequestDispatcher("/WEB-INF/views/editComputer.jsp").forward(request, response);
-		
+		return model;
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
-	}
 
 }

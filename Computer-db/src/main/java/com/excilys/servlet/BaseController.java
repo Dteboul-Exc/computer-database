@@ -31,6 +31,74 @@ public class BaseController {
 	ServiceComputer serviceComputer;
 		@Autowired 
 		ControllerMethods method;
+		
+		
+		
+		   @RequestMapping(method = RequestMethod.POST)
+		   public String postHandlerAdd(@RequestParam(required = false, value = "Add")String Add,@RequestParam(required = false, value = "selection")String selection,
+				   @RequestParam(required = false, value = "name") String name,@RequestParam(required = false, value = "Edit")String edit,
+				   @RequestParam(required = false, value = "discontinued") String discontinued,@RequestParam(required = false, value = "introduced") String introduced,
+				   @RequestParam(required = false, value = "company") String company,@RequestParam(required = false, value = "id") String id)
+		    {
+			   ModelAndView model = new ModelAndView("dashboard");
+			   model.addObject("errormsg","all clear");
+				if (Add != null) {
+					String check = Dashboardmethods.AddValidator(name,introduced,
+							discontinued).get();
+					if (check.equals("clear"))
+					{
+						CompanyDTO c = CompanyDTO.Builder.newInstance().setId(company).build();
+						ComputerDTO newComputer = ComputerDTO.Builder.newInstance().setName(name).setCompany(c)
+								.setIntroduced(introduced).setDiscontinued(discontinued).setCompany(c).build();
+						try {
+							serviceComputer.addComputer(newComputer);
+						} catch (NumberFormatException e) {
+							e.printStackTrace();
+						}
+					}
+					else
+						model.addObject("errormsg",check);
+				}
+				else if (selection != null) {
+					String[] List_ID_computer = selection.split(",");
+					ServiceComputer service =  SpringConfiguration.getContext().getBean(ServiceComputer.class);
+					for (String l : List_ID_computer) {
+						service.deleteSpecificComputer(Integer.parseInt(l));
+					}
+				}
+				else if (edit != null) {
+					   Edit(name,id,introduced, discontinued,company);
+				   }
+				return "redirect:/dashboard";
+		   }
+		   /*
+		   @RequestMapping(method = RequestMethod.POST)
+		   public String PostHandlerSearch(@RequestParam(required = false, value = "selection")String selection)
+		   {
+			if (selection != null) {
+				String[] List_ID_computer = selection.split(",");
+				ServiceComputer service =  SpringConfiguration.getContext().getBean(ServiceComputer.class);
+				for (String id : List_ID_computer) {
+					service.deleteSpecificComputer(Integer.parseInt(id));
+				}
+			}
+			
+			   return "redirect:/dashboard";
+		   }
+		   */
+		   /*
+		   @RequestMapping(method = RequestMethod.POST)
+		   public String PostHandlerEdit(@RequestParam(required = false, value = "Edit")String edit,@RequestParam(required = false, value = "name") String name,
+				   @RequestParam(required = false, value = "discontinued") String discontinued,@RequestParam(required = false, value = "introduced") String introduced,
+				   @RequestParam(required = false, value = "company") String company,@RequestParam(required = false, value = "id") String id)
+		   {
+			   if (edit != null) {
+				   Edit(name,id,introduced, discontinued,company);
+			   }
+			   return "redirect:/dashboard";
+		  
+		   }*/
+		   
 	   @RequestMapping(method = RequestMethod.GET)
 		public ModelAndView dashboard(	@RequestParam(required = false, value = "page") Integer page, @RequestParam(required = false, value = "recordsPerPage") Integer recordsPerPage,
 				@RequestParam(required = false, value = "currentplace") Integer currentplace, @RequestParam(required = false, value = "Order") String Order,
@@ -66,8 +134,7 @@ public class BaseController {
 		}
 	   
 	   
-	   
-	   
+
 	   private void setParameters(String Order,int recordsPerPage,int max_button,int min_button,List<ComputerDTO> list,int currentplace,int computer,ModelAndView model)
 	   {
 		   model.addObject("Order",Order).
