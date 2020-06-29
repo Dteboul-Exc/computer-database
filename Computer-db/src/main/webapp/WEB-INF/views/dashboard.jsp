@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 
 <html>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="spring"%>
 <head>
-<title>Computer Database</title>
+<title><spring:message code="CDB.projectName"/></title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="utf-8">
 <!-- Bootstrap -->
@@ -14,15 +14,14 @@
 <body>
 	<header class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
-			<a class="navbar-brand" href="dashboard.html"> Application -
-				Computer Database </a>
+			<a class="navbar-brand" href="dashboard.html"> <spring:message code="CDB.projectName"/> </a>
 		</div>
 	</header>
 
 	<section id="main">
 		<div class="container">
 			<h1 id="homeTitle">
-				<% out.println("There are  " + (String)request.getAttribute("computer") + " Computers.");%>
+				<spring:message code="CDB.computerFound"/><% out.println((String)request.getAttribute("computer"));%>
 			</h1>
 			<div class="alert alert-danger" id="error">${errormsg}</div>
 
