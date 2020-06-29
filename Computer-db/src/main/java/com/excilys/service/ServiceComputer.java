@@ -172,7 +172,7 @@ public class ServiceComputer {
 		}
 		else
 		{
-			tintroduced = "DATE " + "'"+computer.getIntroduced()+"'";
+			tintroduced = computer.getIntroduced();
 		}
 		if (computer.getDiscontinued().equals(""))
 		{
@@ -180,7 +180,7 @@ public class ServiceComputer {
 		}
 		else
 		{
-			tdiscontinued = "DATE " + "'"+computer.getDiscontinued()+"'";;
+			tdiscontinued = computer.getDiscontinued();;
 		}
 		int result  = DAOComputer.updateComputer(tname,tintroduced,tdiscontinued,Long.parseLong(computer.getCompany().getId()),Integer.parseInt(computer.getId()));
 		return result;

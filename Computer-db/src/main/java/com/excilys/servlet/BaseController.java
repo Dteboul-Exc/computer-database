@@ -128,7 +128,6 @@ public class BaseController {
 					list = SetOrder( 0, recordsPerPage,Order);
 					max_button = page + 1;
 				}
-				System.out.println(Order + " : " +recordsPerPage+ " : " +max_button+ " : " +page+ " : " + list+ " : " +currentplace+ " : " + model);
 				setParameters(Order,recordsPerPage,max_button,page, list, currentplace, size,model);
 			return model;
 		}
@@ -165,9 +164,8 @@ public class BaseController {
 			CompanyDTO company = CompanyDTO.Builder.newInstance().setId(c).build();
 			ComputerDTO newComputer = ComputerDTO.Builder.newInstance().setName(name).setCompany(company)
 					.setIntroduced(introduced).setDiscontinued(discontinued).setId(id).build();
-			ServiceComputer service =  SpringConfiguration.getContext().getBean(ServiceComputer.class);
 			try {
-				service.updateComputer(newComputer);
+				serviceComputer.updateComputer(newComputer);
 			} catch (NumberFormatException e) {
 				e.printStackTrace();
 			}

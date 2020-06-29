@@ -40,10 +40,10 @@ public class EditComputer {
 			   @RequestParam(required = false, value = "discontinued") String discontinued,@RequestParam(required = false, value = "introduced") String introduced,
 			   @RequestParam(required = false, value = "company") String company,@RequestParam(required = false, value = "id") String id)
 	{
-		ModelAndView model = new ModelAndView("addComputer");
+		ModelAndView model = new ModelAndView("editComputer");
 		try {
 			Optional<List<CompanyDTO>> list_company = serviceCompany.getAllCompany();
-			
+			System.out.print(id);
 			model.addObject("company", list_company.get());
 			Optional<ComputerDTO> target = serviceComputer.getSpecificComputer(Integer.parseInt(id));
 			model.addObject("computerName", target.get().getName());

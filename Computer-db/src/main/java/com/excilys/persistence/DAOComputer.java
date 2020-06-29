@@ -43,7 +43,7 @@ public class DAOComputer {
 	private static final String ADD_COMPUTER_NO_DISC = "INSERT INTO computer (name,introduced, discontinued, company_id) values( :name , DATE :introduced , null ,(select company.id from company where company.id = :id));";
 	private static final String ADD_COMPUTER_NO_DATE = "INSERT INTO computer (name,introduced, discontinued, company_id) values( :name , null , null ,(select company.id from company where company.id = :id));";
 	private static final String LIST_SIZE  ="SELECT count(id) AS rowcount FROM computer";
-	private static final String UPDATE_COMPUTER ="UPDATE computer SET name = :name , introduced = :introduced , discontinued = :discontinued , company_id = :company_id WHERE id = id;";
+	private static final String UPDATE_COMPUTER ="UPDATE computer SET name = :name , introduced = :introduced , discontinued = :discontinued , company_id = :company_id WHERE id = :id;";
 	
 	
 	@Autowired
@@ -187,7 +187,7 @@ public class DAOComputer {
 	 */
 	public int updateComputer(String name, String introduced, String discontinued, long id_company, int id)  {
 		SqlParameterSource params = new MapSqlParameterSource().addValue("name", name).addValue("company_id", id_company).addValue("introduced", introduced).addValue("discontinued", discontinued).addValue("id", id);
-		return jdbcTemplate.update(ADD_COMPUTER,params);
+		return jdbcTemplate.update(UPDATE_COMPUTER,params);
 
 	}
 }
