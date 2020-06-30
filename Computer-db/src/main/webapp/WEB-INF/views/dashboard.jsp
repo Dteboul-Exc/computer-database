@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 
 <html>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="spring"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <head>
-<title><spring:msg code="CDB.projectName"/></title>
+<title><spring:message code="CDB.projectName"/></title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="utf-8">
 <!-- Bootstrap -->
@@ -14,14 +16,14 @@
 <body>
 	<header class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
-			<a class="navbar-brand" href="dashboard.html"> <spring:msg code="CDB.projectName"/> </a>
+			<a class="navbar-brand" href="dashboard.html"> <spring:message code="CDB.projectName"/> </a>
 		</div>
 	</header>
 
 	<section id="main">
 		<div class="container">
 			<h1 id="homeTitle">
-				<spring:msg code="CDB.computerFound"/><% out.println((String)request.getAttribute("computer"));%>
+				<spring:message code="CDB.computerFound"/><% out.println((String)request.getAttribute("computer"));%>
 			</h1>
 			<div class="alert alert-danger" id="error">${errormsg}</div>
 
