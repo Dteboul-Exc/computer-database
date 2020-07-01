@@ -49,7 +49,7 @@ public class Company_testing {
 		}
 		//Optional<List<CompanyDTO>> expected = Optional.of(list);
 		Mockito.when(mockDAO.getAllCompany()).thenReturn(list);
-		List<CompanyDTO> obtained= this.service.getAllCompany().get();
+		List<CompanyDTO> obtained= this.service.getAllCompany();
 		boolean check = expected.equals(obtained);
 		assertEquals(true,check);
 

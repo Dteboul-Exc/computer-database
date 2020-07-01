@@ -32,12 +32,8 @@ public class ComputerMapper {
         String name = computer.getName();
         Optional<LocalDate> introduced = DateMapper.StringConverterInput(computer.getIntroduced());
 		Optional<LocalDate> discontinued = DateMapper.StringConverterInput(computer.getDiscontinued());
-		 Computer result = Computer.Builder.newInstance().build();
-		 result.setCompany(company);
-		 result.setIntroduced(introduced.get());
-		 result.setDiscontinued(discontinued.get());
-		 result.setId(id);
-		 result.setName(name);
+		 Computer result = Computer.Builder.newInstance().setCompany(company).setIntroduced(introduced.get())
+				 .setDiscontinued(discontinued.get()).setId(id).setName(name).build();
 		 return Optional.of(result);
     }
 
@@ -49,16 +45,23 @@ public class ComputerMapper {
      * @return
      * @throws ParseException
      */
-    public static Optional<ComputerDTO> computerToDTO(final Computer computer) throws ParseException {
+    public static Optional<ComputerDTO> computerToDTO(final Computer computer){
 
         String name = computer.getName();
-        String id = Integer.toString(computer.getId()) ;
-        Optional<String> introduced  = DateMapper.DateConverter(computer.getIntroduced());
-        Optional<String> discontinued  = DateMapper.DateConverter(computer.getDiscontinued());
-        String company_id = Long.toString(computer.getCompany().getId());
-        String company_name = computer.getCompany().getName();
-        CompanyDTO company = CompanyDTO.Builder.newInstance().setId(company_id).setName(company_name).build();
-		return Optional.of(ComputerDTO.Builder.newInstance().setName(name).setCompany(company).setId(id).setIntroduced(introduced.get()).setDiscontinued(discontinued.get()).build());
+        String id = Long.toString(computer.getId()) ;
+        Optional<String> introduced;
+		try {
+			introduced = DateMapper.DateConverter(computer.getIntroduced());
+			Optional<String> discontinued  = DateMapper.DateConverter(computer.getDiscontinued());
+	        String company_id = Long.toString(computer.getCompany().getId());
+	        String company_name = computer.getCompany().getName();
+	        CompanyDTO company = CompanyDTO.Builder.newInstance().setId(company_id).setName(company_name).build();
+			return Optional.of(ComputerDTO.Builder.newInstance().setName(name).setCompany(company).setId(id).setIntroduced(introduced.get()).setDiscontinued(discontinued.get()).build());
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        return Optional.ofNullable(null);
 
     }
 

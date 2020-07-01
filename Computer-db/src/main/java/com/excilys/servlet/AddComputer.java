@@ -42,9 +42,9 @@ public class AddComputer{
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView AddC()
 	{
-		Optional<List<CompanyDTO>> list_company = serviceCompany.getAllCompany();
+		List<CompanyDTO> list_company = serviceCompany.getAllCompany();
 		ModelAndView model = new ModelAndView("addComputer");
-		model.addObject("company", list_company.get());
+		model.addObject("company", list_company);
 		return model;
 	}
 

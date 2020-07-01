@@ -5,29 +5,35 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.excilys.dto.CompanyDTO;
 import com.excilys.mapper.CompanyMapper;
 import com.excilys.model.Company;
 import com.excilys.persistence.DAOCompany;
+import com.excilys.persistence.QueryCompanyInterface;
 
 
 /**
  * @author dteboul
  *Assure the link between the servlet and the DAO
  */
+@Transactional
 @Service
 public class ServiceCompany {
 	
 	@Autowired
 	private DAOCompany DAOCompany;
 	
+	@Autowired
+	private  QueryCompanyInterface repo;
 	
 	public void set_DAOCompany(DAOCompany DAO)
 	{
@@ -35,30 +41,19 @@ public class ServiceCompany {
 	}
 	
 	
-	public  Optional<List<CompanyDTO>> getAllCompany() {
+	public  List<CompanyDTO> getAllCompany() {
 	Logger logger = LoggerFactory.getLogger(DAOCompany.class);
     logger.debug("getAllCompany start");
-    List<Company> dataset = DAOCompany.getAllCompany();
-	List<CompanyDTO> result = new ArrayList<>();
-	result.add(CompanyDTO.Builder.newInstance().setId("0").setName("none").build());
-	for(Company company : dataset)
-		result.add(CompanyMapper.companyToDTO(company));
-	return Optional.of(result);
+    List<Company> result= (List<Company>) repo.findAll();
+    return result.stream().map(i -> CompanyMapper.companyToDTO(i)).distinct().collect(Collectors.toList());
 	}
 	
 	public Optional<CompanyDTO> getSpecificCompany(int id) 
 	{
 		Logger logger = LoggerFactory.getLogger(DAOCompany.class);
 	    logger.debug("get a specific Company start");
-	    CompanyDTO result;
-	    if (id == 0) return Optional.empty();
-	    try {
-			result = CompanyMapper.companyToDTO(DAOCompany.getSpecificCompany(id).get());
-			return Optional.of(result);
-		} catch (ParseException e) {
-			logger.error("error while getting the specific Computers : "+ e);
-			return Optional.empty();
-		}
+	    Company result = (Company) repo.findById((long) id).get();
+	    return Optional.of(CompanyMapper.companyToDTO(result));
 	}
 	
 	/**

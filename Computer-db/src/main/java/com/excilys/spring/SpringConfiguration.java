@@ -25,9 +25,10 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.context.annotation.Bean;
 
 @Configuration
-@ComponentScan({"com.excilys.service","com.excilys.persistence","com.excilys.servlet","com.excilys.spring"})
+@ComponentScan({"com.excilys.service","com.excilys.persistence","com.excilys.servlet","com.excilys.spring","com.excilys.model"})
 @EnableTransactionManagement
-@EnableJpaRepositories("sample.data.jpa.service")
+@EnableJpaRepositories("com.excilys.persistence")
+
 public class SpringConfiguration {
 	
 	private  static AnnotationConfigWebApplicationContext context;
@@ -80,7 +81,7 @@ public class SpringConfiguration {
 
 	    LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
 	    factory.setJpaVendorAdapter(vendorAdapter);
-	    factory.setPackagesToScan("com.acme.domain");
+	    factory.setPackagesToScan("com.excilys.model");
 	    factory.setDataSource(getHikariDataSource());
 	    return factory;
 	  }

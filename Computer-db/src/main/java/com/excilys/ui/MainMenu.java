@@ -103,11 +103,11 @@ public class MainMenu {
 				break;
 			case LCompany :
 				sta = state.Main;
-				Optional<List<CompanyDTO>> optcompany = DAOCompany.getAllCompany();
-				if (optcompany.get().size() != 0)
+				List<CompanyDTO> optcompany = DAOCompany.getAllCompany();
+				if (optcompany.size() != 0)
 				{
 					logger.debug("user is being shown a list of the companies in the database");
-					List<CompanyDTO> lcny = optcompany.get();
+					List<CompanyDTO> lcny = optcompany;
 					lcny.forEach((i)->System.out.println("id : "+i.getId()+" name : " +i.getName()));
 				}
 				else

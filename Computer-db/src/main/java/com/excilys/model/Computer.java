@@ -5,23 +5,44 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Objects;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
 import org.springframework.stereotype.Component;
 
 import com.excilys.model.Company.Builder;
 
-
+@Entity
+@Table(name = "computer")
 public final class Computer {
-	private int id;
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private long id;
+	@Column(name="name")
 	private String name;
-	private Company Computer_company;
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name="company_id")
 	private Company company;
+	
+	@Column(name="introduced")
 	private LocalDate introduced;
+	
+	@Column(name="discontinued")
 	private LocalDate discontinued;
 
-	public int getId() {
+
+	public long getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 	public String getName() {
@@ -41,12 +62,6 @@ public final class Computer {
 	}
 	public void setDiscontinued(LocalDate discontinued) {
 		this.discontinued = discontinued;
-	}
-	public Company getComputer_company() {
-		return Computer_company;
-	}
-	public void setComputer_company(Company computer_company) {
-		Computer_company = computer_company;
 	}
 	public Company getCompany() {
 		return company;
@@ -78,21 +93,19 @@ public final class Computer {
 	}
 	
 	public Computer() {
-		// TODO Auto-generated constructor stub
 	}
 
 	
 	public static class Builder
 	{
 		
-		private int id;
+		private long id;
 		private String name;
-		private Company Computer_company;
 		private Company company;
 		private LocalDate introduced;
 		private LocalDate discontinued;
 
-		public Builder setId(int id) {
+		public Builder setId(long id) {
 			this.id = id;
 			return this;
 		}
@@ -112,10 +125,7 @@ public final class Computer {
 			return this;
 		}
 
-		public Builder setComputer_company(Company computer_company) {
-			Computer_company = computer_company;
-			return this;
-		}
+
 
 		public Builder setCompany(Company company) {
 			this.company = company;

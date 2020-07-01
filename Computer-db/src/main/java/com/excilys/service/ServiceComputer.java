@@ -5,21 +5,28 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import com.excilys.dto.ComputerDTO;
 import com.excilys.exception.ServiceComputerException;
+import com.excilys.mapper.CompanyMapper;
 import com.excilys.mapper.ComputerMapper;
+import com.excilys.model.Company;
 import com.excilys.model.Computer;
+import com.excilys.model.Pagination;
 import com.excilys.persistence.DAOComputer;
 import com.excilys.persistence.OrderByState;
+import com.excilys.persistence.QueryCompanyInterface;
+import com.excilys.persistence.QueryComputerInterface;
+import com.excilys.ui.Page;
 
 
 /**
@@ -30,7 +37,7 @@ import com.excilys.persistence.OrderByState;
 public class ServiceComputer {
 	private static final Logger lOG =
             LoggerFactory.getLogger(ServiceComputer.class);
-	
+	@Autowired QueryComputerInterface repo;
 	
 	@Autowired
 	private DAOComputer DAOComputer;
@@ -48,71 +55,38 @@ public class ServiceComputer {
 	public int getCountComputer()
 	{
 		lOG.debug("Getting rowcount of the computer db");
-		return DAOComputer.getCountComputer();
+		return (int) repo.count();
 	}
 	public List<ComputerDTO> getAllComputer(int offset, int limit)  {
 
-
-		System.out.println("getALLcomputer accessed :" +offset + limit);
 	    lOG.debug("getAllComputer start");
-	   
-	    List<Computer> dataset;
+	    //Pageable page = PageRequest.of(offset, limit);
+	    //List<Computer> result = (List<Computer>) repo.findBy(PageRequest.of(offset, limit));
 	    List<ComputerDTO> result = new ArrayList<>();
-	    try {
-			dataset = DAOComputer.getAllComputer(offset,limit);
-			for(Computer computer : dataset)
-				result.add(ComputerMapper.computerToDTO(computer).get());
-			return result;
-		} catch (ParseException e) {
-			lOG.error("ParseException while getting all Computer : "+ e);
-			e.printStackTrace();
-			return result;
-		}
+	    //return result.stream().map(i -> ComputerMapper.computerToDTO(i).get()).distinct().collect(Collectors.toList());
+	    return result;
 	}
 	public  Optional<ComputerDTO> getSpecificComputer(int id)  {
 
 	    lOG.debug("getSpecificComputer start using computer id : "+id);
-	    Optional<ComputerDTO> result;
-	    
-	    try {
-			ComputerValidator.isComputerId(id);
-		} catch (ServiceComputerException e1) {
-			e1.printStackTrace();
-			return result = Optional.empty();
-		}
-	    try {
-			result = ComputerMapper.computerToDTO(DAOComputer.get_Computer_By_Id(id).get());
-			return result;
-		} catch (ParseException e) {
-			lOG.error("ParseException while getting  Computer id " + id+ "error : "+ e);
-			e.printStackTrace();
-			return result = Optional.empty();
-		}
+	    Computer result = (Computer) repo.findById((long) id).get();
+	    return ComputerMapper.computerToDTO(result);
 	}
 	
 	public  List<ComputerDTO> Search_Computer(String name)  {
-
+		
 
 	    lOG.debug("Search_Computer start using computer name : "+name);
-	    List<Computer> dataset;
-	    List<ComputerDTO> result = new ArrayList<>();
-	    try {
-			dataset = DAOComputer.Search_Computer("%" +name+"%");
-			for(Computer computer : dataset)
-				result.add(ComputerMapper.computerToDTO(computer).get());
-			return result;
-		} catch (ParseException e) {
-			lOG.error("ParseException Searching for the Computers : "+ e);
-			e.printStackTrace();
-			return result;
-		}
+	    List<Computer> result = repo.findByNameContainingIgnoreCase(name);
+	    return result.stream().map(i -> ComputerMapper.computerToDTO(i).get()).distinct().collect(Collectors.toList());
 	}
 	public int deleteSpecificComputer(int id) 
 	{
+		
 	    lOG.debug("getSpecificComputer start using computer id : "+id);
-	    int result;
-	    result = DAOComputer.deleteSpecificComputer(id);
-		return result;  
+
+		 repo.deleteById((long) id);  
+		 return 1;
 	}
 	public int addComputer(ComputerDTO computer)  
 	{
@@ -198,17 +172,9 @@ public class ServiceComputer {
 			e1.printStackTrace();
 		}
 	    
-	    try {
-			
-			for(Computer computer : dataset)
-				result.add(ComputerMapper.computerToDTO(computer).get());
-			return result;
-		} catch (ParseException e) {
-			lOG.error("ParseException while getting all Computer : "+ e);
-			e.printStackTrace();
-			return result;
-			
-		}
+	    for(Computer computer : dataset)
+			result.add(ComputerMapper.computerToDTO(computer).get());
+		return result;
 	}
 	
 }

@@ -42,9 +42,9 @@ public class EditComputer {
 	{
 		ModelAndView model = new ModelAndView("editComputer");
 		try {
-			Optional<List<CompanyDTO>> list_company = serviceCompany.getAllCompany();
+			List<CompanyDTO> list_company = serviceCompany.getAllCompany();
 			System.out.print(id);
-			model.addObject("company", list_company.get());
+			model.addObject("company", list_company);
 			Optional<ComputerDTO> target = serviceComputer.getSpecificComputer(Integer.parseInt(id));
 			model.addObject("computerName", target.get().getName());
 			model.addObject("introduced", target.get().getIntroduced());

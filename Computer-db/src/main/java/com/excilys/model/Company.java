@@ -2,12 +2,25 @@ package com.excilys.model;
 
 import java.util.Objects;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import org.springframework.stereotype.Component;
 
-
+@Entity
+@Table(name = "company")
 public final class Company {
-	private long id=0;
-	private String name="none";
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private long id;
+	@Column(name="name")
+	private String name;
+	
+	public Company() {}
 	
 	public long getId() {
 		return id;//
