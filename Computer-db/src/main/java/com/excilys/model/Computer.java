@@ -1,5 +1,6 @@
 package com.excilys.model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -21,24 +22,22 @@ import com.excilys.model.Company.Builder;
 
 @Entity
 @Table(name = "computer")
-public final class Computer {
+public final class Computer implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id;
-	@Column(name="name")
+
 	private String name;
 	
+	private LocalDate introduced;
+
+	private LocalDate discontinued;
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="company_id")
 	private Company company;
 	
-	@Column(name="introduced")
-	private LocalDate introduced;
 	
-	@Column(name="discontinued")
-	private LocalDate discontinued;
-
-
 	public long getId() {
 		return id;
 	}

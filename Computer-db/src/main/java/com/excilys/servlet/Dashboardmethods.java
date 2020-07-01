@@ -99,11 +99,11 @@ public class Dashboardmethods {
 	protected static void Search(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ServiceComputer a =  SpringConfiguration.getContext().getBean(ServiceComputer.class);
 		List<ComputerDTO> list = new ArrayList<>();
-		list = a.Search_Computer(request.getParameter("search"));
+		//list = a.Search_Computer(request.getParameter("search"));
 		request.setAttribute("currentplace", 1);
 		request.setAttribute("recordsPerPage", 200);
 		request.setAttribute("max_button", 0);
-		request.setAttribute("Computer_list", list);
+		//request.setAttribute("Computer_list", list);
 		request.setAttribute("min_button", 1);
 		request.getRequestDispatcher("/WEB-INF/views/dashboard.jsp").forward(request, response);
 	}

@@ -60,11 +60,12 @@ public class ServiceComputer {
 	public List<ComputerDTO> getAllComputer(int offset, int limit)  {
 
 	    lOG.debug("getAllComputer start");
-	    //Pageable page = PageRequest.of(offset, limit);
-	    //List<Computer> result = (List<Computer>) repo.findBy(PageRequest.of(offset, limit));
-	    List<ComputerDTO> result = new ArrayList<>();
-	    //return result.stream().map(i -> ComputerMapper.computerToDTO(i).get()).distinct().collect(Collectors.toList());
-	    return result;
+	    Pageable page = PageRequest.of(offset, limit);
+	    List<Computer> result = (List<Computer>) repo.findAll();
+	    
+	   
+	   return result.stream().map(i -> ComputerMapper.computerToDTO(i).get()).distinct().collect(Collectors.toList());
+	   
 	}
 	public  Optional<ComputerDTO> getSpecificComputer(int id)  {
 
@@ -72,14 +73,14 @@ public class ServiceComputer {
 	    Computer result = (Computer) repo.findById((long) id).get();
 	    return ComputerMapper.computerToDTO(result);
 	}
-	
+/*	
 	public  List<ComputerDTO> Search_Computer(String name)  {
 		
 
 	    lOG.debug("Search_Computer start using computer name : "+name);
-	    List<Computer> result = repo.findByNameContainingIgnoreCase(name);
-	    return result.stream().map(i -> ComputerMapper.computerToDTO(i).get()).distinct().collect(Collectors.toList());
-	}
+	  //  List<Computer> result = repo.findByNameContainingIgnoreCase(name);
+	  //  return result.stream().map(i -> ComputerMapper.computerToDTO(i).get()).distinct().collect(Collectors.toList());
+	}*/
 	public int deleteSpecificComputer(int id) 
 	{
 		

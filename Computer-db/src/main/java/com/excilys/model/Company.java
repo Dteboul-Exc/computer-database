@@ -1,5 +1,6 @@
 package com.excilys.model;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 import javax.persistence.Column;
@@ -13,7 +14,7 @@ import org.springframework.stereotype.Component;
 
 @Entity
 @Table(name = "company")
-public final class Company {
+public final class Company implements Serializable{
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id;

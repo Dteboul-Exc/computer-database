@@ -46,15 +46,12 @@
     <spring_version>5.2.5.RELEASE</spring_version>
     <logback_version>1.2.3</logback_version>
     <hsql_version>2.5.0</hsql_version>
+    <hibernate_version>6.0.10.Final</hibernate_version>
 	</properties>
 
 
 	<dependencies>
-	<dependency>
-    <groupId>org.hibernate</groupId>
-    <artifactId>hibernate-validator</artifactId>
-    <version>6.0.10.Final</version>
-</dependency>
+
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
@@ -155,7 +152,22 @@
 <dependency>
     <groupId>org.hibernate</groupId>
     <artifactId>hibernate-entitymanager</artifactId>
-    <version>4.3.8.Final</version>
+    <version>5.4.17.Final</version>
+</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>5.4.0.Final</version>
+		</dependency>
+			<dependency>
+    <groupId>org.hibernate</groupId>
+    <artifactId>hibernate-validator</artifactId>
+    <version>5.4.0.Final</version>
+</dependency>
+<dependency>
+    <groupId>org.hibernate</groupId>
+    <artifactId>hibernate-java8</artifactId>
+    <version>5.4.17.Final</version>
 </dependency>
 	</dependencies>
 

@@ -11,4 +11,10 @@ public class AddComputerValidator implements ConstraintValidator<AddComputerCons
 		return false;
 	}
 
+	@Override
+	public void initialize(AddComputerConstraint constraintAnnotation) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
