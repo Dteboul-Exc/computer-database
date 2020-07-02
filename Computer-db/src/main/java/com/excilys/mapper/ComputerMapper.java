@@ -53,9 +53,18 @@ public class ComputerMapper {
 		try {
 			introduced = DateMapper.DateConverter(computer.getIntroduced());
 			Optional<String> discontinued  = DateMapper.DateConverter(computer.getDiscontinued());
-	        String company_id = Long.toString(computer.getCompany().getId());
-	        String company_name = computer.getCompany().getName();
-	        CompanyDTO company = CompanyDTO.Builder.newInstance().setId(company_id).setName(company_name).build();
+			CompanyDTO company;
+			if (!(computer.getCompany() == null))
+			{
+				company = CompanyMapper.companyToDTO(computer.getCompany());
+			}
+			else
+			{
+				company = CompanyDTO.Builder.newInstance().setId("0").build();
+			}
+	     //   String company_id = Long.toString(computer.getCompany().getId());
+	     //   String company_name = computer.getCompany().getName();
+	        
 			return Optional.of(ComputerDTO.Builder.newInstance().setName(name).setCompany(company).setId(id).setIntroduced(introduced.get()).setDiscontinued(discontinued.get()).build());
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block

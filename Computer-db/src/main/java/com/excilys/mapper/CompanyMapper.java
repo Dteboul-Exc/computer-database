@@ -47,7 +47,6 @@ public class CompanyMapper {
      * @return
      */
     public static CompanyDTO companyToDTO(final Company company) {
-    	LOG.debug("Starting converting company id " + company.getId() +" to DTO");
         String id = company.getId() == 0 ? "" : String.valueOf(company.getId());
         String name = company.getName();
         CompanyDTO result = new CompanyDTO();

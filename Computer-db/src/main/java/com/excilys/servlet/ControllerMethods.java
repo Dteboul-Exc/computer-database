@@ -23,9 +23,9 @@ public class ControllerMethods {
 		List<ComputerDTO> list = new ArrayList<>();
 
 		if ((Order != null) && ((Order.equals("computer"))))
-			list = serviceComputer.getAllComputerOrderBy(OrderByState.COMPUTER, start, end);
+			list = serviceComputer.getAllComputerOrderBy("computer.name", start, end);
 		else if ((Order != null) && ((Order.equals("company"))))
-			list = serviceComputer.getAllComputerOrderBy(OrderByState.COMPANY, start, end);
+			list = serviceComputer.getAllComputerOrderBy("company.name", start, end);
 		else
 			list = serviceComputer.getAllComputer(Math.abs(start), Math.abs(end));
 		return list;

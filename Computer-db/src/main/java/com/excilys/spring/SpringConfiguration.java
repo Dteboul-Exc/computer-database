@@ -73,6 +73,7 @@ public class SpringConfiguration {
 	public HikariDataSource getHikariDataSource() {
 		return new HikariDataSource(hikariConfig());
 	}
+	
 	  @Bean
 	  public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
 

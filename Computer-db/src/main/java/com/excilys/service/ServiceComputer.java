@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -61,9 +62,7 @@ public class ServiceComputer {
 
 	    lOG.debug("getAllComputer start");
 	    Pageable page = PageRequest.of(offset, limit);
-	    List<Computer> result = (List<Computer>) repo.findAll();
-	    
-	   
+	    List<Computer> result = (List<Computer>) repo.findAll(page);
 	   return result.stream().map(i -> ComputerMapper.computerToDTO(i).get()).distinct().collect(Collectors.toList());
 	   
 	}
@@ -91,7 +90,6 @@ public class ServiceComputer {
 	}
 	public int addComputer(ComputerDTO computer)  
 	{
-
 	    lOG.debug("addComputer start using computer");
 		String tname = "NULL";
 		String tintroduced = "NULL";
@@ -130,8 +128,8 @@ public class ServiceComputer {
 		String tname = "NULL";
 		String tintroduced = "NULL";
 		String tdiscontinued = "NULL";
-
-		Statement statement;
+		repo.save(ComputerMapper.CDTOToComputer(computer).get());
+		/*Statement statement;
 		if (computer.getName() == null)
 		{
 			lOG.error("Error, name was null");
@@ -157,15 +155,15 @@ public class ServiceComputer {
 		{
 			tdiscontinued = computer.getDiscontinued();;
 		}
-		int result  = DAOComputer.updateComputer(tname,tintroduced,tdiscontinued,Long.parseLong(computer.getCompany().getId()),Integer.parseInt(computer.getId()));
-		return result;
+		int result  = DAOComputer.updateComputer(tname,tintroduced,tdiscontinued,Long.parseLong(computer.getCompany().getId()),Integer.parseInt(computer.getId()));*/
+		return 1;
 	}
 	
 	
-	public List<ComputerDTO> getAllComputerOrderBy(OrderByState state,long offset, long limit)  {
+	public List<ComputerDTO> getAllComputerOrderBy(String state,int offset, int limit)  {
 
 	    lOG.debug("getAllComputer start");
-	    List<ComputerDTO> result = new ArrayList<>();
+	   /* List<ComputerDTO> result = new ArrayList<>();
 	    List<Computer> dataset = null;
 	    try {
 			dataset = DAOComputer.getAllComputerOrderBY(state,offset,limit);
@@ -175,7 +173,10 @@ public class ServiceComputer {
 	    
 	    for(Computer computer : dataset)
 			result.add(ComputerMapper.computerToDTO(computer).get());
-		return result;
+		return result;*/
+	    Pageable page = PageRequest.of(offset, limit,Direction.ASC,state);
+	    List<Computer> result = (List<Computer>) repo.findAll(page);
+	   return result.stream().map(i -> ComputerMapper.computerToDTO(i).get()).distinct().collect(Collectors.toList());
 	}
 	
 }

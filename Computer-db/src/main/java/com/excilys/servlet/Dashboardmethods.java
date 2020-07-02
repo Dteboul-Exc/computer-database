@@ -120,9 +120,9 @@ public class Dashboardmethods {
 		List<ComputerDTO> list = new ArrayList<>();
 		ServiceComputer serviceComputer =  SpringConfiguration.getContext().getBean(ServiceComputer.class);
 		if ((request.getParameter("Order") != null) && ((request.getParameter("Order").equals("computer"))))
-			list = serviceComputer.getAllComputerOrderBy(OrderByState.COMPUTER, start, end);
+			list = serviceComputer.getAllComputerOrderBy("computer.name", start, end);
 		else if ((request.getParameter("Order") != null) && ((request.getParameter("Order").equals("company"))))
-			list = serviceComputer.getAllComputerOrderBy(OrderByState.COMPANY, start, end);
+			list = serviceComputer.getAllComputerOrderBy("company.name", start, end);
 		else
 			list = serviceComputer.getAllComputer(Math.abs(start), Math.abs(end));
 		return list;
