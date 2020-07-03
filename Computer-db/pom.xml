@@ -1,39 +1,24 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.excilys</groupId>
+  <artifactId>excilys</artifactId>
+  <version>5.0.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <name>CDB</name>
+  <url>http://www.example.com</url>
 
-<!--
-  ~ Licensed to the Apache Software Foundation (ASF) under one
-  ~ or more contributor license agreements. See the NOTICE file
-  ~ distributed with this work for additional information
-  ~ regarding copyright ownership. The ASF licenses this file
-  ~ to you under the Apache License, Version 2.0 (the
-  ~ "License"); you may not use this file except in compliance
-  ~ with the License. You may obtain a copy of the License at
-  ~
-  ~ http://www.apache.org/licenses/LICENSE-2.0
-  ~
-  ~ Unless required by applicable law or agreed to in writing,
-  ~ software distributed under the License is distributed on an
-  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-  ~ KIND, either express or implied. See the License for the
-  ~ specific language governing permissions and limitations
-  ~ under the License.
-  -->
-    
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.excilys</groupId>
-	<artifactId>excilys</artifactId>
-	<version>5.0.0-SNAPSHOT</version>
-	<packaging>war</packaging>
-	<name>Axis2 Quickstart-webapp Sample</name>
-
-	<properties>
-		<axis2.version>1.8</axis2.version>	
+        
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+	<axis2.version>1.8</axis2.version>	
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
     <junit_version>4.11</junit_version>
+    <selenium_version>3.141.59</selenium_version>
     <slf4j_version>1.7.30</slf4j_version>
     <jquery_version>3.3.1</jquery_version>
     <mockito_version>1.10.19</mockito_version>
@@ -47,11 +32,9 @@
     <logback_version>1.2.3</logback_version>
     <hsql_version>2.5.0</hsql_version>
     <hibernate_version>6.0.10.Final</hibernate_version>
-	</properties>
-
-
-	<dependencies>
-
+    <excilys_version>1.0-SNAPSHOT</excilys_version>
+  </properties>
+  <dependencies>
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
@@ -111,7 +94,7 @@
 			<artifactId>HikariCP</artifactId>
 			<version>${hikari_version}</version>
     </dependency>
-				<dependency>
+		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-java</artifactId>
 			<version>3.141.59</version>
@@ -169,24 +152,58 @@
     <artifactId>hibernate-java8</artifactId>
     <version>5.4.17.Final</version>
 </dependency>
-	</dependencies>
+  </dependencies>
+  <build>
+    <pluginManagement>
+      <!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
+      <plugins>
+        <plugin>
+          <artifactId>maven-clean-plugin</artifactId>
+          <version>3.1.0</version>
+        </plugin>
+        <plugin>  
+          <artifactId>maven-resources-plugin</artifactId>
+          <version>3.0.2</version>
+        </plugin>
+        <plugin>
+            <artifactId>maven-compiler-plugin</artifactId>         
+          <version>3.8.0</version>
+        </plugin>
+        <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>2.22.1</version>
+            </plugin>
+            <plugin>
+          <artifactId>maven-jar-plugin</artifactId>
+          <version>3.0.2</version>
+        </plugin>
+        <plugin>
+        <artifactId>maven-install-plugin</artifactId>
+         <version>2.5.2</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <version>2.8.2</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-site-plugin</artifactId>
+          <version>3.7.1</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-project-info-reports-plugin</artifactId>
+          <version>3.0.0</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
 
-	<build>
-		<plugins>
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.8.0</version>
-				<configuration>
-					<release>8</release>
-				</configuration>
-			</plugin>
-			<plugin>
-				<artifactId>maven-war-plugin</artifactId>
-				<version>3.2.3</version>
-				<configuration>
-					<warSourceDirectory>WebContent</warSourceDirectory>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+  <modules>
+    <module>core</module>
+    <module>service</module>
+    <module>persistence</module>
+    <module>bind</module>
+    <module>CLI</module>  
+    <module>webapp</module>  
+  </modules>
+              
 </project>
