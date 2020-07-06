@@ -29,15 +29,13 @@ import com.excilys.CrudRepository.QueryCompanyInterface;;
 @Service
 public class ServiceCompany {
 	
-	@Autowired
-	private QueryCompanyInterface DAOCompany;
 	
 	@Autowired
 	private  QueryCompanyInterface repo;
 	
 	public void set_DAOCompany(QueryCompanyInterface DAO)
 	{
-		this.DAOCompany = DAO;
+		this.repo = DAO;
 	}
 	
 	
@@ -62,7 +60,7 @@ public class ServiceCompany {
 	 */
 	public void setDAOCompany(final QueryCompanyInterface tDAOCompany)
 	{
-		this.DAOCompany = tDAOCompany;
+		this.repo = tDAOCompany;
 	}
 	
 	public int deleteCompany(int id) {

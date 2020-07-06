@@ -35,19 +35,15 @@ public class ServiceComputer {
 	private static final Logger lOG =
             LoggerFactory.getLogger(ServiceComputer.class);
 	@Autowired QueryComputerInterface repo;
-	
-	@Autowired
-	private QueryComputerInterface DAOComputer;
-	
 	public ServiceComputer() {
 	}
 	
 	public ServiceComputer(QueryComputerInterface c) {
-		this.DAOComputer = c;
+		this.repo = c;
 	}
 	public void set_ComputerValidator(QueryComputerInterface DAO)
 	{
-		this.DAOComputer = DAO;
+		this.repo = DAO;
 	}
 	public int getCountComputer()
 	{
@@ -69,8 +65,6 @@ public class ServiceComputer {
 	}
 	
 	public  List<ComputerDTO> Search_Computer(String name)  {
-		
-
 	    lOG.debug("Search_Computer start using computer name : "+name);
 	    List<Computer> result = repo.findByNameContainingIgnoreCase(name);
 	    return result.stream().map(i -> ComputerMapper.computerToDTO(i).get()).distinct().collect(Collectors.toList());

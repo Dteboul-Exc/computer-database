@@ -77,6 +77,8 @@ public class ComputerDTO {
 		this.discontinued = builder.discontinued;
 		this.introduced = builder.introduced;
 	}
+	
+	
 	public static class Builder
 	{
 		private String id;
