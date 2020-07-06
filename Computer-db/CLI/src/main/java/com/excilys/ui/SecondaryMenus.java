@@ -6,11 +6,11 @@ import java.util.Scanner;
 
 import org.springframework.stereotype.Component;
 
-import com.excilys.CrudRepository.DAOComputer;
 import com.excilys.Datasource.SQLConnect;
 import com.excilys.dto.CompanyDTO;
 import com.excilys.dto.ComputerDTO;
 import com.excilys.mapper.CompanyMapper;
+import com.excilys.mapper.ComputerMapper;
 import com.excilys.mapper.DateMapper;
 import com.excilys.model.Company;
 import com.excilys.model.Computer;
@@ -203,13 +203,8 @@ public class SecondaryMenus {
 			case End:
 				SQLConnect a =  SQLConnect.getInstance();
 				System.out.println(" name : " +computer.getName() +" start :" + computer.getIntroduced() + " end :" + computer.getDiscontinued() + " C_id " + computer.getCompany().getId());
-				try {
-					DAOComputer add = new DAOComputer();
-					add.addComputer(computer.getName(),DateMapper.DateConverter(computer.getIntroduced()).get(),DateMapper.DateConverter(computer.getDiscontinued()).get(), computer.getCompany().getId());
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				ServiceComputer add = new ServiceComputer();
+				add.addComputer(ComputerMapper.computerToDTO(computer).get());
 				check= false;
 				return;
 			}

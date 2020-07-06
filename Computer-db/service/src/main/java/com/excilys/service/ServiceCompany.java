@@ -18,7 +18,7 @@ import com.excilys.CrudRepository.QueryCompanyInterface;
 import com.excilys.dto.CompanyDTO;
 import com.excilys.mapper.CompanyMapper;
 import com.excilys.model.Company;
-import com.excilys.CrudRepository.DAOCompany;
+import com.excilys.CrudRepository.QueryCompanyInterface;;
 
 
 /**
@@ -30,12 +30,12 @@ import com.excilys.CrudRepository.DAOCompany;
 public class ServiceCompany {
 	
 	@Autowired
-	private DAOCompany DAOCompany;
+	private QueryCompanyInterface DAOCompany;
 	
 	@Autowired
 	private  QueryCompanyInterface repo;
 	
-	public void set_DAOCompany(DAOCompany DAO)
+	public void set_DAOCompany(QueryCompanyInterface DAO)
 	{
 		this.DAOCompany = DAO;
 	}
@@ -50,7 +50,7 @@ public class ServiceCompany {
 	
 	public Optional<CompanyDTO> getSpecificCompany(int id) 
 	{
-		Logger logger = LoggerFactory.getLogger(DAOCompany.class);
+		Logger logger = LoggerFactory.getLogger(QueryCompanyInterface.class);
 	    logger.debug("get a specific Company start");
 	    Company result = (Company) repo.findById((long) id).get();
 	    return Optional.of(CompanyMapper.companyToDTO(result));
@@ -60,14 +60,14 @@ public class ServiceCompany {
 	 * Used for mockito testing 
 	 * @param tDAOCompany
 	 */
-	public void setDAOCompany(final DAOCompany tDAOCompany)
+	public void setDAOCompany(final QueryCompanyInterface tDAOCompany)
 	{
 		this.DAOCompany = tDAOCompany;
 	}
 	
 	public int deleteCompany(int id) {
-		DAOCompany.deleteCompany(id);
-		return 0;
+		 repo.deleteById((long) id);  
+		 return 1;
 	}
 
 }

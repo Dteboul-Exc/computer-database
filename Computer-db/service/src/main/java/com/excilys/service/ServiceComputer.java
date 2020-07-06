@@ -24,7 +24,7 @@ import com.excilys.mapper.ComputerMapper;
 import com.excilys.model.Company;
 import com.excilys.model.Computer;
 import com.excilys.model.Pagination;
-import com.excilys.CrudRepository.DAOComputer;
+
 
 /**
  * @author dteboul
@@ -37,15 +37,15 @@ public class ServiceComputer {
 	@Autowired QueryComputerInterface repo;
 	
 	@Autowired
-	private DAOComputer DAOComputer;
+	private QueryComputerInterface DAOComputer;
 	
 	public ServiceComputer() {
 	}
 	
-	public ServiceComputer(DAOComputer c) {
+	public ServiceComputer(QueryComputerInterface c) {
 		this.DAOComputer = c;
 	}
-	public void set_ComputerValidator(DAOComputer DAO)
+	public void set_ComputerValidator(QueryComputerInterface DAO)
 	{
 		this.DAOComputer = DAO;
 	}
@@ -86,36 +86,8 @@ public class ServiceComputer {
 	public int addComputer(ComputerDTO computer)  
 	{
 	    lOG.debug("addComputer start using computer");
-		String tname;
-		String tintroduced;
-		String tdiscontinued;
-		if (computer.getName() == null)
-		{
-			lOG.error("Error, name was null");
-			return -1;
-		}
-		else
-		{
-			tname = computer.getName();
-		}
-		if (computer.getIntroduced().equals("") || computer.getIntroduced().equals(null) )
-		{
-			tintroduced = null;
-		}
-		else
-		{
-			tintroduced =  computer.getIntroduced();
-		}
-		if (computer.getDiscontinued().equals("") || computer.getDiscontinued().equals(null))
-		{
-			tdiscontinued = null;
-		}
-		else
-		{
-			tdiscontinued =  computer.getDiscontinued();
-		}
-		int result  = DAOComputer.addComputer(tname,tintroduced,tdiscontinued,Integer.parseInt(computer.getCompany().getId()));
-		return result;		
+		repo.save(ComputerMapper.CDTOToComputer(computer).get());
+		return 1;		
 	}
 	public int updateComputer(ComputerDTO computer)  
 	{
