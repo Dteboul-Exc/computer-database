@@ -16,6 +16,6 @@ import com.excilys.model.Pagination;
 public interface QueryComputerInterface extends  CrudRepository<Computer,Long>{
 	
 	List<Computer> findAll(Pageable pageable);
-	//List<Computer> findByNameContainingIgnoreCase(String name);
+	List<Computer> findByNameContainingIgnoreCase(String name);
 
 }

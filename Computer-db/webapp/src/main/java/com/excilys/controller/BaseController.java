@@ -113,7 +113,11 @@ public class BaseController {
 				ModelAndView model = new ModelAndView("dashboard");
 				int max_button = 1;
 				System.out.println(" page is :" + page);
-				if (page.intValue() > 1) {
+				if (search !=null)
+				{
+					list = serviceComputer.Search_Computer(search);
+				}
+				else if (page.intValue() > 1) {
 					if ((page * recordsPerPage + recordsPerPage) < size) {
 						list = SetOrder((currentplace - 1) * recordsPerPage, recordsPerPage, Order);
 						page -= 1;
