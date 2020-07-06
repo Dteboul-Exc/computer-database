@@ -54,6 +54,7 @@ public class DateMapper {
 		
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 	    LocalDate myDateObj = LocalDate.parse(localDate,formatter);
+	    System.out.print(myDateObj);
 	    Optional<LocalDate> result = Optional.ofNullable(myDateObj);
 		return result;
 	}
@@ -70,7 +71,7 @@ public class DateMapper {
 	{
 		if (myDateObj == null) 
 			{
-		    Optional<String> result = Optional.ofNullable("NULL");
+		    Optional<String> result = Optional.ofNullable(null);
 			return result;
 			}
 

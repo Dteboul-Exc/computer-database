@@ -27,7 +27,7 @@ import com.excilys.service.ServiceCompany;
 import com.excilys.service.ServiceComputer;
 
 
-public class ServiceComputer_Testing {
+public class Mock_ServiceComputer_Testing {
 	private static  List<Computer> list = new ArrayList<Computer>();
 
 	private QueryComputerInterface mockDAO = Mockito.mock(QueryComputerInterface.class);

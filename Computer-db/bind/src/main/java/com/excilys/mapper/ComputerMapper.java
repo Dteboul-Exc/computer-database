@@ -63,16 +63,13 @@ public class ComputerMapper {
 			else
 			{
 				company = CompanyDTO.Builder.newInstance().setId("0").build();
-			}
-	     //   String company_id = Long.toString(computer.getCompany().getId());
-	     //   String company_name = computer.getCompany().getName();
-	        
-			return Optional.of(ComputerDTO.Builder.newInstance().setName(name).setCompany(company).setId(id).setIntroduced(introduced.get()).setDiscontinued(discontinued.get()).build());
+			}       
+			return Optional.of(ComputerDTO.Builder.newInstance().setName(name).setCompany(company).setId(id).setIntroduced(introduced.orElse(null)).setDiscontinued(discontinued.orElse(null)).build());
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-        return Optional.ofNullable(null);
+        return Optional.ofNullable(null); 
 
     }
 
