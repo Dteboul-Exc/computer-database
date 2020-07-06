@@ -30,10 +30,12 @@ public class ComputerMapper {
         Company company = Company.Builder.newInstance().setId(Integer.parseInt(computer.getCompany().getId())).setName(computer.getCompany().getName()).build();
         int id = Integer.parseInt(computer.getId());
         String name = computer.getName();
-        Optional<LocalDate> introduced = DateMapper.StringConverterInput(computer.getIntroduced());
-		Optional<LocalDate> discontinued = DateMapper.StringConverterInput(computer.getDiscontinued());
-		 Computer result = Computer.Builder.newInstance().setCompany(company).setIntroduced(introduced.get())
-				 .setDiscontinued(discontinued.get()).setId(id).setName(name).build();
+        Optional<LocalDate> introduced = Optional.ofNullable(null); 
+        if ((computer.getIntroduced() != null) && (!computer.getIntroduced().isBlank())&& (!computer.getIntroduced().equals("NULL"))) introduced = DateMapper.StringConverterInput(computer.getIntroduced());
+		Optional<LocalDate> discontinued = Optional.ofNullable(null); 
+		if ((computer.getDiscontinued() != null) && (!computer.getDiscontinued().isBlank())&& (!computer.getDiscontinued().equals("NULL"))) discontinued = DateMapper.StringConverterInput(computer.getDiscontinued());
+		 Computer result = Computer.Builder.newInstance().setCompany(company).setIntroduced(introduced.orElse(null))
+				 .setDiscontinued(discontinued.orElse(null)).setId(id).setName(name).build();
 		 return Optional.of(result);
     }
 

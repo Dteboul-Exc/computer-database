@@ -86,9 +86,9 @@ public class ServiceComputer {
 	public int addComputer(ComputerDTO computer)  
 	{
 	    lOG.debug("addComputer start using computer");
-		String tname = "NULL";
-		String tintroduced = "NULL";
-		String tdiscontinued = "NULL";
+		String tname;
+		String tintroduced;
+		String tdiscontinued;
 		if (computer.getName() == null)
 		{
 			lOG.error("Error, name was null");
@@ -120,37 +120,7 @@ public class ServiceComputer {
 	public int updateComputer(ComputerDTO computer)  
 	{
 	    lOG.debug("updateComputer start using computer");
-		String tname = "NULL";
-		String tintroduced = "NULL";
-		String tdiscontinued = "NULL";
 		repo.save(ComputerMapper.CDTOToComputer(computer).get());
-		/*Statement statement;
-		if (computer.getName() == null)
-		{
-			lOG.error("Error, name was null");
-			return -1;
-		}
-		else
-		{
-			tname = computer.getName();
-		}
-		if (computer.getIntroduced().equals(""))
-		{
-			tintroduced = "NULL";
-		}
-		else
-		{
-			tintroduced = computer.getIntroduced();
-		}
-		if (computer.getDiscontinued().equals(""))
-		{
-			tdiscontinued = "NULL";
-		}
-		else
-		{
-			tdiscontinued = computer.getDiscontinued();;
-		}
-		int result  = DAOComputer.updateComputer(tname,tintroduced,tdiscontinued,Long.parseLong(computer.getCompany().getId()),Integer.parseInt(computer.getId()));*/
 		return 1;
 	}
 	
@@ -158,17 +128,6 @@ public class ServiceComputer {
 	public List<ComputerDTO> getAllComputerOrderBy(String state,int offset, int limit)  {
 
 	    lOG.debug("getAllComputer start");
-	   /* List<ComputerDTO> result = new ArrayList<>();
-	    List<Computer> dataset = null;
-	    try {
-			dataset = DAOComputer.getAllComputerOrderBY(state,offset,limit);
-		} catch (ParseException e1) {
-			e1.printStackTrace();
-		}
-	    
-	    for(Computer computer : dataset)
-			result.add(ComputerMapper.computerToDTO(computer).get());
-		return result;*/
 	    Pageable page = PageRequest.of(offset, limit,Direction.ASC,state);
 	    List<Computer> result = (List<Computer>) repo.findAll(page);
 	   return result.stream().map(i -> ComputerMapper.computerToDTO(i).get()).distinct().collect(Collectors.toList());
