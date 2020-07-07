@@ -16,7 +16,7 @@
 <body>
 	<header class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
-			<a class="navbar-brand" href="dashboard.html"> <spring:message code="CDB.projectName"/> </a>
+			<a class="navbar-brand" href="dashboard.jsp"> <spring:message code="CDB.projectName"/>  </a>
 		</div>
 	</header>
 
@@ -24,7 +24,11 @@
 		<div class="container">
 			<h1 id="homeTitle">
 				<spring:message code="CDB.computerFound"/><% out.println((String)request.getAttribute("computer"));%>
+				<div class="pull-right">
+					<a class="btn btn-info" id="logout" href="logout"><spring:message code="logout"/></a>
+				</div>
 			</h1>
+			
 			<div class="alert alert-danger" id="error">${errormsg}</div>
 
 
@@ -135,6 +139,7 @@
 					onclick="SetNumberofPage(1,50)">50</button>
 				<button type="button" class="btn btn-default"
 					onclick="SetNumberofPage(1,100)">100</button>
+			</div>
 			</div>
 	</footer>
 	<script src="js/jquery.min.js"></script>

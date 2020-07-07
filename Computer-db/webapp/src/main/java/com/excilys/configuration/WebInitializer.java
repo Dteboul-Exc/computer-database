@@ -8,14 +8,17 @@ import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-public final class WebInitializer implements WebApplicationInitializer {
+public final class WebInitializer extends  
+AbstractAnnotationConfigDispatcherServletInitializer 
+	  implements WebApplicationInitializer {
 
 	@Override
 	public void onStartup(ServletContext context) throws ServletException {
 
 		AnnotationConfigWebApplicationContext dispatcher = new AnnotationConfigWebApplicationContext();
-		dispatcher.register(SpringConfiguration.class, MvcConfiguraiton.class);
+		dispatcher.register(SpringConfiguration.class, MvcConfiguraiton.class,SpringSecurityConfiguration.class);
 		dispatcher.setServletContext(context);
 		DispatcherServlet dv = new DispatcherServlet(dispatcher);
 		ServletRegistration.Dynamic servlet = context.addServlet("Dashboard",dv );
@@ -27,4 +30,17 @@ public final class WebInitializer implements WebApplicationInitializer {
 	          .addResourceHandler("/resources/**")
 	          .addResourceLocations("/resources/"); 
 	    }
+	   
+	    @Override  
+	    protected Class<?>[] getRootConfigClasses() {  
+	        return new Class[] { SpringSecurityConfiguration.class };  
+	    }  
+	    @Override  
+	    protected Class<?>[] getServletConfigClasses() {  
+	    	return new Class[] { MvcConfiguraiton.class }; 
+	    }  
+	    @Override  
+	    protected String[] getServletMappings() {  
+	        return new String[] { "/*" };  
+	    }  
 }

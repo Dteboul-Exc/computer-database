@@ -15,6 +15,7 @@ import org.springframework.web.context.support.AnnotationConfigWebApplicationCon
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
+import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -25,11 +26,12 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.context.annotation.Bean;
 
 @Configuration
-@ComponentScan({"com.excilys.service","com.excilys.CrudRepository","com.excilys.controller","com.excilys.spring","com.excilys.model"})
+@ComponentScan({"com.excilys.service","com.excilys.CrudRepository","com.excilys.controller","com.excilys.configuration","com.excilys.model"})
 @EnableTransactionManagement
 @EnableJpaRepositories("com.excilys.CrudRepository")
 
-public class SpringConfiguration {
+public class SpringConfiguration   
+{
 	
 	private  static AnnotationConfigWebApplicationContext context;
 	public static AnnotationConfigWebApplicationContext getContext() {
@@ -38,6 +40,8 @@ public class SpringConfiguration {
 			context = new AnnotationConfigWebApplicationContext();
 			context.register(SpringConfiguration.class);
 			context.register(MvcConfiguraiton.class);
+			context.register(SecurityWebApplicationInitializer.class);
+			context.register(SpringSecurityConfiguration.class);
 			context.refresh();
 		}
 		return context;
@@ -94,4 +98,6 @@ public class SpringConfiguration {
 	    txManager.setEntityManagerFactory(entityManagerFactory);
 	    return txManager;
 	  }
+	  
+
 }
