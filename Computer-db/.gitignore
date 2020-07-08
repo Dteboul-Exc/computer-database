@@ -1,1 +1,11 @@
+<<<<<<< HEAD
+=======
+.mtj.tmp/
+*.class
+*.jar
+*.war
+*.ear
+*.nar
+/bin/
+>>>>>>> branch 'Release' of https://github.com/Dteboul-Exc/computer-database.git
 /target/
