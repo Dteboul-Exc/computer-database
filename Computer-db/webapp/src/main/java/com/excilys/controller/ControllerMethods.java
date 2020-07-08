@@ -11,14 +11,16 @@ import com.excilys.service.ServiceComputer;
 
 @Component
 public class ControllerMethods {
-	
+
 	@Autowired
 	ServiceComputer serviceComputer;
-	protected int GetNumberOFComputer( ) { 
-		
+
+	protected int GetNumberOFComputer() {
+
 		return serviceComputer.getCountComputer();
 	}
-	protected List<ComputerDTO> SetOrder( int start, int end,String Order) {
+
+	protected List<ComputerDTO> SetOrder(int start, int end, String Order) {
 		List<ComputerDTO> list = new ArrayList<>();
 
 		if ((Order != null) && ((Order.equals("computer"))))

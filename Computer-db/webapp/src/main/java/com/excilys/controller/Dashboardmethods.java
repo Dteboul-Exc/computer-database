@@ -18,13 +18,16 @@ import com.excilys.service.ComputerValidator;
 import com.excilys.service.ServiceComputer;
 
 /**
- * Methods used exclusively by Dashboard, allowing validation of inputs ,creation, edition and suppression of computer
+ * Methods used exclusively by Dashboard, allowing validation of inputs
+ * ,creation, edition and suppression of computer
+ * 
  * @author dteboul
  *
  */
 public class Dashboardmethods {
 	/**
-	 * Invoke many validators to check if the input of add computer is valid 
+	 * Invoke many validators to check if the input of add computer is valid
+	 * 
 	 * @param name
 	 * @param introduced
 	 * @param discontinued
@@ -47,31 +50,36 @@ public class Dashboardmethods {
 
 	/**
 	 * Methods invoked when receiving an Add request.
+	 * 
 	 * @param request
 	 * @param response
 	 */
-	protected static  void Add(HttpServletRequest request, HttpServletResponse response) {
+	protected static void Add(HttpServletRequest request, HttpServletResponse response) {
 		String name = request.getParameter("name");
 		String introduced = request.getParameter("introduced");
 		String discontinued = request.getParameter("discontinued");
 		CompanyDTO company = CompanyDTO.Builder.newInstance().setId(request.getParameter("company")).build();
 		ComputerDTO newComputer = ComputerDTO.Builder.newInstance().setName(name).setCompany(company)
 				.setIntroduced(introduced).setDiscontinued(discontinued).setCompany(company).build();
-		ServiceComputer service =  SpringConfiguration.getContext().getBean(ServiceComputer.class);
+		ServiceComputer service = SpringConfiguration.getContext().getBean(ServiceComputer.class);
 		try {
 			service.addComputer(newComputer);
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
 		}
 	}
+
 	/**
-	 * return the page paramters that were previously set on dashboard (default value in case they were not or invalid )
+	 * return the page paramters that were previously set on dashboard (default
+	 * value in case they were not or invalid )
+	 * 
 	 * @param request
 	 * @return
 	 * @throws ServletException
 	 * @throws IOException
 	 */
-	private static HashMap<String,Integer> get_Page_Parameters(HttpServletRequest request) throws ServletException, IOException {
+	private static HashMap<String, Integer> get_Page_Parameters(HttpServletRequest request)
+			throws ServletException, IOException {
 		int page = 1;
 		int recordsPerPage = 10;//
 		int currentplace = 1;
@@ -81,35 +89,38 @@ public class Dashboardmethods {
 			recordsPerPage = Integer.parseInt(request.getParameter("recordsPerPage"));
 		if (request.getParameter("page") != null)
 			currentplace = Integer.parseInt(request.getParameter("page"));
-		 HashMap<String, Integer> values = new HashMap<String, Integer>();
-		 values.put("page", page);
-		 values.put("recordsPerPage", recordsPerPage);
-		 values.put("currentplace", currentplace);
-		 return values;
+		HashMap<String, Integer> values = new HashMap<String, Integer>();
+		values.put("page", page);
+		values.put("recordsPerPage", recordsPerPage);
+		values.put("currentplace", currentplace);
+		return values;
 	}
 
 	/**
 	 * Show to the user a list representing possible matches
+	 * 
 	 * @param request
 	 * @param response
 	 * @throws ServletException
 	 * @throws IOException
 	 */
-	protected static void Search(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ServiceComputer a =  SpringConfiguration.getContext().getBean(ServiceComputer.class);
+	protected static void Search(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		ServiceComputer a = SpringConfiguration.getContext().getBean(ServiceComputer.class);
 		List<ComputerDTO> list = new ArrayList<>();
-		//list = a.Search_Computer(request.getParameter("search"));
+		// list = a.Search_Computer(request.getParameter("search"));
 		request.setAttribute("currentplace", 1);
 		request.setAttribute("recordsPerPage", 200);
 		request.setAttribute("max_button", 0);
-		//request.setAttribute("Computer_list", list);
+		// request.setAttribute("Computer_list", list);
 		request.setAttribute("min_button", 1);
 		request.getRequestDispatcher("/WEB-INF/views/dashboard.jsp").forward(request, response);
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * Used in case the end user want to sort the list of computers
+	 * 
 	 * @param request
 	 * @param start
 	 * @param end
@@ -117,7 +128,7 @@ public class Dashboardmethods {
 	 */
 	protected static List<ComputerDTO> SetOrder(HttpServletRequest request, int start, int end) {
 		List<ComputerDTO> list = new ArrayList<>();
-		ServiceComputer serviceComputer =  SpringConfiguration.getContext().getBean(ServiceComputer.class);
+		ServiceComputer serviceComputer = SpringConfiguration.getContext().getBean(ServiceComputer.class);
 		if ((request.getParameter("Order") != null) && ((request.getParameter("Order").equals("computer"))))
 			list = serviceComputer.getAllComputerOrderBy("computer.name", start, end);
 		else if ((request.getParameter("Order") != null) && ((request.getParameter("Order").equals("company"))))
@@ -126,11 +137,11 @@ public class Dashboardmethods {
 			list = serviceComputer.getAllComputer(Math.abs(start), Math.abs(end));
 		return list;
 	}
-	
-	
+
 	/**
+	 *
+	 * Handle pagination logic and next and previous button apparences
 	 * 
-	 * Handle pagination logic and next and previous button apparences 
 	 * @param request
 	 * @param response
 	 * @throws ServletException
@@ -172,14 +183,13 @@ public class Dashboardmethods {
 		request.setAttribute("min_button", page);
 		request.getRequestDispatcher("/WEB-INF/views/dashboard.jsp").forward(request, response);
 	}
-	
-	
+
 	/**
 	 * Used when receiving an edit request
+	 * 
 	 * @param request
 	 */
-	protected  static void Edit(HttpServletRequest request)
-	{
+	protected static void Edit(HttpServletRequest request) {
 		String name = request.getParameter("name");
 		String id = request.getParameter("id");
 		String introduced = request.getParameter("introduced");
@@ -187,7 +197,7 @@ public class Dashboardmethods {
 		CompanyDTO company = CompanyDTO.Builder.newInstance().setId(request.getParameter("company")).build();
 		ComputerDTO newComputer = ComputerDTO.Builder.newInstance().setName(name).setCompany(company)
 				.setIntroduced(introduced).setDiscontinued(discontinued).setId(id).build();
-		ServiceComputer service =  SpringConfiguration.getContext().getBean(ServiceComputer.class);
+		ServiceComputer service = SpringConfiguration.getContext().getBean(ServiceComputer.class);
 		try {
 			service.updateComputer(newComputer);
 		} catch (NumberFormatException e) {

@@ -1,13 +1,9 @@
 package com.excilys.controller;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
-
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,20 +21,19 @@ import com.excilys.service.ServiceComputer;
 @Controller
 @RequestMapping(value = "/editComputer")
 public class EditComputer {
-       
+
 	@Autowired
 	ServiceComputer serviceComputer;
-	
+
 	@Autowired
 	ServiceCompany serviceCompany;
 
-	
-	
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView EditC(@RequestParam(required = false, value = "name") String name,
-			   @RequestParam(required = false, value = "discontinued") String discontinued,@RequestParam(required = false, value = "introduced") String introduced,
-			   @RequestParam(required = false, value = "company") String company,@RequestParam(required = false, value = "id") String id)
-	{
+			@RequestParam(required = false, value = "discontinued") String discontinued,
+			@RequestParam(required = false, value = "introduced") String introduced,
+			@RequestParam(required = false, value = "company") String company,
+			@RequestParam(required = false, value = "id") String id) {
 		ModelAndView model = new ModelAndView("editComputer");
 		try {
 			List<CompanyDTO> list_company = serviceCompany.getAllCompany();
@@ -54,6 +49,5 @@ public class EditComputer {
 		}
 		return model;
 	}
-
 
 }

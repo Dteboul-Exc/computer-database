@@ -1,5 +1,8 @@
 package com.excilys.configuration;
 
+import javax.persistence.EntityManagerFactory;
+
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
@@ -12,31 +15,24 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
-import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
-import javax.persistence.EntityManagerFactory;
-
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.annotation.Bean;
-
 @Configuration
-@ComponentScan({"com.excilys.service","com.excilys.CrudRepository","com.excilys.controller","com.excilys.configuration","com.excilys.model"})
+@ComponentScan({ "com.excilys.service", "com.excilys.CrudRepository", "com.excilys.controller",
+		"com.excilys.configuration", "com.excilys.model" })
 @EnableTransactionManagement
 @EnableJpaRepositories("com.excilys.CrudRepository")
 
-public class SpringConfiguration   
-{
-	
-	private  static AnnotationConfigWebApplicationContext context;
+public class SpringConfiguration {
+
+	private static AnnotationConfigWebApplicationContext context;
+
 	public static AnnotationConfigWebApplicationContext getContext() {
-		if (context == null)
-		{
+		if (context == null) {
 			context = new AnnotationConfigWebApplicationContext();
 			context.register(SpringConfiguration.class);
 			context.register(MvcConfiguraiton.class);
@@ -46,58 +42,53 @@ public class SpringConfiguration
 		}
 		return context;
 	}
-	
+
 	@Bean
 	public HikariConfig hikariConfig() {
 		return new HikariConfig("/db.properties");
 	}
-	
-	
+
 	@Bean
-	public JdbcTemplate jdbcTemplate()
-	{
+	public JdbcTemplate jdbcTemplate() {
 		return new JdbcTemplate(getHikariDataSource());
 	}
-	
-	
+
 	@Bean
-	public NamedParameterJdbcTemplate NamedParameterJdbcTemplate()
-	{
+	public NamedParameterJdbcTemplate NamedParameterJdbcTemplate() {
 		return new NamedParameterJdbcTemplate(getHikariDataSource());
 	}
-	
+
 	public void addInterceptors(InterceptorRegistry registry) {
-	    LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
-	    interceptor.setParamName("mylocale");
-	    registry.addInterceptor(interceptor);
-	} 
-	
+		LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
+		interceptor.setParamName("mylocale");
+		registry.addInterceptor(interceptor);
+	}
+
 	@Bean
 	@Scope("singleton")
 	public HikariDataSource getHikariDataSource() {
 		return new HikariDataSource(hikariConfig());
 	}
-	
-	  @Bean
-	  public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
 
-	    HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-	    vendorAdapter.setGenerateDdl(true);
+	@Bean
+	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
 
-	    LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
-	    factory.setJpaVendorAdapter(vendorAdapter);
-	    factory.setPackagesToScan("com.excilys.model");
-	    factory.setDataSource(getHikariDataSource());
-	    return factory;
-	  }
+		HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+		vendorAdapter.setGenerateDdl(true);
 
-	  @Bean
-	  public PlatformTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
+		LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
+		factory.setJpaVendorAdapter(vendorAdapter);
+		factory.setPackagesToScan("com.excilys.model");
+		factory.setDataSource(getHikariDataSource());
+		return factory;
+	}
 
-	    JpaTransactionManager txManager = new JpaTransactionManager();
-	    txManager.setEntityManagerFactory(entityManagerFactory);
-	    return txManager;
-	  }
-	  
+	@Bean
+	public PlatformTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
+
+		JpaTransactionManager txManager = new JpaTransactionManager();
+		txManager.setEntityManagerFactory(entityManagerFactory);
+		return txManager;
+	}
 
 }

@@ -29,12 +29,12 @@ public class MvcConfiguraiton implements WebMvcConfigurer {
 		viewResolver.setSuffix(".jsp");
 		return viewResolver;
 	}
-	
-    @Bean
-    public MessageSource messageSource() {
-        ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-        messageSource.setBasename("/i18n/msg");
-        messageSource.setDefaultEncoding("UTF-8");
-        return messageSource;
-    }
+
+	@Bean
+	public MessageSource messageSource() {
+		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
+		messageSource.setBasename("/i18n/msg");
+		messageSource.setDefaultEncoding("UTF-8");
+		return messageSource;
+	}
 }

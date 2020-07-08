@@ -3,7 +3,7 @@ package com.excilys.configuration;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class AddComputerValidator implements ConstraintValidator<AddComputerConstraint,String>{
+public class AddComputerValidator implements ConstraintValidator<AddComputerConstraint, String> {
 
 	@Override
 	public boolean isValid(String value, ConstraintValidatorContext context) {
@@ -14,7 +14,7 @@ public class AddComputerValidator implements ConstraintValidator<AddComputerCons
 	@Override
 	public void initialize(AddComputerConstraint constraintAnnotation) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }
