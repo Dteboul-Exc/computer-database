@@ -1,6 +1,7 @@
 package com.excilys.configuration;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Set;
 
 import javax.servlet.ServletException;
@@ -23,20 +24,29 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
+import com.excilys.dto.UserDTO;
+import com.excilys.service.ServiceUser;;
+
 @EnableWebSecurity
 @Configuration
 @ComponentScan({"com.excilys.controller","com.excilys.configuration"})
 public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter implements AuthenticationSuccessHandler {
     @Autowired
     PasswordEncoder passwordEncoder;
+    
+    @Autowired
+    ServiceUser ServiceUser;
  
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-        .passwordEncoder(passwordEncoder)
-        .withUser("user").password(passwordEncoder.encode("123456")).roles("USER")
-        .and()
-        .withUser("admin").password(passwordEncoder.encode("123456")).roles("USER", "ADMIN");
+    	List<UserDTO>   users = ServiceUser.getAllCompany();
+    	for (UserDTO u : users)
+    	{
+    		System.out.println("username :" + u.getUsername() +" role = " + u.getRole());
+            auth.inMemoryAuthentication()
+            .passwordEncoder(passwordEncoder)
+            .withUser(u.getUsername()).password(passwordEncoder.encode(u.getPassword())).roles(u.getRole());
+    	}
     }
  
     @Bean
