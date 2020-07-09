@@ -42,7 +42,6 @@ public  final class SQLConnect {
 		conn = DriverManager.getConnection(url+db, username, password);
         try {
         	connection = DriverManager.getConnection(url, username, password);
-        	System.out.println("Connection established successfully!");
         }
         catch (SQLException e) {
         	throw new IllegalStateException("Unable to connect to the database. " + e.getMessage());

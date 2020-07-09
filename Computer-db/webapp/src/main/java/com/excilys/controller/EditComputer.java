@@ -37,7 +37,6 @@ public class EditComputer {
 		ModelAndView model = new ModelAndView("editComputer");
 		try {
 			List<CompanyDTO> list_company = serviceCompany.getAllCompany();
-			System.out.print(id);
 			model.addObject("company", list_company);
 			Optional<ComputerDTO> target = serviceComputer.getSpecificComputer(Integer.parseInt(id));
 			model.addObject("computerName", target.get().getName());

@@ -20,8 +20,12 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.www.DigestAuthenticationEntryPoint;
 import org.springframework.security.web.authentication.www.DigestAuthenticationFilter;
@@ -36,7 +40,6 @@ import com.excilys.service.ServiceUser;;
 		"com.excilys.configuration", "com.excilys.model" })
 @EnableTransactionManagement
 @EnableJpaRepositories("com.excilys.DAO")
-@Import(JdbcSpringConfiguration.class)
 public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter implements AuthenticationSuccessHandler {
 	@Autowired
 	PasswordEncoder passwordEncoder;
@@ -47,8 +50,8 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter im
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		List<UserDTO> users = ServiceUser.getAllCompany();
+		
 		for (UserDTO u : users) {
-			System.out.println("username :" + u.getUsername() + " role = " + u.getRole());
 			auth.inMemoryAuthentication().passwordEncoder(passwordEncoder).withUser(u.getUsername())
 					.password(passwordEncoder.encode(u.getPassword())).roles(u.getRole());
 		}
@@ -61,7 +64,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter im
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-
+		
 		http.csrf().disable();
 
 		http.authorizeRequests().antMatchers("/", "/login").permitAll();
@@ -70,17 +73,15 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter im
 
 		http.authorizeRequests().antMatchers("/addComputer", "/editComputer").access("hasAnyRole('ADMIN')");
 
-		// Config for Login Form
-		http.authorizeRequests().and().formLogin()//
-				// Submit URL of login page.
-				.loginProcessingUrl("/j_spring_security_check") // Submit URL
-				.loginPage("/login")//
-				.defaultSuccessUrl("/dashboard")//
-				.failureUrl("/login?error=true")//
-				.usernameParameter("username")//
+		http.authorizeRequests().and().formLogin()
+				.loginProcessingUrl("/j_spring_security_check") 
+				.loginPage("/login")
+				.defaultSuccessUrl("/dashboard")
+				.failureUrl("/login?error=true")
+				.usernameParameter("username")
 				.passwordParameter("password")
-				// Config for Logout Page
 				.and().logout().logoutUrl("/logout").logoutSuccessUrl("/login");
+		
 
 	}
 
@@ -93,9 +94,39 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter im
 		} else {
 			request.getSession(false).setMaxInactiveInterval(120);
 		}
-		// Your login success url goes here, currently login success url="/"
 		response.sendRedirect(request.getContextPath());
 
+	}
+	@Override
+	@Bean
+	public UserDetailsService userDetailsServiceBean() throws Exception
+	{
+
+        InMemoryUserDetailsManager inMemoryUserDetailsManager = new InMemoryUserDetailsManager();
+		List<UserDTO> users = ServiceUser.getAllCompany();
+		for (UserDTO u : users) {
+			inMemoryUserDetailsManager.createUser( User.withUsername(u.getUsername())
+					.password(passwordEncoder.encode(u.getPassword())).roles(u.getRole()).build());
+		}
+        
+        return inMemoryUserDetailsManager;
+	}
+
+	public DigestAuthenticationFilter digestAuthenticationFilter(DigestAuthenticationEntryPoint digestAuthenticationEntryPoint) throws Exception
+	{
+	    DigestAuthenticationFilter digestAuthenticationFilter = new DigestAuthenticationFilter();
+	    digestAuthenticationFilter.setAuthenticationEntryPoint(digestEntryPoint());
+	    digestAuthenticationFilter.setUserDetailsService(userDetailsServiceBean());
+	    return digestAuthenticationFilter;
+	}
+
+	@Bean
+	public DigestAuthenticationEntryPoint digestEntryPoint()
+	{
+	    DigestAuthenticationEntryPoint digestAuthenticationEntryPoint = new DigestAuthenticationEntryPoint();
+	    digestAuthenticationEntryPoint.setKey("mykey");
+	    digestAuthenticationEntryPoint.setRealmName("myrealm");
+	    return digestAuthenticationEntryPoint;
 	}
 	
 

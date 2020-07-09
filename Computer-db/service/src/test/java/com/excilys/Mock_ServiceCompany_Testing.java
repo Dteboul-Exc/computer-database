@@ -51,7 +51,6 @@ public class Mock_ServiceCompany_Testing {
 	@Test
 	public void testAllCompany() throws ClassNotFoundException, SQLException, ParseException {
 		List<CompanyDTO> expected= new ArrayList<CompanyDTO>();
-		System.out.println("size is :" + list.size());
 		for (Company element : list  )
 		{
 			expected.add(CompanyMapper.companyToDTO(element));
@@ -68,7 +67,6 @@ public class Mock_ServiceCompany_Testing {
 	public void testgetSpecificCompany() throws ClassNotFoundException, SQLException, ParseException {
 		Optional<Company> expected= Optional.of(Company.Builder.newInstance().setId(12).setName("Bob le bricoleur").build());
 		Optional<Company> expected2= Optional.of(Company.Builder.newInstance().setId(20).setName("Love").build());
-		System.out.println("size is :" + list.size());
 		Mockito.when(mockDAO.findById((long) 12)).thenReturn(expected);
 		Mockito.when(mockDAO.findById((long) 20)).thenReturn(expected2);
 		Optional<CompanyDTO> obtained= this.service.getSpecificCompany(12);

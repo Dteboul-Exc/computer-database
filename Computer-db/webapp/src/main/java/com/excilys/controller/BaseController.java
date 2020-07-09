@@ -85,7 +85,6 @@ public class BaseController {
 		int size = method.GetNumberOFComputer();
 		ModelAndView model = new ModelAndView("dashboard");
 		int max_button = 1;
-		System.out.println(" page is :" + page);
 		if (search != null) {
 			list = serviceComputer.Search_Computer(search);
 		} else if (page.intValue() > 1) {
@@ -99,7 +98,6 @@ public class BaseController {
 				page = page - 1;
 			}
 		} else {
-			System.out.println(" Entered set order");
 			list = SetOrder(0, recordsPerPage, Order);
 			max_button = page + 1;
 		}
