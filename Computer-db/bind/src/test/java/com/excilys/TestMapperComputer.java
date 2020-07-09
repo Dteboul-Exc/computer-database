@@ -1,6 +1,7 @@
 package com.excilys;
 
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.junit.Assert.assertEquals;
 
@@ -12,9 +13,13 @@ import org.junit.Test;
 
 import com.excilys.dto.ComputerDTO;
 import com.excilys.mapper.ComputerMapper;
+import com.excilys.mapper.DateMapper;
 import com.excilys.model.Company;
 import com.excilys.model.Computer;
 public class TestMapperComputer {
+	
+	@Autowired
+	ComputerMapper ComputerMapper;
 	@Test
 	public void testSuccessComputertoDTO() throws ParseException {
 		Computer comp = new Computer();

@@ -23,7 +23,7 @@ import com.zaxxer.hikari.HikariDataSource;
 
 @Configuration
 @ComponentScan({ "com.excilys.service", "com.excilys.CrudRepository", "com.excilys.controller",
-		"com.excilys.configuration", "com.excilys.model" })
+		"com.excilys.configuration", "com.excilys.model","com.excilys.mapper" })
 @EnableTransactionManagement
 @EnableJpaRepositories("com.excilys.DAO")
 

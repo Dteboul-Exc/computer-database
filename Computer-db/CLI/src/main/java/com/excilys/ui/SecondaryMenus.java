@@ -3,6 +3,8 @@ package com.excilys.ui;
 import java.text.ParseException;
 import java.util.Scanner;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.excilys.dto.CompanyDTO;
 import com.excilys.dto.ComputerDTO;
 import com.excilys.mapper.ComputerMapper;
@@ -12,6 +14,11 @@ import com.excilys.model.Computer;
 import com.excilys.service.ServiceComputer;
 
 public class SecondaryMenus {
+	@Autowired
+	DateMapper DateMapper;
+	
+	@Autowired
+	ComputerMapper ComputerMapper;
 	/**
 	 * Method that allow a computer to modify a computer in the database. The
 	 * argument is the computer taken from the Database. The menu has been done in
@@ -156,13 +163,13 @@ public class SecondaryMenus {
 				sta = MenuComputerInterface.Main;
 				System.out.println("Enter the introduced (format YYYY-MM-DD)");
 				String introduced = reader.next();
-				computer.setIntroduced(DateMapper.StringConverterInput(introduced).get());
+				//computer.setIntroduced(DateMapper.StringConverterInput(introduced).get());
 				break;
 			case Discontinued:
 				sta = MenuComputerInterface.Main;
 				System.out.println("Enter the discontinued (format YYYYMM-DD)");
 				String discontinued = reader.next();
-				computer.setDiscontinued(DateMapper.StringConverterInput(discontinued).get());
+				//computer.setDiscontinued(DateMapper.StringConverterInput(discontinued).get());
 				break;
 			case Company_id:
 				sta = MenuComputerInterface.Main;
@@ -180,7 +187,7 @@ public class SecondaryMenus {
 				System.out.println(" name : " + computer.getName() + " start :" + computer.getIntroduced() + " end :"
 						+ computer.getDiscontinued() + " C_id " + computer.getCompany().getId());
 				ServiceComputer add = new ServiceComputer();
-				add.addComputer(ComputerMapper.computerToDTO(computer).get());
+				//add.addComputer(ComputerMapper.computerToDTO(computer).get());
 				check = false;
 				return;
 			}

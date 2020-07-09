@@ -26,6 +26,9 @@ public class ServiceComputer {
 	@Autowired
 	QueryComputerInterface repo;
 
+	
+	@Autowired
+	ComputerMapper ComputerMapper;
 	public ServiceComputer() {
 	}
 

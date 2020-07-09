@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.excilys.dto.ComputerDTO;
@@ -12,6 +13,8 @@ import com.excilys.mapper.DateMapper;
 
 @Component
 public class Page {
+	@Autowired
+	DateMapper DateMapper;
 	enum selector {
 		Main, Continue, Stop
 

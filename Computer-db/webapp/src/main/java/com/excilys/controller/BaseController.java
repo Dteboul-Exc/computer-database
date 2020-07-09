@@ -27,6 +27,9 @@ public class BaseController {
 	ServiceComputer serviceComputer;
 	@Autowired
 	ControllerMethods method;
+	
+	@Autowired 
+	ComputerValidator ComputerValidator;
 
 	@RequestMapping(method = RequestMethod.POST)
 	public String postHandlerAdd(@RequestParam(required = false, value = "Add") String Add,
@@ -40,7 +43,7 @@ public class BaseController {
 		ModelAndView model = new ModelAndView("dashboard");
 		model.addObject("errormsg", "all clear");
 		if (Add != null) {
-			String check = Dashboardmethods.AddValidator(name, introduced, discontinued).get();
+			String check = AddValidator(name, introduced, discontinued).get();
 			if (check.equals("clear")) {
 				CompanyDTO c = CompanyDTO.Builder.newInstance().setId(company).build();
 				ComputerDTO newComputer = ComputerDTO.Builder.newInstance().setName(name).setCompany(c)
@@ -156,8 +159,10 @@ public class BaseController {
 	protected Optional<String> AddValidator(String name, String introduced, String discontinued) {
 		try {
 			ComputerValidator.isName(name);
-			ComputerValidator.isDate(introduced, discontinued);
-			ComputerValidator.isDateValid(introduced, discontinued);
+			if ((introduced.length() > 0) || (discontinued.length() > 0))
+			{
+				ComputerValidator.isDate(introduced, discontinued);
+				ComputerValidator.isDateValid(introduced, discontinued);}
 		} catch (ServiceComputerException e) {
 			e.printStackTrace();
 			return Optional.of(e.toString());

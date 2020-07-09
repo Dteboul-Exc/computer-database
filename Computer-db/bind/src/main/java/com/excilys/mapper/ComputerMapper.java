@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.excilys.dto.CompanyDTO;
 import com.excilys.dto.ComputerDTO;
@@ -15,19 +17,26 @@ import com.excilys.model.Computer;
  * @author dteboul Mapper that transform a Computer Object into a ComputerDTO
  *         object or vice versa
  */
+@Component
 public class ComputerMapper {
 	private static final org.slf4j.Logger LOG = LoggerFactory.getLogger(ComputerMapper.class);
 
+	@Autowired
+	DateMapper DateMapper;
 	/**
 	 * Mapper that transform a ComputerDTO Object into a Computer
 	 * 
 	 * @param computer
 	 * @return
 	 */
-	public static Optional<Computer> CDTOToComputer(final ComputerDTO computer) {
+	public  Optional<Computer> CDTOToComputer(final ComputerDTO computer) {
 		Company company = Company.Builder.newInstance().setId(Integer.parseInt(computer.getCompany().getId()))
 				.setName(computer.getCompany().getName()).build();
-		int id = Integer.parseInt(computer.getId());
+		int id;
+		if (computer.getId() !=null)
+			 id = Integer.parseInt(computer.getId());
+		else id = 0;
+		
 		String name = computer.getName();
 		Optional<LocalDate> introduced = Optional.ofNullable(null);
 		if ((computer.getIntroduced() != null) && (!computer.getIntroduced().isBlank())
@@ -49,7 +58,7 @@ public class ComputerMapper {
 	 * @return
 	 * @throws ParseException
 	 */
-	public static Optional<ComputerDTO> computerToDTO(final Computer computer) {
+	public  Optional<ComputerDTO> computerToDTO(final Computer computer) {
 
 		String name = computer.getName();
 		String id = Long.toString(computer.getId());

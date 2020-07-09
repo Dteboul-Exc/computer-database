@@ -2,6 +2,7 @@ package com.excilys.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.excilys.exception.ServiceComputerException;
@@ -14,6 +15,8 @@ import com.excilys.model.Company;
  */
 @Component
 public class ComputerValidator {
+	@Autowired
+	DateMapper DateMapper;
 	private static final Logger lOG = LoggerFactory.getLogger(ComputerValidator.class);
 
 	/**
@@ -23,7 +26,7 @@ public class ComputerValidator {
 	 * @return
 	 * @throws ServiceComputerException
 	 */
-	public static boolean isComputerId(int id) throws ServiceComputerException {
+	public boolean isComputerId(int id) throws ServiceComputerException {
 		if (id < 0)
 			throw new ServiceComputerException("Id from computer isn't set correctly");
 		return true;
@@ -36,7 +39,7 @@ public class ComputerValidator {
 	 * @return
 	 * @throws ServiceComputerException
 	 */
-	public static boolean isCompanyId(int id) throws ServiceComputerException {
+	public boolean isCompanyId(int id) throws ServiceComputerException {
 		if (id <= 0)
 			throw new ServiceComputerException("Id from company isn't set correctly");
 		return true;
@@ -49,7 +52,7 @@ public class ComputerValidator {
 	 * @return
 	 * @throws ServiceComputerException
 	 */
-	public static boolean isName(String name) throws ServiceComputerException {
+	public boolean isName(String name) throws ServiceComputerException {
 		if (name.equals("") || (name.equals(null)))
 			throw new ServiceComputerException("Name isn't set");
 		return true;
@@ -64,13 +67,15 @@ public class ComputerValidator {
 	 * @return
 	 * @throws ServiceComputerException
 	 */
-	public static boolean isDate(String introduced, String discontinued) throws ServiceComputerException {
-		if ((DateMapper.StringConverter(introduced).get().isAfter(DateMapper.StringConverter(discontinued).get()))) {
-			throw new ServiceComputerException("Introduced must be before discontinued");
-		} else if (((introduced.equals(null)
+	public boolean isDate(String introduced, String discontinued) throws ServiceComputerException {
+		
+		if (((introduced.equals(null)
 				|| introduced.equals("") && (!discontinued.equals(null) && (!discontinued.equals("")))))) {
 			throw new ServiceComputerException("Discontinued was set up while introduced was not initialized");
 		}
+ 	else if ((DateMapper.StringConverter(introduced).isPresent() )&& (DateMapper.StringConverter(discontinued).isPresent())) {
+		 if (DateMapper.StringConverter(introduced).get().isAfter(DateMapper.StringConverter(discontinued).get()))throw new ServiceComputerException("Introduced must be before discontinued");
+	} 
 		return true;
 
 	}
@@ -82,7 +87,7 @@ public class ComputerValidator {
 	 * @return
 	 * @throws ServiceComputerException
 	 */
-	public static boolean isCompany(Company company) throws ServiceComputerException {
+	public boolean isCompany(Company company) throws ServiceComputerException {
 		if (company.equals(null)) {
 			throw new ServiceComputerException("Company isn't set properly");
 		}
@@ -100,7 +105,7 @@ public class ComputerValidator {
 	 * @return
 	 * @throws ServiceComputerException
 	 */
-	public static boolean isDateValid(String introduced, String discontinued) throws ServiceComputerException {
+	public boolean isDateValid(String introduced, String discontinued) throws ServiceComputerException {
 		lOG.debug("introduced and discontinued size : " + introduced.length() + " : " + discontinued.length());
 		if ((introduced.equals(null) || introduced.equals(""))
 				&& (discontinued.equals(null) || discontinued.equals("")))

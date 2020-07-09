@@ -39,6 +39,8 @@ public class Mock_ServiceComputer_Testing {
 	@InjectMocks
 	private ServiceComputer service;
 
+	
+	ComputerMapper ComputerMapper;
 	@BeforeClass
 	public static void init() {
 		list.add(Computer.Builder

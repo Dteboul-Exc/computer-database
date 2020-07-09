@@ -12,16 +12,21 @@ import java.util.Optional;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
+
 import static org.junit.Assert.assertEquals;
 import com.excilys.mapper.DateMapper;
 
 public class DateMapperTest {
+	@Autowired
+	DateMapper DateMapper;
 	
 	public DateMapperTest() {
 		
 	}
-	@Rule
-	public ExpectedException thrown = ExpectedException.none();
 	
 	@Test
 	public void testNormalInputStringConverter() {
@@ -37,9 +42,21 @@ public class DateMapperTest {
 	}
 	
 	@Test(expected = DateTimeParseException.class)
-	public void testInvalidlInputStringConverterInput() throws ParseException {
+	public void testInvalidStringlInputStringConverterInput() throws ParseException {
 		String standard = "TEAFEF";
 		assertEquals("2011-02-09",DateMapper.StringConverterInput(standard).get().toString());
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testInvalid1970lInputStringConverterInput() throws ParseException {
+		String standard = "1920-02-09";
+		DateMapper.StringConverterInput(standard);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testInvalid2030lInputStringConverterInput() throws ParseException {
+		String standard = "2045-02-09";
+		DateMapper.StringConverterInput(standard);
 	}
 	
 	@Test

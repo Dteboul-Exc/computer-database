@@ -7,6 +7,9 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Optional;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class DateMapper {
 	/**
 	 * Mapper that convert the Date value received by the DB into a localDate object
@@ -15,8 +18,11 @@ public class DateMapper {
 	 * @return
 	 * @throws ParseException
 	 */
-	public static Optional<LocalDate> StringConverter(String localDate) {
+	public Optional<LocalDate> StringConverter(String localDate) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		if (localDate.length() < 1) return Optional.ofNullable(null);
+		if( Integer.parseInt(localDate.substring(0,4)) < 1970 ) throw new IllegalArgumentException("param has not the correct time");
+		if ( Integer.parseInt(localDate.substring(0,4)) > 2030 ) throw new IllegalArgumentException("param has not the correct time");
 		try {
 			LocalDateTime date = LocalDateTime.parse(localDate, formatter);
 			LocalDate myDateObj = date.toLocalDate();
@@ -28,8 +34,7 @@ public class DateMapper {
 			Optional<LocalDate> result = Optional.ofNullable(myDateObj);
 			return result;
 		} catch (NullPointerException e) {
-			Optional<LocalDate> result = Optional.ofNullable(null);
-			return result;
+			throw new IllegalArgumentException("param is null");
 		}
 
 	}
@@ -41,7 +46,7 @@ public class DateMapper {
 	 * @return
 	 * @throws ParseException
 	 */
-	public static Optional<LocalDate> StringConverterInput(String localDate) {
+	public Optional<LocalDate> StringConverterInput(String localDate) {
 
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		LocalDate myDateObj = LocalDate.parse(localDate, formatter);
