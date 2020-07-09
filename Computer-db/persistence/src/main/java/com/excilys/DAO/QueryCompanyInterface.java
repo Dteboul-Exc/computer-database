@@ -1,4 +1,4 @@
-package com.excilys.CrudRepository;
+package com.excilys.DAO;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;

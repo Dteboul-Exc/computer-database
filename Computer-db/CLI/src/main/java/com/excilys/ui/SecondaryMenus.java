@@ -3,7 +3,6 @@ package com.excilys.ui;
 import java.text.ParseException;
 import java.util.Scanner;
 
-import com.excilys.Datasource.SQLConnect;
 import com.excilys.dto.CompanyDTO;
 import com.excilys.dto.ComputerDTO;
 import com.excilys.mapper.ComputerMapper;
@@ -92,7 +91,6 @@ public class SecondaryMenus {
 						+ c.getDiscontinued() + " C_id " + c.getCompany());
 				break;
 			case End:
-				SQLConnect a = SQLConnect.getInstance();
 				System.out.println(" name : " + c.getName() + " start :" + c.getIntroduced() + " end :"
 						+ c.getDiscontinued() + " C_id " + c.getCompany());
 
@@ -179,7 +177,6 @@ public class SecondaryMenus {
 						+ computer.getDiscontinued() + " C_id " + computer.getCompany().getId());
 				break;
 			case End:
-				SQLConnect a = SQLConnect.getInstance();
 				System.out.println(" name : " + computer.getName() + " start :" + computer.getIntroduced() + " end :"
 						+ computer.getDiscontinued() + " C_id " + computer.getCompany().getId());
 				ServiceComputer add = new ServiceComputer();

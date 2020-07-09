@@ -25,7 +25,7 @@ import com.zaxxer.hikari.HikariDataSource;
 @ComponentScan({ "com.excilys.service", "com.excilys.CrudRepository", "com.excilys.controller",
 		"com.excilys.configuration", "com.excilys.model" })
 @EnableTransactionManagement
-@EnableJpaRepositories("com.excilys.DAO")
+@EnableJpaRepositories("com.excilys.CrudRepository")
 
 public class SpringConfiguration {
 
@@ -37,12 +37,11 @@ public class SpringConfiguration {
 			context.register(JdbcSpringConfiguration.class);
 			context.register(SpringConfiguration.class);
 			context.register(MvcConfiguraiton.class);
-			context.register(SecurityWebApplicationInitializer.class);
-			context.register(SpringSecurityConfiguration.class);
 			context.refresh();
 		}
 		return context;
 	}
+	
 
 
 

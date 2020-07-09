@@ -9,8 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.excilys.CrudRepository.QueryCompanyInterface;
-import com.excilys.CrudRepository.QueryUserInterface;
+import com.excilys.DAO.QueryCompanyInterface;
+import com.excilys.DAO.QueryUserInterface;
 import com.excilys.dto.UserDTO;
 import com.excilys.mapper.UserMapper;
 import com.excilys.model.User;

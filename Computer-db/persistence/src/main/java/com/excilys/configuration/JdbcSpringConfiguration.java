@@ -27,23 +27,54 @@ import com.zaxxer.hikari.HikariDataSource;
 @EnableTransactionManagement
 @EnableJpaRepositories("com.excilys.DAO")
 
-public class SpringConfiguration {
+public class JdbcSpringConfiguration {
 
-	private static AnnotationConfigWebApplicationContext context;
-
-	public static AnnotationConfigWebApplicationContext getContext() {
-		if (context == null) {
-			context = new AnnotationConfigWebApplicationContext();
-			context.register(JdbcSpringConfiguration.class);
-			context.register(SpringConfiguration.class);
-			context.register(MvcConfiguraiton.class);
-			context.register(SecurityWebApplicationInitializer.class);
-			context.register(SpringSecurityConfiguration.class);
-			context.refresh();
-		}
-		return context;
+	@Bean
+	public HikariConfig hikariConfig() {
+		return new HikariConfig("/db.properties");
 	}
 
+	@Bean
+	public JdbcTemplate jdbcTemplate() {
+		return new JdbcTemplate(getHikariDataSource());
+	}
 
+	@Bean
+	public NamedParameterJdbcTemplate NamedParameterJdbcTemplate() {
+		return new NamedParameterJdbcTemplate(getHikariDataSource());
+	}
+
+	public void addInterceptors(InterceptorRegistry registry) {
+		LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
+		interceptor.setParamName("mylocale");
+		registry.addInterceptor(interceptor);
+	}
+
+	@Bean
+	@Scope("singleton")
+	public HikariDataSource getHikariDataSource() {
+		return new HikariDataSource(hikariConfig());
+	}
+
+	@Bean
+	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+
+		HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+		vendorAdapter.setGenerateDdl(true);
+
+		LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
+		factory.setJpaVendorAdapter(vendorAdapter);
+		factory.setPackagesToScan("com.excilys.model");
+		factory.setDataSource(getHikariDataSource());
+		return factory;
+	}
+
+	@Bean
+	public PlatformTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
+
+		JpaTransactionManager txManager = new JpaTransactionManager();
+		txManager.setEntityManagerFactory(entityManagerFactory);
+		return txManager;
+	}
 
 }

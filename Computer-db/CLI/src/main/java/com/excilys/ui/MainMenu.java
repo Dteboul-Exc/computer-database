@@ -11,7 +11,6 @@ import java.util.Scanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.excilys.Datasource.SQLConnect;
 import com.excilys.dto.CompanyDTO;
 import com.excilys.dto.ComputerDTO;
 import com.excilys.service.ServiceCompany;
@@ -41,15 +40,7 @@ public class MainMenu {
 		sta = state.Main;
 		Scanner reader = new Scanner(System.in);
 		Optional<ComputerDTO> compute;
-		SQLConnect a = SQLConnect.getInstance();
 		logger.debug("Trying to connect to the database ...");
-		try {
-			a.connect();
-		} catch (SQLException e2) {
-			// TODO Auto-generated catch block
-			logger.error("Error while connecting to the database : " + e2);
-			e2.printStackTrace();
-		}
 
 		while (true) {
 			switch (sta) {

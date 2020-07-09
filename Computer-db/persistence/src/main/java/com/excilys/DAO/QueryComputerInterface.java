@@ -1,4 +1,4 @@
-package com.excilys.CrudRepository;
+package com.excilys.DAO;
 
 import java.util.List;
 

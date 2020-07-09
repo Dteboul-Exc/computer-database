@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -21,13 +23,20 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.www.DigestAuthenticationEntryPoint;
+import org.springframework.security.web.authentication.www.DigestAuthenticationFilter;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.excilys.dto.UserDTO;
 import com.excilys.service.ServiceUser;;
 
 @EnableWebSecurity
 @Configuration
-@ComponentScan({ "com.excilys.controller", "com.excilys.configuration" })
+@ComponentScan({ "com.excilys.service", "com.excilys.CrudRepository", "com.excilys.controller",
+		"com.excilys.configuration", "com.excilys.model" })
+@EnableTransactionManagement
+@EnableJpaRepositories("com.excilys.DAO")
+@Import(JdbcSpringConfiguration.class)
 public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter implements AuthenticationSuccessHandler {
 	@Autowired
 	PasswordEncoder passwordEncoder;
@@ -52,6 +61,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter im
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
+
 		http.csrf().disable();
 
 		http.authorizeRequests().antMatchers("/", "/login").permitAll();
@@ -87,5 +97,6 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter im
 		response.sendRedirect(request.getContextPath());
 
 	}
+	
 
 }

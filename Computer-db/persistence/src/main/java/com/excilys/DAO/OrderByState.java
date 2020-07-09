@@ -1,4 +1,4 @@
-package com.excilys.CrudRepository;
+package com.excilys.DAO;
 
 /**
  * Enum used for the OrderBy feature

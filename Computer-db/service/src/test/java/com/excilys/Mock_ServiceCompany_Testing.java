@@ -17,14 +17,14 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import com.excilys.DAO.QueryCompanyInterface;
+import com.excilys.DAO.QueryComputerInterface;
 import com.excilys.dto.CompanyDTO;
 import com.excilys.dto.ComputerDTO;
 import com.excilys.mapper.CompanyMapper;
 import com.excilys.mapper.ComputerMapper;
 import com.excilys.model.Company;
 import com.excilys.model.Computer;
-import com.excilys.CrudRepository.QueryCompanyInterface;
-import com.excilys.CrudRepository.QueryComputerInterface;
 import com.excilys.service.ServiceCompany;
 import com.excilys.service.ServiceComputer;
 

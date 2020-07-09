@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.excilys.CrudRepository.QueryCompanyInterface;
+import com.excilys.DAO.QueryCompanyInterface;
 import com.excilys.dto.CompanyDTO;
 import com.excilys.mapper.CompanyMapper;
 import com.excilys.model.Company;;
