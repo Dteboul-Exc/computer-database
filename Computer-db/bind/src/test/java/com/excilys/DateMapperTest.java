@@ -16,10 +16,15 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import static org.junit.Assert.assertEquals;
+
+import com.excilys.configuration.SpringConfiguration;
 import com.excilys.mapper.DateMapper;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = SpringConfiguration.class)
 public class DateMapperTest {
 	@Autowired
 	DateMapper DateMapper;
@@ -50,13 +55,13 @@ public class DateMapperTest {
 	@Test(expected = IllegalArgumentException.class)
 	public void testInvalid1970lInputStringConverterInput() throws ParseException {
 		String standard = "1920-02-09";
-		DateMapper.StringConverterInput(standard);
+		DateMapper.StringConverter(standard);
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testInvalid2030lInputStringConverterInput() throws ParseException {
 		String standard = "2045-02-09";
-		DateMapper.StringConverterInput(standard);
+		DateMapper.StringConverter(standard);
 	}
 	
 	@Test

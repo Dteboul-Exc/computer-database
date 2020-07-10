@@ -20,22 +20,15 @@ public class DateMapper {
 	 */
 	public Optional<LocalDate> StringConverter(String localDate) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-		if (localDate.length() < 1) return Optional.ofNullable(null);
+		System.out.print(localDate);
+		if (localDate.length() < 1) throw new IllegalArgumentException("param is too short or null");
 		if( Integer.parseInt(localDate.substring(0,4)) < 1970 ) throw new IllegalArgumentException("param has not the correct time");
 		if ( Integer.parseInt(localDate.substring(0,4)) > 2030 ) throw new IllegalArgumentException("param has not the correct time");
-		try {
 			LocalDateTime date = LocalDateTime.parse(localDate, formatter);
 			LocalDate myDateObj = date.toLocalDate();
 			Optional<LocalDate> result = Optional.ofNullable(myDateObj);
 			return result;
-		} catch (DateTimeParseException e) {
-			LocalDateTime date = LocalDateTime.parse("1910-01-01 00:00:00", formatter);
-			LocalDate myDateObj = date.toLocalDate();
-			Optional<LocalDate> result = Optional.ofNullable(myDateObj);
-			return result;
-		} catch (NullPointerException e) {
-			throw new IllegalArgumentException("param is null");
-		}
+
 
 	}
 

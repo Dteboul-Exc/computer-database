@@ -17,7 +17,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
-    <junit_version>4.11</junit_version>
+    <junit_version>4.12</junit_version>
     <selenium_version>3.141.59</selenium_version>
     <slf4j_version>1.7.30</slf4j_version>
     <jquery_version>3.3.1</jquery_version>
@@ -33,9 +33,17 @@
     <hsql_version>2.5.0</hsql_version>
     <hibernate_version>6.0.10.Final</hibernate_version>
     <excilys_version>1.0-SNAPSHOT</excilys_version>
+    <commons-lang3_version>3.8</commons-lang3_version>
+    
   </properties>
 <dependencyManagement>
   <dependencies>
+  
+	<dependency>
+	    <groupId>org.apache.commons</groupId>
+	    <artifactId>commons-lang3</artifactId>
+	     <version>${commons-lang3_version}</version>
+	</dependency>
   	   <dependency>
             <groupId>com.excilys</groupId>
             <artifactId>bind</artifactId>

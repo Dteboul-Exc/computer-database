@@ -60,6 +60,7 @@ public class ComputerMapper {
 	 */
 	public  Optional<ComputerDTO> computerToDTO(final Computer computer) {
 
+		if (computer.equals(null)) throw new IllegalArgumentException("computer is null");
 		String name = computer.getName();
 		String id = Long.toString(computer.getId());
 		Optional<String> introduced;
