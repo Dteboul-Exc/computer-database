@@ -20,6 +20,8 @@ public class ServiceUser {
 	@Autowired
 	private QueryUserInterface repo;
 
+	@Autowired 
+	private UserMapper UserMapper;
 	public void set_DAOCompany(QueryUserInterface DAO) {
 		this.repo = DAO;
 	}

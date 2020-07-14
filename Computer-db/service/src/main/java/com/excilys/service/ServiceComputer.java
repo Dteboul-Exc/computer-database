@@ -74,10 +74,10 @@ public class ServiceComputer {
 		return 1;
 	}
 
-	public int addComputer(ComputerDTO computer) {
+	public ComputerDTO addComputer(ComputerDTO computer) {
 		lOG.debug("addComputer start using computer");
-		repo.save(ComputerMapper.CDTOToComputer(computer).get());
-		return 1;
+		Computer save = repo.save(ComputerMapper.CDTOToComputer(computer).get());
+		return ComputerMapper.computerToDTO(save).get();
 	}
 
 	public int updateComputer(ComputerDTO computer) {

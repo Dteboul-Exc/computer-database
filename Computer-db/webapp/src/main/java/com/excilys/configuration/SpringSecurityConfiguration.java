@@ -43,18 +43,20 @@ import com.excilys.service.ServiceUser;;
 public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter implements AuthenticationSuccessHandler {
 	@Autowired
 	PasswordEncoder passwordEncoder;
-
+	
 	@Autowired
 	ServiceUser ServiceUser;
 
+
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		List<UserDTO> users = ServiceUser.getAllCompany();
-		
-		for (UserDTO u : users) {
+		//List<UserDTO> users = ServiceUser.getAllCompany();
+		auth.inMemoryAuthentication().passwordEncoder(passwordEncoder).withUser("admin")
+		.password(passwordEncoder.encode("admin")).roles("ADMIN");
+		/*for (UserDTO u : users) {
 			auth.inMemoryAuthentication().passwordEncoder(passwordEncoder).withUser(u.getUsername())
 					.password(passwordEncoder.encode(u.getPassword())).roles(u.getRole());
-		}
+		}*/
 	}
 
 	@Bean
@@ -62,6 +64,21 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter im
 		return new BCryptPasswordEncoder();
 	}
 
+/*    @Bean
+    DigestAuthenticationEntryPoint digestEntryPoint() {
+        DigestAuthenticationEntryPoint bauth = new DigestAuthenticationEntryPoint();
+        bauth.setRealmName("Testing");
+        bauth.setKey("GaetanPuget");
+        return bauth;
+    }*/
+/*
+    @Bean
+    DigestAuthenticationFilter digestAuthenticationFilter(User userDetailsService) throws Exception {
+        DigestAuthenticationFilter digestAuthenticationFilter = new DigestAuthenticationFilter();
+        digestAuthenticationFilter.setUserDetailsService((UserDetailsService) userDetailsService);
+        digestAuthenticationFilter.setAuthenticationEntryPoint(digestEntryPoint());
+        return digestAuthenticationFilter;
+    }*/
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		
@@ -98,7 +115,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter im
 		response.sendRedirect(request.getContextPath());
 
 	}
-	@Override
+/*	@Override
 	@Bean
 	public UserDetailsService userDetailsServiceBean() throws Exception
 	{
@@ -111,24 +128,16 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter im
 		}
         
         return inMemoryUserDetailsManager;
-	}
+	}*/
 
-	public DigestAuthenticationFilter digestAuthenticationFilter(DigestAuthenticationEntryPoint digestAuthenticationEntryPoint) throws Exception
+	/*public DigestAuthenticationFilter digestAuthenticationFilter(DigestAuthenticationEntryPoint digestAuthenticationEntryPoint) throws Exception
 	{
 	    DigestAuthenticationFilter digestAuthenticationFilter = new DigestAuthenticationFilter();
 	    digestAuthenticationFilter.setAuthenticationEntryPoint(digestEntryPoint());
 	    digestAuthenticationFilter.setUserDetailsService(userDetailsServiceBean());
 	    return digestAuthenticationFilter;
-	}
+	}*/
 
-	@Bean
-	public DigestAuthenticationEntryPoint digestEntryPoint()
-	{
-	    DigestAuthenticationEntryPoint digestAuthenticationEntryPoint = new DigestAuthenticationEntryPoint();
-	    digestAuthenticationEntryPoint.setKey("mykey");
-	    digestAuthenticationEntryPoint.setRealmName("myrealm");
-	    return digestAuthenticationEntryPoint;
-	}
 	
 
 }

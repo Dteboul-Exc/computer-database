@@ -75,7 +75,6 @@ public class SeleniumTest {
 
 	}
 
-	// Error to correct
 	@Test
 	public void T03_Test_AddComputer_Check_introduced_but_not_discontinued() throws InterruptedException {
 

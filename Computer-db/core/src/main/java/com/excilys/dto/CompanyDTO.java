@@ -2,10 +2,13 @@ package com.excilys.dto;
 
 import java.util.Objects;
 
+
+
 public class CompanyDTO {
 	private String id;
 	private String name;
 
+	
 	public String getId() {
 		return id;
 	}

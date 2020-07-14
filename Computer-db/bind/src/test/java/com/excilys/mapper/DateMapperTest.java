@@ -1,5 +1,5 @@
 
-package com.excilys;
+package com.excilys.mapper;
 
 
 

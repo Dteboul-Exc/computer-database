@@ -38,12 +38,12 @@
   </properties>
 <dependencyManagement>
   <dependencies>
+  <dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.11.0</version>
+</dependency>
   
-	<dependency>
-	    <groupId>org.apache.commons</groupId>
-	    <artifactId>commons-lang3</artifactId>
-	     <version>${commons-lang3_version}</version>
-	</dependency>
   	   <dependency>
             <groupId>com.excilys</groupId>
             <artifactId>bind</artifactId>

@@ -42,11 +42,11 @@ public class BaseController {
 			@RequestParam(required = false, value = "id") String id) {
 		ModelAndView model = new ModelAndView("dashboard");
 		model.addObject("errormsg", "all clear");
-		extracted(Add, selection, name, edit, discontinued, introduced, company, id, model);
+		handler(Add, selection, name, edit, discontinued, introduced, company, id, model);
 		return "redirect:/dashboard";
 	}
 
-	private void extracted(String Add, String selection, String name, String edit, String discontinued,
+	private void handler(String Add, String selection, String name, String edit, String discontinued,
 			String introduced, String company, String id, ModelAndView model) {
 		if (Add != null) {
 			String check = AddValidator(name, introduced, discontinued).get();
