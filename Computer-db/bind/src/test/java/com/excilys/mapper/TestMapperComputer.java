@@ -45,7 +45,7 @@ public class TestMapperComputer {
 		assertEquals(comp,ComputerMapper.CDTOToComputer(expect.get()).get());
 	}
 	
-	@Test
+	@Test(expected = IllegalArgumentException.class)
 	public void testNullComputertoDTO() throws ParseException {
 		Computer comp = new Computer();
 		comp.setId(12);

@@ -55,7 +55,7 @@ public class DateMapper {
 	 * @return
 	 * @throws ParseException
 	 */
-	public static Optional<String> DateConverter(LocalDate myDateObj) throws ParseException {
+	public Optional<String> DateConverter(LocalDate myDateObj) throws ParseException {
 		if (myDateObj == null) {
 			Optional<String> result = Optional.ofNullable(null);
 			return result;

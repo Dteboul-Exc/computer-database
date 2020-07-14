@@ -25,6 +25,8 @@ public class ServiceCompany {
 	@Autowired
 	private QueryCompanyInterface repo;
 
+	@Autowired
+	CompanyMapper CompanyMapper;
 	public void set_DAOCompany(QueryCompanyInterface DAO) {
 		this.repo = DAO;
 	}
@@ -33,14 +35,14 @@ public class ServiceCompany {
 		Logger logger = LoggerFactory.getLogger(ServiceCompany.class);
 		logger.debug("getAllCompany start");
 		List<Company> result = (List<Company>) repo.findAll();
-		return result.stream().map(i -> CompanyMapper.companyToDTO(i)).distinct().collect(Collectors.toList());
+		return result.stream().map(i -> CompanyMapper.companyToDTO(i).get()).distinct().collect(Collectors.toList());
 	}
 
 	public Optional<CompanyDTO> getSpecificCompany(int id) {
 		Logger logger = LoggerFactory.getLogger(QueryCompanyInterface.class);
 		logger.debug("get a specific Company start");
 		Company result = repo.findById((long) id).get();
-		return Optional.of(CompanyMapper.companyToDTO(result));
+		return CompanyMapper.companyToDTO(result);
 	}
 
 	/**

@@ -23,6 +23,9 @@ public class ComputerMapper {
 
 	@Autowired
 	DateMapper DateMapper;
+	
+	@Autowired
+	CompanyMapper CompanyMapper;
 	/**
 	 * Mapper that transform a ComputerDTO Object into a Computer
 	 * 
@@ -30,6 +33,7 @@ public class ComputerMapper {
 	 * @return
 	 */
 	public  Optional<Computer> CDTOToComputer(final ComputerDTO computer) {
+		if (computer == null ) throw new IllegalArgumentException("computer is null");
 		Company company = Company.Builder.newInstance().setId(Integer.parseInt(computer.getCompany().getId()))
 				.setName(computer.getCompany().getName()).build();
 		int id;
@@ -60,7 +64,7 @@ public class ComputerMapper {
 	 */
 	public  Optional<ComputerDTO> computerToDTO(final Computer computer) {
 
-		if (computer.equals(null)) throw new IllegalArgumentException("computer is null");
+		if (computer == null ) throw new IllegalArgumentException("computer is null");
 		String name = computer.getName();
 		String id = Long.toString(computer.getId());
 		Optional<String> introduced;
@@ -69,7 +73,7 @@ public class ComputerMapper {
 			Optional<String> discontinued = DateMapper.DateConverter(computer.getDiscontinued());
 			CompanyDTO company;
 			if (!(computer.getCompany() == null)) {
-				company = CompanyMapper.companyToDTO(computer.getCompany());
+				company = CompanyMapper.companyToDTO(computer.getCompany()).get();
 			} else {
 				company = CompanyDTO.Builder.newInstance().setId("0").build();
 			}

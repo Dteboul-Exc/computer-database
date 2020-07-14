@@ -16,6 +16,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.excilys.DAO.QueryCompanyInterface;
 import com.excilys.DAO.QueryComputerInterface;
@@ -37,6 +38,8 @@ public class Mock_ServiceCompany_Testing {
 	@InjectMocks
 	private ServiceCompany service;
 
+	@Autowired
+	CompanyMapper CompanyMapper;
 	@BeforeClass
 	public static void init() {
 		list.add(Company.Builder.newInstance().setId(12).setName("Bob le bricoleur").build());
@@ -53,7 +56,7 @@ public class Mock_ServiceCompany_Testing {
 		List<CompanyDTO> expected= new ArrayList<CompanyDTO>();
 		for (Company element : list  )
 		{
-			expected.add(CompanyMapper.companyToDTO(element));
+			expected.add(CompanyMapper.companyToDTO(element).get());
 		}
 		//Optional<List<CompanyDTO>> expected = Optional.of(list);
 		Mockito.when(mockDAO.findAll()).thenReturn(list);

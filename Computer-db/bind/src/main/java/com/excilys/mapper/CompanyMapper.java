@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import com.excilys.dto.CompanyDTO;
 import com.excilys.model.Company;
@@ -12,6 +13,7 @@ import com.excilys.model.Company;
  * @author dteboul Mapper that transform a Company Object into a CompanyDTO
  *         object or vice versa
  */
+@Component
 public class CompanyMapper {
 
 	private static final Logger LOG = LoggerFactory.getLogger(CompanyMapper.class);
@@ -22,7 +24,13 @@ public class CompanyMapper {
 	 * @param cDTO
 	 * @return
 	 */
-	public static Optional<Company> companyDTOToCompany(CompanyDTO cDTO) {
+	public  Optional<Company> companyDTOToCompany(CompanyDTO cDTO) {
+		
+		if (cDTO == null) 
+			{
+			LOG.error("DTO null so invalid");
+			throw new IllegalArgumentException("null object in input");
+			}
 		LOG.debug("Starting converting DTOcompany id " + cDTO.getId() + " to company");
 		String name = null;
 		if (cDTO.getName() != null && !"".equals(cDTO.getName().trim())) {
@@ -46,13 +54,20 @@ public class CompanyMapper {
 	 * @param company
 	 * @return
 	 */
-	public static CompanyDTO companyToDTO(final Company company) {
+	public  Optional<CompanyDTO> companyToDTO(final Company company) {
+		
+		if (company == null) 
+		{
+		LOG.error("DTO null so invalid");
+		throw new IllegalArgumentException("null object in input");
+		}
+		LOG.debug("Starting converting company to DTO");
 		String id = company.getId() == 0 ? "" : String.valueOf(company.getId());
 		String name = company.getName();
 		CompanyDTO result = new CompanyDTO();
 		result.setId(id);
 		result.setName(name);
-		return result;
+		return Optional.of(result);
 	}
 
 }

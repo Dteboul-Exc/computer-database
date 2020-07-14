@@ -12,15 +12,19 @@ import java.util.Optional;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.excilys.DAO.QueryCompanyInterface;
 import com.excilys.DAO.QueryComputerInterface;
+import com.excilys.configuration.SpringConfiguration;
 import com.excilys.dto.CompanyDTO;
 import com.excilys.dto.ComputerDTO;
 import com.excilys.mapper.CompanyMapper;
@@ -30,7 +34,8 @@ import com.excilys.model.Computer;
 import com.excilys.service.ServiceCompany;
 import com.excilys.service.ServiceComputer;
 
-
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = SpringConfiguration.class)
 public class Mock_ServiceComputer_Testing {
 	private static  List<Computer> list = new ArrayList<Computer>();
 	@Mock
