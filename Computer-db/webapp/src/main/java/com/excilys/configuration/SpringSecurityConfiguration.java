@@ -63,22 +63,22 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter im
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-
-/*    @Bean
+	@Bean
     DigestAuthenticationEntryPoint digestEntryPoint() {
         DigestAuthenticationEntryPoint bauth = new DigestAuthenticationEntryPoint();
         bauth.setRealmName("Testing");
         bauth.setKey("GaetanPuget");
         return bauth;
-    }*/
-/*
+    }
+   
+
     @Bean
     DigestAuthenticationFilter digestAuthenticationFilter(User userDetailsService) throws Exception {
         DigestAuthenticationFilter digestAuthenticationFilter = new DigestAuthenticationFilter();
         digestAuthenticationFilter.setUserDetailsService((UserDetailsService) userDetailsService);
         digestAuthenticationFilter.setAuthenticationEntryPoint(digestEntryPoint());
         return digestAuthenticationFilter;
-    }*/
+    }
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		
@@ -115,7 +115,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter im
 		response.sendRedirect(request.getContextPath());
 
 	}
-/*	@Override
+	@Override
 	@Bean
 	public UserDetailsService userDetailsServiceBean() throws Exception
 	{
@@ -128,15 +128,15 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter im
 		}
         
         return inMemoryUserDetailsManager;
-	}*/
+	}
 
-	/*public DigestAuthenticationFilter digestAuthenticationFilter(DigestAuthenticationEntryPoint digestAuthenticationEntryPoint) throws Exception
+	public DigestAuthenticationFilter digestAuthenticationFilter(DigestAuthenticationEntryPoint digestAuthenticationEntryPoint) throws Exception
 	{
 	    DigestAuthenticationFilter digestAuthenticationFilter = new DigestAuthenticationFilter();
 	    digestAuthenticationFilter.setAuthenticationEntryPoint(digestEntryPoint());
 	    digestAuthenticationFilter.setUserDetailsService(userDetailsServiceBean());
 	    return digestAuthenticationFilter;
-	}*/
+	}
 
 	
 
