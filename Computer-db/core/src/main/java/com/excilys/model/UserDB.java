@@ -16,7 +16,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
 @Table(name = "users")
-public class User implements UserDetails {
+public class UserDB implements UserDetails {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,7 +29,7 @@ public class User implements UserDetails {
 	@Column(name = "user_role")
 	private String role;
 
-	public User() {
+	public UserDB() {
 
 	}
 
@@ -65,7 +65,7 @@ public class User implements UserDetails {
 		this.role = role;
 	}
 
-	public User(Builder builder) {
+	public UserDB(Builder builder) {
 		this.id = id;
 		this.username = builder.username;
 		this.password = builder.password;
@@ -89,8 +89,8 @@ public class User implements UserDetails {
 			this.password = password;
 		}
 
-		public User build() {
-			return new User(this);
+		public UserDB build() {
+			return new UserDB(this);
 		}
 	}
 

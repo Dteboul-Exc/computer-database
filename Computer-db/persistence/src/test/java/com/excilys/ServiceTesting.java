@@ -17,7 +17,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.excilys.DAO.QueryCompanyInterface;
 import com.excilys.DAO.QueryComputerInterface;
 import com.excilys.configuration.JdbcSpringConfiguration;
-import com.excilys.configuration.SpringConfiguration;
 import com.excilys.model.Company;
 import com.excilys.model.Computer;
 

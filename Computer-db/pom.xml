@@ -34,6 +34,11 @@
     <hibernate_version>6.0.10.Final</hibernate_version>
     <excilys_version>1.0-SNAPSHOT</excilys_version>
     <commons-lang3_version>3.8</commons-lang3_version>
+    <jackson_databind_version>2.11.0</jackson_databind_version>
+    <hibernate_version>6.0.10.Final</hibernate_version>
+    <selenium_version>3.141.59</selenium_version>
+    <hibernate_core_version>5.4.0.Final</hibernate_core_version>
+    <hibernate_entitymanager_version>5.4.17.Final</hibernate_entitymanager_version>
     
   </properties>
 <dependencyManagement>
@@ -98,7 +103,7 @@
 		<dependency>
     		<groupId>org.hibernate</groupId>
     		<artifactId>hibernate-validator</artifactId>
-    		<version>6.0.10.Final</version>
+    		<version>${hibernate_version}</version>
 		</dependency>
 		<dependency>
 			<groupId>jstl</groupId>
@@ -131,7 +136,7 @@
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-java</artifactId>
-			<version>3.141.59</version>
+			<version>${selenium_version}</version>
 		</dependency>
 
 		<dependency>
@@ -189,22 +194,22 @@
 <dependency>
     <groupId>org.hibernate</groupId>
     <artifactId>hibernate-entitymanager</artifactId>
-    <version>5.4.17.Final</version>
+    <version>${hibernate_entitymanager_version}</version>
 </dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
-			<version>5.4.0.Final</version>
+			<version>${hibernate_core_version}</version>
 		</dependency>
 			<dependency>
     <groupId>org.hibernate</groupId>
     <artifactId>hibernate-validator</artifactId>
-    <version>5.4.0.Final</version>
+    <version>${hibernate_core_version}</version>
 </dependency>
 <dependency>
     <groupId>org.hibernate</groupId>
     <artifactId>hibernate-java8</artifactId>
-    <version>5.4.17.Final</version>
+    <version>${hibernate_core_version}</version>
 </dependency>
   </dependencies>
 </dependencyManagement>

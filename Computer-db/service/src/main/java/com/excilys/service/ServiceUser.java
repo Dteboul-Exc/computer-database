@@ -13,7 +13,7 @@ import com.excilys.DAO.QueryCompanyInterface;
 import com.excilys.DAO.QueryUserInterface;
 import com.excilys.dto.UserDTO;
 import com.excilys.mapper.UserMapper;
-import com.excilys.model.User;
+import com.excilys.model.UserDB;
 
 @Service
 public class ServiceUser {
@@ -29,14 +29,14 @@ public class ServiceUser {
 	public List<UserDTO> getAllCompany() {
 		Logger logger = LoggerFactory.getLogger(ServiceUser.class);
 		logger.debug("getAllCompany start");
-		List<User> result = (List<User>) repo.findAll();
-		return result.stream().map(i -> UserMapper.UserToDTO(i).get()).distinct().collect(Collectors.toList());
+		List<UserDB> result = (List<UserDB>) repo.findAll();
+		return result.stream().map(i -> UserMapper.UserToDTO(i).get()).distinct().collect(Collectors.toList()); 
 	}
 
 	public Optional<UserDTO> getSpecificCompany(int id) {
 		Logger logger = LoggerFactory.getLogger(QueryCompanyInterface.class);
 		logger.debug("get a specific Company start");
-		User result = repo.findById((long) id).get();
+		UserDB result = repo.findById((long) id).get();
 		return UserMapper.UserToDTO(result);
 	}
 

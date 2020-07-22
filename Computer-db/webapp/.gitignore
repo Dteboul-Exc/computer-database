@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-/bin/
-=======
 # Java related
 target/**
 *.jar
@@ -29,5 +26,5 @@ local.properties
 
 # Locally stored "Eclipse launch configurations"
 *.launch
->>>>>>> refs/remotes/origin/REST
 /target/
+

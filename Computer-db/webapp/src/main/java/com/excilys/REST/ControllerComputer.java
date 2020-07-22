@@ -64,7 +64,7 @@ public class ControllerComputer {
 	public ResponseEntity<Object>POCUpdate(@RequestParam(defaultValue = "0") ComputerDTO computer
 			)
 	{
-		ComputerDTO result = serviceComputer.addComputer(computer);
+		int result = serviceComputer.addComputer(computer);
 		return ResponseEntity.ok().body(result);
 	}
 }
